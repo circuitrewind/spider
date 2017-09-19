@@ -1,13 +1,11 @@
 #include "spider.h"
 
 
-//ATTINY --- PIN 4
-#ifdef __AVR_ATtiny85__
-	Adafruit_NeoPixel strip		= Adafruit_NeoPixel(10,  4, NEO_GRB + NEO_KHZ800);
-
-#else //TEENSY --- PIN 17: LEFT  --- PIN 9: RIGHT
+#ifndef __AVR__ //TEENSY --- PIN 17: LEFT  --- PIN 9: RIGHT
 	Adafruit_NeoPixel strip		= Adafruit_NeoPixel(10, 17, NEO_GRB + NEO_KHZ800);
 	Adafruit_NeoPixel strip1	= Adafruit_NeoPixel(10,  9, NEO_GRB + NEO_KHZ800);
+#else
+	Adafruit_NeoPixel strip		= Adafruit_NeoPixel(0, 5, NEO_GRB + NEO_KHZ800);
 #endif
 
 
