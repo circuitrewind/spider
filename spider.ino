@@ -35,7 +35,7 @@ void rainbowCycle(uint8_t wait) {
 
 	for(j=0; j<256*5; j++) { // 5 cycles of all colors on wheel
 		for(i=0; i< strip.numPixels(); i++) {
-			unsigned long color = Wheel(((i * 256 / strip.numPixels()) + j) & 255);
+			unsigned long color = color_wheel(((i*256*3) / strip.numPixels()) + j);
 			strip.setPixelColor(i, color);
 			#ifndef __AVR_ATtiny85__
 				strip1.setPixelColor(i, color);
@@ -54,17 +54,19 @@ void rainbowCycle(uint8_t wait) {
 
 
 
-// Input a value 0 to 255 to get a color value.
-// The colours are a transition r - g - b - back to r.
-uint32_t Wheel(byte WheelPos) {
-	WheelPos = 255 - WheelPos;
-	if(WheelPos < 85) {
-		return strip.Color(255 - WheelPos * 3, 0, WheelPos * 3);
+////////////////////////////////////////////////////////////////////////////////
+// Input a hue value 0 to 767 to get a RGB color value.
+// The colors are a transition r - g - b - back to r.
+////////////////////////////////////////////////////////////////////////////////
+uint32_t color_wheel(uint16_t hue) {
+	uint8_t step = hue & 0xff;
+
+	if (hue >= (256*3)) hue = hue % (256*3);
+
+	switch (hue >> 8) {
+		case 0: return RGB(~step,	step,	0);
+		case 1: return RGB(0,		~step,	step);
+		case 2: return RGB(step,	0,		~step);
 	}
-	if(WheelPos < 170) {
-		WheelPos -= 85;
-		return strip.Color(0, WheelPos * 3, 255 - WheelPos * 3);
-	}
-	WheelPos -= 170;
-	return strip.Color(WheelPos * 3, 255 - WheelPos * 3, 0);
+	return 0;
 }

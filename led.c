@@ -9,7 +9,7 @@
 #include <avr/io.h>
 
 
-inline void led_bit(unsigned char bit) {
+inline void led_bit(uint8_t bit) {
 
 	// 0 bit
 	if (bit) {
@@ -54,7 +54,7 @@ inline void led_bit(unsigned char bit) {
 }
 
 
-inline void led_byte(unsigned char byte) {
+inline void led_byte(uint8_t byte) {
 	for(char bit = 0; bit < 8; bit++) {
 		led_bit(bitRead(byte ,7));
 		byte <<= 1;
@@ -77,7 +77,7 @@ inline void led_show() {
 
 
 
-inline void led_pixel(unsigned char r, unsigned char g, unsigned char b) {
+inline void led_pixel(uint8_t r, uint8_t g, uint8_t b) {
 	sendByte(g);
 	sendByte(r);
 	sendByte(b);
