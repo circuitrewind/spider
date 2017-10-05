@@ -1,4 +1,4 @@
-#ifdef __AVR__
+#ifdef __AVR__DONT_INCLUDE_
 
 #include "led.h"
 /*
@@ -213,4 +213,4 @@ void loop_avr() {
 }
 
 
-#endif
+#endif//__AVR__DONT_INCLUDE_

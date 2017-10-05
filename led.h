@@ -1,58 +1,111 @@
-////////////////////////////////////////////////////////////////////////////////
-// FAST ASM BASED WS2812B ADDRESSABLE LED LED LIBRARY
-////////////////////////////////////////////////////////////////////////////////
-
-
-#include <stdint.h>
-
-
-#define RGB(r, g, b) (						\
-	(((uint32_t)((r) & 0xFF)) << 16)	|	\
-	(((uint32_t)((g) & 0xFF)) <<  8)	|	\
-	( (uint32_t)((b) & 0xFF))				\
-)
-
-#define RGBX(r, g, b, x) ( (((r) & 0xFF) << (16-x))  |  (((g) & 0xFF) << (8-x)) | (((b) & 0xFF) >> (x)) )
-#define DIM(c, x) ( ((((c)&0xff0000)>>(16+(x)))<<16)  |  ((((c)&0xff00)>>(8+(x)))<<8)  |  (((c)&0xff)>>(x)) )
+#ifndef __led_h__
+#define __led_h__
 
 
 
-#ifdef __AVR__
-
-//TOTAL NUMBER OF LEDS
-#define LED_TOTAL 20
-
-#define LED_PORT	PORTB
-#define LED_DDR		DDRB
-#define LED_BIT		4
-
-#endif
+#include "defines.h"
+#include "color.h"
 
 
-#define T1H			900		// Width of a 1 bit in ns
-#define T1L			600		// Width of a 1 bit in ns
 
-#define T0H			400		// Width of a 0 bit in ns
-#define T0L			900		// Width of a 0 bit in ns
-
-#define RES			6000	// Width of the low gap between bits to cause a frame to latch
-
-#define NS_TO_CYCLES(n) ((n) / (1000000000L / (F_CPU)))
+class ws2812b {
+	public:
 
 
-// SETUP THE LED STRIP
-inline void led_setup();
 
-// FINALIZ AND SHOW LED STRIP
-inline void led_show();
-
-// SEND A SINGLE BIT TO THE LED STRIP
-inline void led_bit(uint8_t bit);
-
-// SEND A SINGLE BYTE TO THE LED STRIP
-inline void led_byte(uint8_t byte);
-
-// SEND A SINGLE PIXEL TO THE LED STRIP
-inline void led_pixel(uint8_t r, uint8_t g, uint8_t b);
+	////////////////////////////////////////////////////////////////////////////
+	// CONSTRUCTOR - PASS IN THE PIN FOR THE LEDS, AS WELL AS TOTAL NUMBER
+	////////////////////////////////////////////////////////////////////////////
+	INLINE ws2812b(uint8_t led_pin, uint16_t led_total) {
+		this->_pin		= led_pin;
+		this->_total	= led_total;
+	}
 
 
+
+
+	////////////////////////////////////////////////////////////////////////////
+	// DRAW A SINGLE PIXEL TO THE LED STRIP - USING STRUCT
+	////////////////////////////////////////////////////////////////////////////
+	void pixel(const color_t &color);
+
+
+
+
+	////////////////////////////////////////////////////////////////////////////
+	// DRAW A SINGLE PIXEL TO THE LED STRIP - USING INDIVIDUAL R,G,B VALUES
+	////////////////////////////////////////////////////////////////////////////
+	INLINE void pixel(uint8_t r, uint8_t g, uint8_t b) {
+		pixel(color_t(r, g, b));
+	}
+
+
+
+
+	////////////////////////////////////////////////////////////////////////////
+	// CLEAR THE ENTIRE PIXEL ARRAY
+	////////////////////////////////////////////////////////////////////////////
+	void clear() {
+		this->begin();
+
+		for (uint16_t i=0; i<this->_total; i++) {
+			this->pixel(0, 0, 0);
+		}
+
+		this->end();
+	}
+
+
+
+
+	////////////////////////////////////////////////////////////////////////////
+	// INITIAL SETUP OF THE LED STRIP - CALL AT BEGINNING OF RENDER LOOP
+	////////////////////////////////////////////////////////////////////////////
+	INLINE void begin() {
+		noInterrupts();
+		pinMode(this->_pin, OUTPUT);
+	}
+
+
+
+
+	////////////////////////////////////////////////////////////////////////////
+	// FINALIZ AND SHOW LED STRIP - CALL AT END OF RENDER LOOP
+	////////////////////////////////////////////////////////////////////////////
+	INLINE void end() {
+		digitalWrite(this->_pin, LOW);
+		interrupts();
+		delay(1);
+	}
+
+
+
+
+	////////////////////////////////////////////////////////////////////////////
+	// GET THE PIN USED FOR THIS LED STRIP
+	////////////////////////////////////////////////////////////////////////////
+	const INLINE uint8_t pin() {
+		return this->_pin;
+	}
+
+
+
+
+	////////////////////////////////////////////////////////////////////////////
+	// GET THE NUMBER OF LEDS IN THIS STRIP
+	////////////////////////////////////////////////////////////////////////////
+	const INLINE uint8_t total() {
+		return this->_total;
+	}
+
+
+
+
+	private:
+		uint8_t		_pin;
+		uint16_t	_total;
+
+};
+
+
+#endif //__led_h__
