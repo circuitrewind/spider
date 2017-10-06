@@ -39,9 +39,13 @@ class coms {
 		// ENABLE INTERUPT
 		////////////////////////////////////////////////////////////////////////
 		INLINE void enable() {
-			pinMode(this->_ss, INPUT);
+			pinMode(this->_miso,	OUTPUT);
+			pinMode(this->_ss,		INPUT);
+
 			PCMSK |= (1 << this->_ss);
 			GIMSK |= 0b00100000;
+
+			this->miso(0);
 		}
 
 
@@ -68,9 +72,9 @@ class coms {
 		////////////////////////////////////////////////////////////////////////
 		// READ DATA FROM EACH OF THE INPUT PINS
 		////////////////////////////////////////////////////////////////////////
-		INLINE uint8_t mosi()	{ return digitalRead(this->_mosi)	== HIGH; }
-		INLINE uint8_t clk()	{ return digitalRead(this->_clk)	== HIGH; }
-		INLINE uint8_t ss()		{ return digitalRead(this->_ss)		== HIGH; }
+		INLINE uint8_t mosi()	{ return !!(PINB & (1 << this->_mosi)); }
+		INLINE uint8_t clk()	{ return !!(PINB & (1 << this->_clk)); }
+		INLINE uint8_t ss()		{ return !!(PINB & (1 << this->_ss)); }
 
 
 
@@ -78,8 +82,12 @@ class coms {
 		////////////////////////////////////////////////////////////////////////
 		// WRITE DATA TO THE OUTPUT PIN
 		////////////////////////////////////////////////////////////////////////
-		INLINE void miso(uint8_t bit)	{
-			digitalWrite(this->_miso, bit ? HIGH : LOW);
+		INLINE void miso(uint8_t bit) {
+			if (bit) {
+				PORTB |=  (1 << this->_miso);
+			} else {
+				PORTB &= ~(1 << this->_miso);
+			}
 		}
 
 

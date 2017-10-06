@@ -3,23 +3,32 @@
 
 
 uint16_b coms::process() {
+	pinMode(this->_mosi,	INPUT);
+	pinMode(this->_clk,		INPUT);
+	pinMode(this->_ss,		INPUT);
+
 	uint16_t	data = 0;
 	uint8_t		bits = 0;
 
-	while (this->ss() == HIGH) {
-		while (this->clk() == HIGH) {
-			if (this->ss() != HIGH) return uint16_b::fill();
+	this->miso(1);
+
+	while (!this->ss()) {
+		while (!this->clk()) {
+			if (this->ss()) goto output;
 		}
 
-		data = (data << 1) | (this->mosi() == HIGH);
+		data = (data << 1) | this->mosi();
 
-		if (++bits == 16) return data;
+		if (++bits == 16) goto output;
 
-		while (this->clk() == LOW) {
-			if (this->ss() != HIGH) return uint16_b::fill();
+		while (this->clk()) {
+			if (this->ss()) goto output;
 		}
-
 	}
 
-	return uint16_b::fill();
+	output:
+
+	this->miso(0);
+
+	return (bits == 16) ? data : uint16_b::fill();
 }
