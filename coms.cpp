@@ -1,3 +1,7 @@
+#ifdef __AVR__
+
+
+
 #include "coms.h"
 
 
@@ -32,3 +36,8 @@ uint16_b coms::process() {
 
 	return (bits == 16) ? data : uint16_b::fill();
 }
+
+
+
+
+#endif //__AVR__

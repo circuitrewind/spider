@@ -1,8 +1,9 @@
-#ifdef __AVR__
-
-
 #include "led.h"
 
+
+
+
+#ifdef __AVR__
 
 ////////////////////////////////////////////////////////////////////////////////
 // THE MAGIC FUNCTION - THIS ALLOWS RENDERING TO THE LED ARRAY

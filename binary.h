@@ -14,17 +14,12 @@
 
 
 
-#include "defines.h"
-
-
-
-
 ////////////////////////////////////////////////////////////////////////////////
 // BITFIELD - 8-BIT
 ////////////////////////////////////////////////////////////////////////////////
-typedef union uint8_b {
-	uint8_b()				{ this->byte_0 = 0; }
-	uint8_b(uint8_t byte)	{ this->byte_0 = byte; }
+union uint8_b {
+	INLINE uint8_b()				{ this->byte_0 = 0; }
+	INLINE uint8_b(uint8_t byte)	{ this->byte_0 = byte; }
 
 	uint8_t byte_0;
 
@@ -81,9 +76,14 @@ typedef union uint8_b {
 ////////////////////////////////////////////////////////////////////////////////
 // BITFIELD - 16-BIT
 ////////////////////////////////////////////////////////////////////////////////
-typedef union uint16_b {
-	uint16_b()				{ this->word_0 = 0; }
-	uint16_b(uint16_t word)	{ this->word_0 = word; }
+union uint16_b {
+	INLINE uint16_b()				{ this->word_0 = 0; }
+	INLINE uint16_b(uint16_t word)	{ this->word_0 = word; }
+
+	INLINE uint16_b(uint8_t byte_0, uint8_t byte_1) {
+		this->byte_0 = byte_0;
+		this->byte_1 = byte_1;
+	}
 
 	uint16_t word_0;
 
@@ -156,9 +156,22 @@ typedef union uint16_b {
 ////////////////////////////////////////////////////////////////////////////////
 // BITFIELD - 32-BIT
 ////////////////////////////////////////////////////////////////////////////////
-typedef union uint32_b {
-	uint32_b()					{ this->dword_0 = 0; }
-	uint32_b(uint32_t dword)	{ this->dword_0 = dword; }
+union uint32_b {
+	INLINE uint32_b()				{ this->dword_0 = 0; }
+	INLINE uint32_b(uint32_t dword)	{ this->dword_0 = dword; }
+
+	INLINE uint32_b(uint8_t word_0, uint8_t word_1) {
+		this->word_0 = word_0;
+		this->word_1 = word_1;
+	}
+
+	INLINE uint32_b(uint8_t byte_0, uint8_t byte_1, uint8_t byte_2, uint8_t byte_3) {
+		this->byte_0 = byte_0;
+		this->byte_1 = byte_1;
+		this->byte_2 = byte_2;
+		this->byte_3 = byte_3;
+	}
+
 
 	uint32_t dword_0;
 

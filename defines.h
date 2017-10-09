@@ -4,18 +4,26 @@
 \*----------------------------------------------------------------------------*/
 
 
+
+
 #ifndef __defines_h__
 #define __defines_h__
+
+
+
+
+#define INLINE		inline __attribute__ ((always_inline))
+
+
 
 
 #include <arduino.h>
 #include <avr/interrupt.h>
 #include <avr/io.h>
 #include <stdint.h>
+#include <WProgram.h>
+#include "binary.h"
 
-
-
-#define INLINE	inline __attribute__ ((always_inline))
 
 
 

@@ -4,18 +4,20 @@
 
 
 
-
-#ifndef __coms_h__
-#define __coms_h__
+#ifdef	__AVR__
+#ifndef	__coms_h__
+#define	__coms_h__
 
 
 
 
 #include "defines.h"
-#include "binary.h"
 
 
 
+
+//TODO:	convert this over to a template instead of using variables.
+//		this will allow for more compiler optimizations with inlining
 
 class coms {
 	public:
@@ -72,9 +74,9 @@ class coms {
 		////////////////////////////////////////////////////////////////////////
 		// READ DATA FROM EACH OF THE INPUT PINS
 		////////////////////////////////////////////////////////////////////////
-		INLINE uint8_t mosi()	{ return !!(PINB & (1 << this->_mosi)); }
-		INLINE uint8_t clk()	{ return !!(PINB & (1 << this->_clk)); }
-		INLINE uint8_t ss()		{ return !!(PINB & (1 << this->_ss)); }
+		INLINE uint8_t mosi()	{ return !!(PINB & (1 << this->_mosi));	}
+		INLINE uint8_t clk()	{ return !!(PINB & (1 << this->_clk));	}
+		INLINE uint8_t ss()		{ return !!(PINB & (1 << this->_ss));	}
 
 
 
@@ -104,3 +106,4 @@ class coms {
 
 
 #endif //__coms_h__
+#endif //__AVR__
