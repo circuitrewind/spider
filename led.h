@@ -14,7 +14,7 @@ class ws2812b {
 
 
 	////////////////////////////////////////////////////////////////////////////
-	// CONSTRUCTOR - PASS IN THE PIN FOR THE LEDS, AS WELL AS TOTAL NUMBER
+	// CONSTRUCTOR - PASS IN THE PIN FOR THE LEDS, AS WELL AS THE LED COUNT
 	////////////////////////////////////////////////////////////////////////////
 	INLINE ws2812b(uint8_t led_pin, uint16_t led_total) {
 		this->_pin		= led_pin;

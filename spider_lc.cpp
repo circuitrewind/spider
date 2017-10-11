@@ -28,12 +28,16 @@ WII Wii[2] = {WII(&Btd, PAIR), WII(&Btd, PAIR)};
 
 
 
+elapsedMillis render_time;
+
+
+
 void setup_arm() {
 
 	//INITIALIZE THE MAIN LED GRID
 	strip.begin();
 strip.setBrightness(100);  //TODO: THIS BRIGHTNESS IS JUST DURING DEBUGGING
-	strip.string("Init...", 0, 0, RGB(32,32,32));
+	strip.string("Init...", 0, 0, RGB(32,0,0));
 	strip.show();
 
 
@@ -44,10 +48,14 @@ strip.setBrightness(100);  //TODO: THIS BRIGHTNESS IS JUST DURING DEBUGGING
 
 
 	//RESET USB CONTROLLER
+	delay(100);
 	pinMode(7, OUTPUT);
 	digitalWrite(7, LOW);
-	delay(10);
+	delay(100);
 	digitalWrite(7, HIGH);
+	delay(100);
+	strip.string("Init...", 0, 0, RGB(0,0,32));
+	strip.show();
 
 
 	//CREATE MAIN GAME OBJECT
@@ -55,18 +63,22 @@ strip.setBrightness(100);  //TODO: THIS BRIGHTNESS IS JUST DURING DEBUGGING
 
 
 	//INITIALIZE WII REMOTE OBJECTS
-	for (int i=0; i<PLAYERS; i++) {
-		Wii[i].attachOnInit(onInit);
-	}
+//	for (int i=0; i<PLAYERS; i++) {
+//		Wii[i].attachOnInit(onInit);
+//	}
 
 
 	//ENABLE SERIAL COMMUNICATION FOR DEBUGGING
 	Serial.begin(115200);
+	strip.string("Init...", 0, 0, RGB(0,32,0));
+	strip.show();
 
 
-	//OUTPUT STATUS TO SERIAL CONSOLE
+	//INITIALIZE USB
 	if (Usb.Init() != -1) {
-		Serial.println("Init...");
+		strip.string("Init...", 0, 0, RGB(32,32,32));
+		strip.show();
+		render_time = 0;
 		return;
 	}
 
@@ -86,26 +98,37 @@ strip.setBrightness(100);  //TODO: THIS BRIGHTNESS IS JUST DURING DEBUGGING
 //MAIN LOOP
 void loop_arm() {
 
-	//HANDLE USB AND BLUETOOTH QUERY LOOP
-	static elapsedMillis usb_time;
-	if (usb_time >= 10) {
-		Usb.Task();
-		usb_time -= 10;
-	}
+	//KEEP GENERATING RANDOM NUMBERS
+	random(255);
 
 
 	//HANDLE GAME AND LED RENDERING LOOP
-	static elapsedMillis render_time;
 	if (render_time >= 20) {
 		render_time -= 20;
+		Usb.Task();
 		if (game) game->loop(&strip, Wii);
 		strip.show();
+
+
+		//CHANGE GAME OBJECT BACK TO MAIN MENU
+		for (int i=0; i<PLAYERS; i++) {
+			if (Wii[i].wiimoteConnected) {
+				if (Wii[i].getButtonClick(HOME)) {
+					Serial.print("\r\nHOME");
+					delete game;
+					strip.clear();
+					strip.show();
+					game = new spiderBootscreen(true);
+				}
+			}
+		}
 	}
 }
 
 
-
+/*
 void onInit() {
+	Serial.print("\r\nWII REMOTE INIT");
 	static bool oldControllerState[PLAYERS];
 
 	for (int i=0; i<PLAYERS; i++) {
@@ -115,7 +138,7 @@ void onInit() {
 		}
 	}
 }
-
+*/
 
 
 

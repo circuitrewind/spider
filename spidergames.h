@@ -91,7 +91,10 @@ extern spiderGame *game;
 
 class spiderBootscreen : public spiderGame {
 public:
-	spiderBootscreen() : x_offset(GRID_WIDTH), loaded(false) {}
+	spiderBootscreen(bool loaded=false) :
+		x_offset(GRID_WIDTH),
+		loaded(loaded) {}
+
 	virtual void loop(pixelArray *strip, WII *wii);
 
 private:

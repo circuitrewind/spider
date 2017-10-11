@@ -1,8 +1,16 @@
 /*----------------------------------------------------------------------------*\
+| PART OF THE COSPLAY.LIGHTING SOURCE CODE LIBRARY COLLECTION.                 |
+| SOURCE:  https://github.com/cosplaylighting/binary                           |
+| LICENSE: https://github.com/cosplaylighting/binary/blob/master/LICENSE       |
++------------------------------------------------------------------------------+
 | SIMPLE STRUCTS/UNIONS FOR SWAPPING BETWEEN BIG AND LITTLE ENDIAN.            |
 | ALL SWAPPING IS DONE IN-PLACE, SO NO ADDITIONAL RAM IS NEEDED.               |
-| SWAPPING IS DONE VIA 3 INLINED XOR COMMANDS, KEEPING THE CODE                |
-| FOOTPRINT VERY SMALL AS WELL.                                                |
+| SWAPPING IS DONE VIA 3 INLINED XOR COMMANDS, KEEPING THE CODE FOOTPRINT VERY |
+| SMALL AS WELL.                                                               |
++------------------------------------------------------------------------------+
+| ADDITIONALLY, BIT FIELD, BYTE LISTS, AND MORE HAVE BEEN ADDED TO THESE.      |
+| IF YOU NEED A SIMPLIFIED WAY TO ACCESS ARBITRARY BITS FROM A BYTE OR         |
+| MULTI-BYTE DATA, THIS WILL BE ONE OF THE EASIEST WAYS TO DO IT.              |
 \*----------------------------------------------------------------------------*/
 
 
@@ -14,14 +22,25 @@
 
 
 
+#ifndef INLINE
+#define INLINE		inline __attribute__ ((always_inline))
+#endif
+
+
+
+
 ////////////////////////////////////////////////////////////////////////////////
 // BITFIELD - 8-BIT
 ////////////////////////////////////////////////////////////////////////////////
 union uint8_b {
 	INLINE uint8_b()				{ this->byte_0 = 0; }
 	INLINE uint8_b(uint8_t byte)	{ this->byte_0 = byte; }
+	INLINE uint8_b(uint8_t *byte)	{ this->byte_0 = byte[0]; }
 
+
+	uint8_t byte[1];
 	uint8_t byte_0;
+
 
 	struct {
 		union {
@@ -79,13 +98,23 @@ union uint8_b {
 union uint16_b {
 	INLINE uint16_b()				{ this->word_0 = 0; }
 	INLINE uint16_b(uint16_t word)	{ this->word_0 = word; }
+	INLINE uint16_b(uint16_t *word)	{ this->word_0 = word[0]; }
+
+	INLINE uint16_b(uint8_t *byte)	{
+		this->byte_0 = byte[0];
+		this->byte_1 = byte[1];
+	}
 
 	INLINE uint16_b(uint8_t byte_0, uint8_t byte_1) {
 		this->byte_0 = byte_0;
 		this->byte_1 = byte_1;
 	}
 
-	uint16_t word_0;
+
+	uint8_t		byte[2];
+	uint16_t	word[1];
+	uint16_t	word_0;
+
 
 	struct {
 		union {
@@ -157,15 +186,29 @@ union uint16_b {
 // BITFIELD - 32-BIT
 ////////////////////////////////////////////////////////////////////////////////
 union uint32_b {
-	INLINE uint32_b()				{ this->dword_0 = 0; }
-	INLINE uint32_b(uint32_t dword)	{ this->dword_0 = dword; }
+	INLINE uint32_b()					{ this->dword_0 = 0; }
+	INLINE uint32_b(uint32_t dword)		{ this->dword_0 = dword; }
+	INLINE uint32_b(uint32_t *dword)	{ this->dword_0 = dword[0]; }
+
+	INLINE uint32_b(uint8_t *byte)	{
+		this->byte_0 = byte[0];
+		this->byte_1 = byte[1];
+		this->byte_2 = byte[2];
+		this->byte_3 = byte[3];
+	}
+
+	INLINE uint32_b(uint16_t *word) {
+		this->word_0 = word[0];
+		this->word_1 = word[1];
+	}
 
 	INLINE uint32_b(uint8_t word_0, uint8_t word_1) {
 		this->word_0 = word_0;
 		this->word_1 = word_1;
 	}
 
-	INLINE uint32_b(uint8_t byte_0, uint8_t byte_1, uint8_t byte_2, uint8_t byte_3) {
+	INLINE uint32_b(uint8_t byte_0, uint8_t byte_1,
+					uint8_t byte_2, uint8_t byte_3) {
 		this->byte_0 = byte_0;
 		this->byte_1 = byte_1;
 		this->byte_2 = byte_2;
@@ -173,7 +216,11 @@ union uint32_b {
 	}
 
 
-	uint32_t dword_0;
+	uint8_t		byte[4];
+	uint16_t	word[2];
+	uint32_t	dword[1];
+	uint32_t	dword_0;
+
 
 	struct {
 		union {

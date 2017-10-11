@@ -6,21 +6,17 @@
 
 void spiderBootscreen::loop(pixelArray *strip, WII *wii) {
 	if (!loaded) {
-		if (elapsed < 2000) return;
-		elapsed -= 2000;
+		if (elapsed < 4000) return;
+		elapsed -= 4000;
 		loaded = true;
 	}
 
-	for (int i=0; i<PLAYERS; i++) {
-		if (wii[i].wiimoteConnected) {
-			delete game;
-			game = new spiderDecay();
-			return;
-		}
-	}
+
 
 	if (elapsed < SCROLL_DELAY) return;
 	elapsed -= SCROLL_DELAY;
+
+
 
 	strip->clear();
 
@@ -30,4 +26,19 @@ void spiderBootscreen::loop(pixelArray *strip, WII *wii) {
 	}
 
 	strip->string("PRESS 1+2", x_offset, 0, pix_colorz[4]);
+
+
+	for (int i=0; i<PLAYERS; i++) {
+		if (wii[i].wiimoteConnected) {
+			char str[3] = {'P', '\0', '\0'};
+			str[1] = i + '1';
+			strip->string(str, i*8, GRID_HEIGHT-6, pix_colorz[i+1]);
+
+			if (wii[i].getButtonClick(A)) {
+				delete game;
+				game = new spiderPaint();
+				return;
+			}
+		}
+	}
 }

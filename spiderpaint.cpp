@@ -28,13 +28,6 @@ void spiderPaint::loop(pixelArray *strip, WII *wii) {
 	for (int i=0; i<PLAYERS; i++) {
 		if (!wii[i].wiimoteConnected) continue;
 
-		if (wii[i].getButtonClick(HOME)) { // You can use getButtonPress to see if the button is held down
-			Serial.print(F("\r\nHOME"));
-//			wii[i].disconnect();
-//			oldControllerState[i] = false; // Reset value
-			continue;
-		}
-
 
 		if (wii[i].getButtonClick(LEFT)) {
 			Serial.print(F("\r\nLeft"));
@@ -118,7 +111,9 @@ void spiderPaint::loop(pixelArray *strip, WII *wii) {
 
 
 		if (wii[i].getButtonClick(B)) {
-			wii[i].setRumbleToggle();
+			wii[i].setLedOff();
+			wii[i].setLedOn(LED3);
+//			wii[i].setRumbleToggle();
 			Serial.print(F("\r\nB"));
 		}
 	}
