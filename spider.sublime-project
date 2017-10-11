@@ -6,6 +6,9 @@
 		},
 		{
 			"path": "C:\\Users\\Darkain\\Documents\\Arduino\\libraries\\USB_Host_Shield_2.0"
+		},
+		{
+			"path": "C:\\programming\\avr\\bluetooth\\WiiMulti"
 		}
 	]
 }
