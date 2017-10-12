@@ -25,6 +25,7 @@
 #include <stdint.h>
 #include <WProgram.h>
 #include "binary.h"
+#include "color.h"
 
 
 

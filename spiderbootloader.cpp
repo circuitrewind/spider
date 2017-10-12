@@ -1,3 +1,4 @@
+#include "spider.h"
 #include "spidergames.h"
 
 
@@ -6,8 +7,8 @@
 
 void spiderBootscreen::loop(pixelArray *strip, WII *wii) {
 	if (!loaded) {
-		if (elapsed < 4000) return;
-		elapsed -= 4000;
+		if (elapsed < 2000) return;
+		elapsed -= 2000;
 		loaded = true;
 	}
 
@@ -25,7 +26,7 @@ void spiderBootscreen::loop(pixelArray *strip, WII *wii) {
 		x_offset = GRID_WIDTH + 5;
 	}
 
-	strip->string("PRESS 1+2", x_offset, 0, pix_colorz[4]);
+	strip->string("PRESS SYNC", x_offset, 0, color_t::purple().right(4));
 
 
 	for (int i=0; i<PLAYERS; i++) {

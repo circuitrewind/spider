@@ -36,8 +36,8 @@ void setup_arm() {
 
 	//INITIALIZE THE MAIN LED GRID
 	strip.begin();
-strip.setBrightness(100);  //TODO: THIS BRIGHTNESS IS JUST DURING DEBUGGING
-	strip.string("Init...", 0, 0, RGB(32,0,0));
+	strip.clear();
+	strip.string("Init...", 0, 0, color_t::red().right(5));
 	strip.show();
 
 
@@ -54,31 +54,25 @@ strip.setBrightness(100);  //TODO: THIS BRIGHTNESS IS JUST DURING DEBUGGING
 	delay(100);
 	digitalWrite(7, HIGH);
 	delay(100);
-	strip.string("Init...", 0, 0, RGB(0,0,32));
+	strip.string("Init...", 0, 0, color_t::blue().right(5));
 	strip.show();
-
-
-	//CREATE MAIN GAME OBJECT
-	game = new spiderBootscreen();
-
-
-	//INITIALIZE WII REMOTE OBJECTS
-//	for (int i=0; i<PLAYERS; i++) {
-//		Wii[i].attachOnInit(onInit);
-//	}
 
 
 	//ENABLE SERIAL COMMUNICATION FOR DEBUGGING
 	Serial.begin(115200);
-	strip.string("Init...", 0, 0, RGB(0,32,0));
+	strip.string("Init...", 0, 0, color_t::lime().right(5));
 	strip.show();
 
 
 	//INITIALIZE USB
 	if (Usb.Init() != -1) {
-		strip.string("Init...", 0, 0, RGB(32,32,32));
+		strip.string("Init...", 0, 0, color_t::white().right(5));
 		strip.show();
+
+		//CREATE MAIN GAME OBJECT
+		game = new spiderBootscreen();
 		render_time = 0;
+
 		return;
 	}
 
@@ -98,6 +92,10 @@ strip.setBrightness(100);  //TODO: THIS BRIGHTNESS IS JUST DURING DEBUGGING
 //MAIN LOOP
 void loop_arm() {
 
+	//POLL USB, BLUETOOTH, WII REMOTE
+	Usb.Task();
+
+
 	//KEEP GENERATING RANDOM NUMBERS
 	random(255);
 
@@ -105,21 +103,20 @@ void loop_arm() {
 	//HANDLE GAME AND LED RENDERING LOOP
 	if (render_time >= 20) {
 		render_time -= 20;
-		Usb.Task();
 		if (game) game->loop(&strip, Wii);
 		strip.show();
+	}
 
 
-		//CHANGE GAME OBJECT BACK TO MAIN MENU
-		for (int i=0; i<PLAYERS; i++) {
-			if (Wii[i].wiimoteConnected) {
-				if (Wii[i].getButtonClick(HOME)) {
-					Serial.print("\r\nHOME");
-					delete game;
-					strip.clear();
-					strip.show();
-					game = new spiderBootscreen(true);
-				}
+	//CHANGE GAME OBJECT BACK TO MAIN MENU
+	for (int i=0; i<PLAYERS; i++) {
+		if (Wii[i].wiimoteConnected) {
+			if (Wii[i].getButtonClick(HOME)) {
+				Serial.print("\r\nHOME");
+				delete game;
+				strip.clear();
+				strip.show();
+				game = new spiderBootscreen(true);
 			}
 		}
 	}
