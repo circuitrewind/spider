@@ -24,12 +24,12 @@ uint32_t pix_colorx[7] = {
 
 
 
-void spiderPaint::loop(pixelArray *strip, WII *wii) {
+void spiderPaint::loop(pixelArray *strip, WII **wii) {
 	for (int i=0; i<PLAYERS; i++) {
-		if (!wii[i].wiimoteConnected) continue;
+		if (!wii[i]->wiimoteConnected) continue;
 
 
-		if (wii[i].getButtonClick(LEFT)) {
+		if (wii[i]->getButtonClick(LEFT)) {
 			Serial.print(F("\r\nLeft"));
 			if (pix_y[i] < 15) {
 				strip->swap(pix_x[i], pix_y[i], pix_z[i]);
@@ -39,7 +39,7 @@ void spiderPaint::loop(pixelArray *strip, WII *wii) {
 		}
 
 
-		if (wii[i].getButtonClick(RIGHT)) {
+		if (wii[i]->getButtonClick(RIGHT)) {
 			Serial.print(F("\r\nRight"));
 			if (pix_y[i] > 0) {
 				strip->swap(pix_x[i], pix_y[i], pix_z[i]);
@@ -49,7 +49,7 @@ void spiderPaint::loop(pixelArray *strip, WII *wii) {
 		}
 
 
-		if (wii[i].getButtonClick(DOWN)) {
+		if (wii[i]->getButtonClick(DOWN)) {
 			Serial.print(F("\r\nDown"));
 			if (pix_x[i] < 15) {
 				strip->swap(pix_x[i], pix_y[i], pix_z[i]);
@@ -59,7 +59,7 @@ void spiderPaint::loop(pixelArray *strip, WII *wii) {
 		}
 
 
-		if (wii[i].getButtonClick(UP)) {
+		if (wii[i]->getButtonClick(UP)) {
 			Serial.print(F("\r\nUp"));
 			if (pix_x[i] > 0) {
 				strip->swap(pix_x[i], pix_y[i], pix_z[i]);
@@ -69,7 +69,7 @@ void spiderPaint::loop(pixelArray *strip, WII *wii) {
 		}
 
 
-		if (wii[i].getButtonClick(PLUS)) {
+		if (wii[i]->getButtonClick(PLUS)) {
 			Serial.print(F("\r\nPlus"));
 			if (pix_cycle[i] == 6) {
 				pix_cycle[i] = 0;
@@ -81,7 +81,7 @@ void spiderPaint::loop(pixelArray *strip, WII *wii) {
 		}
 
 
-		if (wii[i].getButtonClick(MINUS)) {
+		if (wii[i]->getButtonClick(MINUS)) {
 			Serial.print(F("\r\nMinus"));
 			if (pix_cycle[i] == 0) {
 				pix_cycle[i] = 6;
@@ -93,27 +93,27 @@ void spiderPaint::loop(pixelArray *strip, WII *wii) {
 		}
 
 
-		if (wii[i].getButtonClick(ONE)) {
+		if (wii[i]->getButtonClick(ONE)) {
 			Serial.print(F("\r\nOne"));
 			pix_z[i] = RGB(0, 0, 0);
 		}
 
 
-		if (wii[i].getButtonClick(TWO)) {
+		if (wii[i]->getButtonClick(TWO)) {
 			Serial.print(F("\r\nTwo"));
 			pix_z[i] = pix_c[i];
 		}
 
 
-		if (wii[i].getButtonClick(A)) {
+		if (wii[i]->getButtonClick(A)) {
 			Serial.print(F("\r\nA"));
 		}
 
 
-		if (wii[i].getButtonClick(B)) {
-			wii[i].setLedOff();
-			wii[i].setLedOn(LED3);
-//			wii[i].setRumbleToggle();
+		if (wii[i]->getButtonClick(B)) {
+			wii[i]->setLedOff();
+			wii[i]->setLedOn(LED3);
+//			wii[i]->setRumbleToggle();
 			Serial.print(F("\r\nB"));
 		}
 	}

@@ -3,7 +3,7 @@
 
 
 
-void spiderDecay::loop(pixelArray *strip, WII *wii) {
+void spiderDecay::loop(pixelArray *strip, WII **wii) {
 	uint8_t *data = strip->getPixels();
 	for (uint16_t i=0; i<256*3; i++) {
 		if (data[i] > 1) data[i] -= 2;

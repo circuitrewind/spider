@@ -5,7 +5,7 @@
 #define SCROLL_DELAY 100
 
 
-void spiderBootscreen::loop(pixelArray *strip, WII *wii) {
+void spiderBootscreen::loop(pixelArray *strip, WII **wii) {
 	if (!loaded) {
 		if (elapsed < 2000) return;
 		elapsed -= 2000;
@@ -30,12 +30,12 @@ void spiderBootscreen::loop(pixelArray *strip, WII *wii) {
 
 
 	for (int i=0; i<PLAYERS; i++) {
-		if (wii[i].wiimoteConnected) {
+		if (wii[i]->wiimoteConnected) {
 			char str[3] = {'P', '\0', '\0'};
 			str[1] = i + '1';
 			strip->string(str, i*8, GRID_HEIGHT-6, pix_colorz[i+1]);
 
-			if (wii[i].getButtonClick(A)) {
+			if (wii[i]->getButtonClick(A)) {
 				delete game;
 				game = new spiderPaint();
 				return;

@@ -24,11 +24,12 @@ spiderGame *game = NULL;
 USB Usb;
 
 BTD Btd(&Usb);
-WII Wii[2] = {WII(&Btd, PAIR), WII(&Btd, PAIR)};
+WII *Wii[PLAYERS];// = {NULL, NULL}; //{WII(&Btd), WII(&Btd)};
 
 
 
 elapsedMillis render_time;
+elapsedMillis usb_time;
 
 
 
@@ -64,6 +65,12 @@ void setup_arm() {
 	strip.show();
 
 
+	//CREATE WII REMOTE BLUETOOTH SERVICES
+	for (int i=0; i<PLAYERS; i++) {
+		Wii[i] = new WII(&Btd);
+	}
+
+
 	//INITIALIZE USB
 	if (Usb.Init() != -1) {
 		strip.string("Init...", 0, 0, color_t::white().right(5));
@@ -71,7 +78,7 @@ void setup_arm() {
 
 		//CREATE MAIN GAME OBJECT
 		game = new spiderBootscreen();
-		render_time = 0;
+		render_time = usb_time = 0;
 
 		return;
 	}
@@ -93,7 +100,10 @@ void setup_arm() {
 void loop_arm() {
 
 	//POLL USB, BLUETOOTH, WII REMOTE
-	Usb.Task();
+	if (usb_time >= 5) {
+		Usb.Task();
+		usb_time = 0;
+	}
 
 
 	//KEEP GENERATING RANDOM NUMBERS
@@ -110,8 +120,8 @@ void loop_arm() {
 
 	//CHANGE GAME OBJECT BACK TO MAIN MENU
 	for (int i=0; i<PLAYERS; i++) {
-		if (Wii[i].wiimoteConnected) {
-			if (Wii[i].getButtonClick(HOME)) {
+		if (Wii[i]->wiimoteConnected) {
+			if (Wii[i]->getButtonClick(HOME)) {
 				Serial.print("\r\nHOME");
 				delete game;
 				strip.clear();
@@ -129,9 +139,9 @@ void onInit() {
 	static bool oldControllerState[PLAYERS];
 
 	for (int i=0; i<PLAYERS; i++) {
-		if (Wii[i].wiimoteConnected && !oldControllerState[i]) {
+		if (Wii[i]->wiimoteConnected && !oldControllerState[i]) {
 			oldControllerState[i] = true; // Used to check which is the new controller
-			Wii[i].setLedOn((LEDEnum)(i + 1)); // Cast directly to LEDEnum - see: "controllerEnums.h"
+			Wii[i]->setLedOn((LEDEnum)(i + 1)); // Cast directly to LEDEnum - see: "controllerEnums.h"
 		}
 	}
 }

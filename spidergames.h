@@ -76,7 +76,7 @@ public:
 
 class spiderGame {
 public:
-	virtual void loop(pixelArray *strip, WII *wii) {}
+	virtual void loop(pixelArray *strip, WII **wii) {}
 	virtual ~spiderGame() {}
 
 protected:
@@ -95,7 +95,7 @@ public:
 		x_offset(GRID_WIDTH),
 		loaded(loaded) {}
 
-	virtual void loop(pixelArray *strip, WII *wii);
+	virtual void loop(pixelArray *strip, WII **wii);
 
 private:
 	int16_t	x_offset;
@@ -116,7 +116,7 @@ public:
 		pix_cycle[0]	= 1;				pix_cycle[1]	= 2;
 	}
 
-	virtual void loop(pixelArray *strip, WII *wii);
+	virtual void loop(pixelArray *strip, WII **wii);
 
 	bool		connected;
 	int8_t		pix_x[2];
@@ -130,7 +130,7 @@ public:
 
 
 class spiderDecay : public spiderGame {
-	virtual void loop(pixelArray *strip, WII *wii);
+	virtual void loop(pixelArray *strip, WII **wii);
 };
 
 
