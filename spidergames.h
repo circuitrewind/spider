@@ -8,7 +8,7 @@
 #include "pixelfont.h"
 
 
-#define PLAYERS 2
+#define PLAYERS 4
 
 #define GRID_WIDTH	16
 #define GRID_HEIGHT	16
@@ -109,21 +109,23 @@ class spiderPaint : public spiderGame {
 public:
 	spiderPaint() {
 		connected		= false;
-		pix_x[0]		= 7;				pix_x[1]		= 8;
-		pix_y[0]		= 8;				pix_y[1]		= 7;
-		pix_z[0]		= 0;				pix_z[1]		= 0;
-		pix_c[0]		= pix_colorz[1];	pix_c[1]		= pix_colorz[2];
-		pix_cycle[0]	= 1;				pix_cycle[1]	= 2;
+		for (int i=0; i<PLAYERS; i++) {
+			pix_x[i]		= 7;
+			pix_y[i]		= i+8;
+			pix_z[i]		= 0;
+			pix_c[i]		= pix_colorz[i+1];
+			pix_cycle[i]	= i+1;
+		}
 	}
 
 	virtual void loop(pixelArray *strip, WII **wii);
 
 	bool		connected;
-	int8_t		pix_x[2];
-	int8_t		pix_y[2];
-	uint32_t	pix_z[2];
-	uint32_t	pix_c[2];
-	int8_t		pix_cycle[2];
+	int8_t		pix_x[PLAYERS];
+	int8_t		pix_y[PLAYERS];
+	uint32_t	pix_z[PLAYERS];
+	uint32_t	pix_c[PLAYERS];
+	int8_t		pix_cycle[PLAYERS];
 };
 
 

@@ -19,7 +19,7 @@
 //TODO:	convert this over to a template instead of using variables.
 //		this will allow for more compiler optimizations with inlining
 
-class coms {
+class PACKED coms {
 	public:
 
 

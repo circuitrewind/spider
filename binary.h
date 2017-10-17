@@ -29,10 +29,17 @@
 
 
 
+#ifndef PACKED
+#define PACKED		__attribute__ ((packed))
+#endif
+
+
+
+
 ////////////////////////////////////////////////////////////////////////////////
 // BITFIELD - 8-BIT
 ////////////////////////////////////////////////////////////////////////////////
-union uint8_b {
+union PACKED uint8_b {
 	INLINE uint8_b()				{ this->byte_0 = 0; }
 	INLINE uint8_b(uint8_t byte)	{ this->byte_0 = byte; }
 	INLINE uint8_b(uint8_t *byte)	{ this->byte_0 = byte[0]; }
@@ -42,19 +49,19 @@ union uint8_b {
 	uint8_t byte_0;
 
 
-	struct {
-		union {
+	struct PACKED {
+		union PACKED {
 			unsigned int nibble_0		: 4;
-			struct {
+			struct PACKED {
 				unsigned int bit_0		: 1;
 				unsigned int bit_1		: 1;
 				unsigned int bit_2		: 1;
 				unsigned int bit_3		: 1;
 			};
 		};
-		union {
+		union PACKED {
 			unsigned int nibble_1		: 4;
-			struct {
+			struct PACKED {
 				unsigned int bit_4		: 1;
 				unsigned int bit_5		: 1;
 				unsigned int bit_6		: 1;
@@ -95,7 +102,7 @@ union uint8_b {
 ////////////////////////////////////////////////////////////////////////////////
 // BITFIELD - 16-BIT
 ////////////////////////////////////////////////////////////////////////////////
-union uint16_b {
+union PACKED uint16_b {
 	INLINE uint16_b()				{ this->word_0 = 0; }
 	INLINE uint16_b(uint16_t word)	{ this->word_0 = word; }
 	INLINE uint16_b(uint16_t *word)	{ this->word_0 = word[0]; }
@@ -111,15 +118,15 @@ union uint16_b {
 	}
 
 
-	uint8_t		byte[2];
+	uint8_b		byte[2];
 	uint16_t	word[1];
 	uint16_t	word_0;
 
 
-	struct {
-		union {
+	struct PACKED {
+		union PACKED {
 			uint8_t byte_0;
-			struct {
+			struct PACKED {
 				unsigned int bit_0		: 1;
 				unsigned int bit_1		: 1;
 				unsigned int bit_2		: 1;
@@ -131,9 +138,9 @@ union uint16_b {
 			};
 		};
 
-		union {
+		union PACKED {
 			uint8_t byte_1;
-			struct {
+			struct PACKED {
 				unsigned int bit_8		: 1;
 				unsigned int bit_9		: 1;
 				unsigned int bit_10		: 1;
@@ -185,7 +192,7 @@ union uint16_b {
 ////////////////////////////////////////////////////////////////////////////////
 // BITFIELD - 32-BIT
 ////////////////////////////////////////////////////////////////////////////////
-union uint32_b {
+union PACKED uint32_b {
 	INLINE uint32_b()					{ this->dword_0 = 0; }
 	INLINE uint32_b(uint32_t dword)		{ this->dword_0 = dword; }
 	INLINE uint32_b(uint32_t *dword)	{ this->dword_0 = dword[0]; }
@@ -216,20 +223,20 @@ union uint32_b {
 	}
 
 
-	uint8_t		byte[4];
-	uint16_t	word[2];
+	uint8_b		byte[4];
+	uint16_b	word[2];
 	uint32_t	dword[1];
 	uint32_t	dword_0;
 
 
-	struct {
-		union {
+	struct PACKED {
+		union PACKED {
 			uint16_t word_0;
 
-			struct {
-				union {
+			struct PACKED {
+				union PACKED {
 					uint8_t byte_0;
-					struct {
+					struct PACKED {
 						unsigned int bit_0		: 1;
 						unsigned int bit_1		: 1;
 						unsigned int bit_2		: 1;
@@ -241,9 +248,9 @@ union uint32_b {
 					};
 				};
 
-				union {
+				union PACKED {
 					uint8_t byte_1;
-					struct {
+					struct PACKED {
 						unsigned int bit_8		: 1;
 						unsigned int bit_9		: 1;
 						unsigned int bit_10		: 1;
@@ -257,13 +264,13 @@ union uint32_b {
 			};
 		};
 
-		union {
+		union PACKED {
 			uint16_t word_1;
 
-			struct {
-				union {
+			struct PACKED {
+				union PACKED {
 					uint8_t byte_2;
-					struct {
+					struct PACKED {
 						unsigned int bit_16		: 1;
 						unsigned int bit_17		: 1;
 						unsigned int bit_18		: 1;
@@ -275,9 +282,9 @@ union uint32_b {
 					};
 				};
 
-				union {
+				union PACKED {
 					uint8_t byte_3;
-					struct {
+					struct PACKED {
 						unsigned int bit_24		: 1;
 						unsigned int bit_25		: 1;
 						unsigned int bit_26		: 1;

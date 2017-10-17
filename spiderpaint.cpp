@@ -111,8 +111,8 @@ void spiderPaint::loop(pixelArray *strip, WII **wii) {
 
 
 		if (wii[i]->getButtonClick(B)) {
-			wii[i]->setLedOff();
-			wii[i]->setLedOn(LED3);
+			wii[i]->setAllOff();
+			wii[i]->setLedOn(WII_LED::P3);
 //			wii[i]->setRumbleToggle();
 			Serial.print(F("\r\nB"));
 		}

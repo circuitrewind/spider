@@ -33,7 +33,13 @@ void spiderBootscreen::loop(pixelArray *strip, WII **wii) {
 		if (wii[i]->wiimoteConnected) {
 			char str[3] = {'P', '\0', '\0'};
 			str[1] = i + '1';
-			strip->string(str, i*8, GRID_HEIGHT-6, pix_colorz[i+1]);
+
+			strip->string(
+				str,
+				(i & 0x01) * 8,
+				(((i & 0x02) >> 1) * 6) + (GRID_HEIGHT-11),
+				pix_colorz[i+1]
+			);
 
 			if (wii[i]->getButtonClick(A)) {
 				delete game;

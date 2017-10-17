@@ -24,12 +24,11 @@ spiderGame *game = NULL;
 USB Usb;
 
 BTD Btd(&Usb);
-WII *Wii[PLAYERS];// = {NULL, NULL}; //{WII(&Btd), WII(&Btd)};
+WII *Wii[PLAYERS];
 
 
 
 elapsedMillis render_time;
-elapsedMillis usb_time;
 
 
 
@@ -59,6 +58,10 @@ void setup_arm() {
 	strip.show();
 
 
+	//CONFIGURE BLUETOOTH SYNC BUTTON
+	pinMode(24, INPUT_PULLUP);
+
+
 	//ENABLE SERIAL COMMUNICATION FOR DEBUGGING
 	Serial.begin(115200);
 	strip.string("Init...", 0, 0, color_t::lime().right(5));
@@ -78,7 +81,7 @@ void setup_arm() {
 
 		//CREATE MAIN GAME OBJECT
 		game = new spiderBootscreen();
-		render_time = usb_time = 0;
+		render_time  = 0;
 
 		return;
 	}
@@ -100,14 +103,17 @@ void setup_arm() {
 void loop_arm() {
 
 	//POLL USB, BLUETOOTH, WII REMOTE
-	if (usb_time >= 5) {
-		Usb.Task();
-		usb_time = 0;
-	}
+	Usb.Task();
 
 
 	//KEEP GENERATING RANDOM NUMBERS
 	random(255);
+
+
+	//ENABLE BLUETOOTH PAIRING
+	if (digitalRead(24) == LOW) {
+		Btd.pairWithWiiRemote();
+	}
 
 
 	//HANDLE GAME AND LED RENDERING LOOP
@@ -132,20 +138,6 @@ void loop_arm() {
 	}
 }
 
-
-/*
-void onInit() {
-	Serial.print("\r\nWII REMOTE INIT");
-	static bool oldControllerState[PLAYERS];
-
-	for (int i=0; i<PLAYERS; i++) {
-		if (Wii[i]->wiimoteConnected && !oldControllerState[i]) {
-			oldControllerState[i] = true; // Used to check which is the new controller
-			Wii[i]->setLedOn((LEDEnum)(i + 1)); // Cast directly to LEDEnum - see: "controllerEnums.h"
-		}
-	}
-}
-*/
 
 
 
