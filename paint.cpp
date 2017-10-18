@@ -1,30 +1,33 @@
-#include "spidergames.h"
+#include "paint.h"
 
 
-uint32_t pix_colorz[7] = {
-	RGB(32,  0,  0),
-	RGB( 0, 32,  0),
-	RGB( 0,  0, 32),
-	RGB( 0, 32, 32),
-	RGB(32,  0, 32),
-	RGB(32, 32,  0),
-	RGB(32, 32, 32),
-};
 
-
-uint32_t pix_colorx[7] = {
-	RGB(255,   0,   0),
-	RGB( 0,  255,   0),
-	RGB( 0,    0, 255),
-	RGB( 0,  255, 255),
-	RGB(255,   0, 255),
-	RGB(255, 255,   0),
-	RGB(255, 255, 255),
+color_t pix_colorz[7] = {
+	color_t(32,  0,  0),
+	color_t( 0, 32,  0),
+	color_t( 0,  0, 32),
+	color_t( 0, 32, 32),
+	color_t(32,  0, 32),
+	color_t(32, 32,  0),
+	color_t(32, 32, 32),
 };
 
 
 
-void spiderPaint::loop(pixelArray *strip, WII **wii) {
+color_t pix_colorx[7] = {
+	color_t(255,   0,   0),
+	color_t( 0,  255,   0),
+	color_t( 0,    0, 255),
+	color_t( 0,  255, 255),
+	color_t(255,   0, 255),
+	color_t(255, 255,   0),
+	color_t(255, 255, 255),
+};
+
+
+
+
+void paint::loop(pixelArray *strip, WII **wii) {
 	for (int i=0; i<PLAYERS; i++) {
 		if (!wii[i]->wiimoteConnected) continue;
 
@@ -95,7 +98,7 @@ void spiderPaint::loop(pixelArray *strip, WII **wii) {
 
 		if (wii[i]->getButtonClick(ONE)) {
 			Serial.print(F("\r\nOne"));
-			pix_z[i] = RGB(0, 0, 0);
+			pix_z[i] = color_t::black();
 		}
 
 
@@ -111,8 +114,8 @@ void spiderPaint::loop(pixelArray *strip, WII **wii) {
 
 
 		if (wii[i]->getButtonClick(B)) {
-			wii[i]->setAllOff();
-			wii[i]->setLedOn(WII_LED::P3);
+//			wii[i]->setAllOff();
+//			wii[i]->setLedOn(WII_LED::P3);
 //			wii[i]->setRumbleToggle();
 			Serial.print(F("\r\nB"));
 		}

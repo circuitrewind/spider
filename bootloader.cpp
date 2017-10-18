@@ -1,11 +1,9 @@
-#include "spider.h"
-#include "spidergames.h"
+#include "bootloader.h"
+#include "paint.h"
 
 
-#define SCROLL_DELAY 100
 
-
-void spiderBootscreen::loop(pixelArray *strip, WII **wii) {
+void bootloader::loop(pixelArray *strip, WII **wii) {
 	if (!loaded) {
 		if (elapsed < 2000) return;
 		elapsed -= 2000;
@@ -40,12 +38,6 @@ void spiderBootscreen::loop(pixelArray *strip, WII **wii) {
 				(((i & 0x02) >> 1) * 6) + (GRID_HEIGHT-11),
 				pix_colorz[i+1]
 			);
-
-			if (wii[i]->getButtonClick(A)) {
-				delete game;
-				game = new spiderPaint();
-				return;
-			}
 		}
 	}
 }

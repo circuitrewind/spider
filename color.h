@@ -24,8 +24,14 @@
 
 
 
+#ifndef PACKED
+#define PACKED		__attribute__ ((packed))
+#endif
 
-struct color_t {
+
+
+
+struct PACKED color_t {
 
 	////////////////////////////////////////////////////////////////////////////
 	//NOTE:	yes, this is in G-R-B order, this is the order that the WS2812B

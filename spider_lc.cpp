@@ -1,6 +1,6 @@
 #include "spider.h"
-#include "spidergames.h"
-
+#include "bootloader.h"
+#include "menu.h"
 
 
 
@@ -19,7 +19,7 @@
 
 
 pixelArray strip = pixelArray(256, 17, NEO_GRB + NEO_KHZ800);
-spiderGame *game = NULL;
+spidergame *game = NULL;
 
 USB Usb;
 
@@ -80,7 +80,7 @@ void setup_arm() {
 		strip.show();
 
 		//CREATE MAIN GAME OBJECT
-		game = new spiderBootscreen();
+		game = new bootloader();
 		render_time  = 0;
 
 		return;
@@ -89,9 +89,9 @@ void setup_arm() {
 
 	//PROBLEM DURING HARDWARE INIT
 	strip.clear();
-	strip.string("OSC", 0,  0, RGB(100,0,0));
-	strip.string("USB", 0,  5, RGB(0,0,100));
-	strip.string("Err", 0, 10, RGB(100,0,0));
+	strip.string("OSC", 0,  0, color_t(100,0,0));
+	strip.string("USB", 0,  5, color_t(0,0,100));
+	strip.string("Err", 0, 10, color_t(100,0,0));
 	strip.show();
 	while (1);
 }
@@ -132,7 +132,7 @@ void loop_arm() {
 				delete game;
 				strip.clear();
 				strip.show();
-				game = new spiderBootscreen(true);
+				game = new menu();
 			}
 		}
 	}

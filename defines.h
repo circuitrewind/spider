@@ -23,7 +23,6 @@
 
 
 
-
 #include <arduino.h>
 #include <avr/interrupt.h>
 #include <avr/io.h>
@@ -31,6 +30,8 @@
 #include <WProgram.h>
 #include "binary.h"
 #include "color.h"
+#include "pixel_array.h"
+#include "games.h"
 
 
 

@@ -1,12 +1,13 @@
-#include "spidergames.h"
+#include "pixel_array.h"
+#include "pixel_font.h"
 
 
 
 
-uint32_t pixelArray::swap(int8_t x, int8_t y, uint32_t color) {
+color_t pixelArray::swap(int8_t x, int8_t y, color_t color) {
 	int16_t pos = index(x, y);
-	if (pos == -1) return RGB(0,0,0);
-	uint32_t ret = getPixelColor(pos);
+	if (pos == -1) return color_t::black();
+	color_t ret = getPixelColor(pos);
 	setPixelColor(pos, color);
 	return ret;
 }
@@ -14,7 +15,7 @@ uint32_t pixelArray::swap(int8_t x, int8_t y, uint32_t color) {
 
 
 
-void pixelArray::string(const char *text, int8_t x_offset, int8_t y_offset, uint32_t color) {
+void pixelArray::string(const char *text, int8_t x_offset, int8_t y_offset, color_t color) {
 	while (*text) {
 
 		if (*text < 0x21  ||  *text > 0x7E) {
@@ -25,8 +26,10 @@ void pixelArray::string(const char *text, int8_t x_offset, int8_t y_offset, uint
 
 		character item = pixelfont[*text - 0x21];
 		for (int x=0; x<item.width; x++) {
+			uint8_t column = item.data[(x == 4) ? 2 : x];
+
 			for (int y=0; y<6; y++) {
-				if (item.data[x] & (1<<y)) {
+				if (column & (1<<y)) {
 					draw(x+x_offset, y+y_offset, color);
 				}
 			}
