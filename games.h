@@ -15,7 +15,7 @@ public:
 	spidergame() {}
 	virtual ~spidergame() {}
 
-	virtual void loop(pixelArray *strip, WII **wii) {}
+	virtual void loop(pixelArray **strip, WII **wii) {}
 
 protected:
 	elapsedMillis elapsed;

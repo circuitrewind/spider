@@ -10,7 +10,7 @@
 
 
 
-void menu::loop(pixelArray *strip, WII **wii) {
+void menu::loop(pixelArray **strip, WII **wii) {
 	for (int i=0; i<PLAYERS; i++) {
 		if (!wii[i]->wiimoteConnected) continue;
 
@@ -25,7 +25,7 @@ void menu::loop(pixelArray *strip, WII **wii) {
 
 		} else if (wii[i]->getButtonClick(TWO)) {
 			delete game;
-			strip->clear();
+			strip[0]->clear();
 
 			switch (selected) {
 				case 0: game = new paint();		break;
@@ -38,7 +38,7 @@ void menu::loop(pixelArray *strip, WII **wii) {
 
 		} else if (wii[i]->getButtonClick(B)) {
 			delete game;
-			strip->clear();
+			strip[0]->clear();
 			game = new bootloader(true);
 			return;
 		}
@@ -54,6 +54,6 @@ void menu::loop(pixelArray *strip, WII **wii) {
 		case 3: text = "Host";	break;
 	}
 
-	strip->clear();
-	strip->string(text, 0, 0, pix_colorx[selected]);
+	strip[0]->clear();
+	strip[0]->string(text, 0, 0, pix_colorx[selected]);
 }

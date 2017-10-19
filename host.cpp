@@ -7,7 +7,7 @@ void host::reset() {
 }
 
 
-void host::loop(pixelArray *strip, WII **wii) {
+void host::loop(pixelArray **strip, WII **wii) {
 	while (Serial.available()) {
 
 		//COMPLETELY RESET IF WE OVERFLOW THE BUFFER
@@ -23,11 +23,11 @@ void host::loop(pixelArray *strip, WII **wii) {
 			case ';':
 				Serial.print("Command: ");
 				if (offset) {
-					int start=0, end=0, red=0, green=0, blue=0;
+					int side=0, start=0, end=0, red=0, green=0, blue=0;
 					sscanf(
 						(char*)buffer,
-						"%d,%d=%d,%d,%d",
-						&start,	&end,
+						"%d,%d,%d=%d,%d,%d",
+						&side,	&start,	&end,
 						&red,	&green,	&blue
 					);
 
@@ -36,6 +36,8 @@ void host::loop(pixelArray *strip, WII **wii) {
 
 					color_t	color = color_t(red, green, blue);
 
+					Serial.print(side);
+					Serial.print(", ");
 					Serial.print(start);
 					Serial.print(", ");
 					Serial.print(end);
@@ -44,7 +46,7 @@ void host::loop(pixelArray *strip, WII **wii) {
 					Serial.print("\n");
 
 					for (int i=start; i<=end; i++) {
-						strip->setPixelColor(i, color);
+						strip[side]->setPixelColor(i, color);
 					}
 				} else {
 					Serial.print("[NONE]\n");

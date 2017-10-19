@@ -19,7 +19,7 @@ public:
 		}
 	}
 
-	virtual void loop(pixelArray *strip, WII **wii);
+	virtual void loop(pixelArray **strip, WII **wii);
 
 private:
 	int8_t		pix_x[PLAYERS];

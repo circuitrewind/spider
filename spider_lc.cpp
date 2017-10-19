@@ -18,7 +18,9 @@
 
 
 
-pixelArray strip = pixelArray(256, 17, NEO_GRB + NEO_KHZ800);
+pixelArray *strip[2];
+
+
 spidergame *game = NULL;
 
 USB Usb;
@@ -35,10 +37,18 @@ elapsedMillis render_time;
 void setup_arm() {
 
 	//INITIALIZE THE MAIN LED GRID
-	strip.begin();
-	strip.clear();
-	strip.string("Init...", 0, 0, color_t::red().right(5));
-	strip.show();
+	strip[0] = new pixelArray(300, 17, NEO_GRB + NEO_KHZ800);
+	strip[0]->begin();
+	strip[0]->clear();
+	strip[0]->string("Init...", 0, 0, color_t::red().right(5));
+	strip[0]->show();
+
+
+	//INITIALIZE THE SECONDARY LED GRID
+	strip[1] = new pixelArray(300,  9, NEO_GRB + NEO_KHZ800);
+	strip[1]->begin();
+	strip[1]->clear();
+	strip[1]->show();
 
 
 	//RANDOMIZE SEED A LITTLE BIT
@@ -54,8 +64,8 @@ void setup_arm() {
 	delay(100);
 	digitalWrite(7, HIGH);
 	delay(100);
-	strip.string("Init...", 0, 0, color_t::blue().right(5));
-	strip.show();
+	strip[0]->string("Init...", 0, 0, color_t::blue().right(5));
+	strip[0]->show();
 
 
 	//CONFIGURE BLUETOOTH SYNC BUTTON
@@ -64,8 +74,8 @@ void setup_arm() {
 
 	//ENABLE SERIAL COMMUNICATION FOR DEBUGGING
 	Serial.begin(115200);
-	strip.string("Init...", 0, 0, color_t::lime().right(5));
-	strip.show();
+	strip[0]->string("Init...", 0, 0, color_t::lime().right(5));
+	strip[0]->show();
 
 
 	//CREATE WII REMOTE BLUETOOTH SERVICES
@@ -76,8 +86,8 @@ void setup_arm() {
 
 	//INITIALIZE USB
 	if (Usb.Init() != -1) {
-		strip.string("Init...", 0, 0, color_t::white().right(5));
-		strip.show();
+		strip[0]->string("Init...", 0, 0, color_t::white().right(5));
+		strip[0]->show();
 
 		//CREATE MAIN GAME OBJECT
 		game = new bootloader();
@@ -88,11 +98,11 @@ void setup_arm() {
 
 
 	//PROBLEM DURING HARDWARE INIT
-	strip.clear();
-	strip.string("OSC", 0,  0, color_t(100,0,0));
-	strip.string("USB", 0,  5, color_t(0,0,100));
-	strip.string("Err", 0, 10, color_t(100,0,0));
-	strip.show();
+	strip[0]->clear();
+	strip[0]->string("OSC", 0,  0, color_t(100,0,0));
+	strip[0]->string("USB", 0,  5, color_t(0,0,100));
+	strip[0]->string("Err", 0, 10, color_t(100,0,0));
+	strip[0]->show();
 	while (1);
 }
 
@@ -119,8 +129,9 @@ void loop_arm() {
 	//HANDLE GAME AND LED RENDERING LOOP
 	if (render_time >= 20) {
 		render_time -= 20;
-		if (game) game->loop(&strip, Wii);
-		strip.show();
+		if (game) game->loop(strip, Wii);
+		strip[0]->show();
+		strip[1]->show();
 	}
 
 
@@ -130,8 +141,10 @@ void loop_arm() {
 			if (Wii[i]->getButtonClick(HOME)) {
 				Serial.print("\r\nHOME");
 				delete game;
-				strip.clear();
-				strip.show();
+				strip[0]->clear();
+				strip[1]->clear();
+				strip[0]->show();
+				strip[1]->show();
 				game = new menu();
 			}
 		}

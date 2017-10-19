@@ -17,7 +17,7 @@ public:
 		x_offset(GRID_WIDTH),
 		loaded(load) {}
 
-	virtual void loop(pixelArray *strip, WII **wii);
+	virtual void loop(pixelArray **strip, WII **wii);
 
 private:
 	int16_t	x_offset;

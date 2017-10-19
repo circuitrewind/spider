@@ -27,7 +27,7 @@ color_t pix_colorx[7] = {
 
 
 
-void paint::loop(pixelArray *strip, WII **wii) {
+void paint::loop(pixelArray **strip, WII **wii) {
 	for (int i=0; i<PLAYERS; i++) {
 		if (!wii[i]->wiimoteConnected) continue;
 
@@ -35,9 +35,9 @@ void paint::loop(pixelArray *strip, WII **wii) {
 		if (wii[i]->getButtonClick(LEFT)) {
 			Serial.print(F("\r\nLeft"));
 			if (pix_y[i] < 15) {
-				strip->swap(pix_x[i], pix_y[i], pix_z[i]);
+				strip[0]->swap(pix_x[i], pix_y[i], pix_z[i]);
 				pix_y[i]++;
-				pix_z[i] = strip->swap(pix_x[i], pix_y[i], pix_c[i]);
+				pix_z[i] = strip[0]->swap(pix_x[i], pix_y[i], pix_c[i]);
 			}
 		}
 
@@ -45,9 +45,9 @@ void paint::loop(pixelArray *strip, WII **wii) {
 		if (wii[i]->getButtonClick(RIGHT)) {
 			Serial.print(F("\r\nRight"));
 			if (pix_y[i] > 0) {
-				strip->swap(pix_x[i], pix_y[i], pix_z[i]);
+				strip[0]->swap(pix_x[i], pix_y[i], pix_z[i]);
 				pix_y[i]--;
-				pix_z[i] = strip->swap(pix_x[i], pix_y[i], pix_c[i]);
+				pix_z[i] = strip[0]->swap(pix_x[i], pix_y[i], pix_c[i]);
 			}
 		}
 
@@ -55,9 +55,9 @@ void paint::loop(pixelArray *strip, WII **wii) {
 		if (wii[i]->getButtonClick(DOWN)) {
 			Serial.print(F("\r\nDown"));
 			if (pix_x[i] < 15) {
-				strip->swap(pix_x[i], pix_y[i], pix_z[i]);
+				strip[0]->swap(pix_x[i], pix_y[i], pix_z[i]);
 				pix_x[i]++;
-				pix_z[i] = strip->swap(pix_x[i], pix_y[i], pix_c[i]);
+				pix_z[i] = strip[0]->swap(pix_x[i], pix_y[i], pix_c[i]);
 			}
 		}
 
@@ -65,9 +65,9 @@ void paint::loop(pixelArray *strip, WII **wii) {
 		if (wii[i]->getButtonClick(UP)) {
 			Serial.print(F("\r\nUp"));
 			if (pix_x[i] > 0) {
-				strip->swap(pix_x[i], pix_y[i], pix_z[i]);
+				strip[0]->swap(pix_x[i], pix_y[i], pix_z[i]);
 				pix_x[i]--;
-				pix_z[i] = strip->swap(pix_x[i], pix_y[i], pix_c[i]);
+				pix_z[i] = strip[0]->swap(pix_x[i], pix_y[i], pix_c[i]);
 			}
 		}
 
@@ -80,7 +80,7 @@ void paint::loop(pixelArray *strip, WII **wii) {
 				pix_cycle[i]++;
 			}
 			pix_c[i] = pix_colorz[pix_cycle[i]];
-			strip->swap(pix_x[i], pix_y[i], pix_c[i]);
+			strip[0]->swap(pix_x[i], pix_y[i], pix_c[i]);
 		}
 
 
@@ -92,7 +92,7 @@ void paint::loop(pixelArray *strip, WII **wii) {
 				pix_cycle[i]--;
 			}
 			pix_c[i] = pix_colorz[pix_cycle[i]];
-			strip->swap(pix_x[i], pix_y[i], pix_c[i]);
+			strip[0]->swap(pix_x[i], pix_y[i], pix_c[i]);
 		}
 
 

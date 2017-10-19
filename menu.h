@@ -10,7 +10,7 @@
 class menu : public spidergame {
 public:
 	menu() : selected(0) {}
-	virtual void loop(pixelArray *strip, WII **wii);
+	virtual void loop(pixelArray **strip, WII **wii);
 
 private:
 	int8_t selected;
