@@ -12,7 +12,7 @@ public:
 	decay(uint8_t decay_rate=4) : rate(decay_rate) {}
 
 protected:
-	virtual void loop(pixelArray **strip, WII **wii) {
+	virtual void frame(pixelArray **strip, WII **wii) {
 		uint8_t *data;
 
 		data = (uint8_t*) strip[0]->getPixels();

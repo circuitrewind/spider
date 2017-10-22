@@ -8,7 +8,7 @@ void host::reset() {
 }
 
 
-void host::loop(pixelArray **strip, WII **wii) {
+void host::frame(pixelArray **strip, WII **wii) {
 	while (Serial.available()) {
 
 		//COMPLETELY RESET IF WE OVERFLOW THE BUFFER

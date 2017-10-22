@@ -28,7 +28,7 @@ color_t pix_colorx[7] = {
 
 
 
-void paint::loop(pixelArray **strip, WII **wii) {
+void paint::frame(pixelArray **strip, WII **wii) {
 	for (int i=0; i<PLAYERS; i++) {
 		if (!wii[i]->wiimoteConnected) continue;
 

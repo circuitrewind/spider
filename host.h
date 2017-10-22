@@ -12,7 +12,7 @@ public:
 	host() { reset(); }
 
 protected:
-	virtual void loop(pixelArray **strip, WII **wii);
+	virtual void frame(pixelArray **strip, WII **wii);
 
 	void reset();
 	void process(pixelArray *strip);

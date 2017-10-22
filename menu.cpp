@@ -4,14 +4,15 @@
 #include "paint.h"
 #include "decay.h"
 #include "host.h"
+#include "isp.h"
 
 
 
-#define TOTAL_GAMES 4
+#define TOTAL_GAMES 5
 
 
 
-void menu::loop(pixelArray **strip, WII **wii) {
+void menu::frame(pixelArray **strip, WII **wii) {
 	for (int i=0; i<PLAYERS; i++) {
 		if (!wii[i]->wiimoteConnected) continue;
 
@@ -33,6 +34,7 @@ void menu::loop(pixelArray **strip, WII **wii) {
 				case 1: game = new decayPew();	break;
 				case 2: game = new decay();		break;
 				case 3: game = new host();		break;
+				case 4: game = new isp();		break;
 			}
 
 			return;
@@ -53,8 +55,9 @@ void menu::loop(pixelArray **strip, WII **wii) {
 		case 1: text = "PEW";	break;
 		case 2: text = "Fade";	break;
 		case 3: text = "Host";	break;
+		case 4: text = "ISP";	break;
 	}
 
 	strip[0]->clear();
-	strip[0]->string(text, 0, 0, pix_colorx[selected]);
+	strip[0]->string(text, 1, GRID_HEIGHT-5, pix_colorx[selected]);
 }

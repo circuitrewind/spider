@@ -1,6 +1,7 @@
 #include "spider.h"
 #include "bootloader.h"
 #include "menu.h"
+#include "grid.h"
 
 
 
@@ -33,38 +34,6 @@ WII *Wii[PLAYERS];
 elapsedMillis render_time;
 
 
-const uint16_t GRID[] = {
-	0b000001100000,
-	0b000001100000,
-
-	0b000011110000,
-	0b000011110000,
-
-	0b000111111000,
-	0b000111111000,
-	0b000111111000,
-
-	0b001111111100,
-	0b001111111100,
-	0b001111111100,
-	0b001111111100,
-
-	0b011111111110,
-	0b011111111110,
-	0b011111111110,
-	0b011111111110,
-	0b011111111110,
-	0b011111111110,
-	0b011111111110,
-	0b011111111110,
-
-	0b111111111111,
-	0b111111111111,
-	0b111111111111,
-	0b111111111111,
-};
-
-
 
 void setup_arm() {
 
@@ -72,7 +41,7 @@ void setup_arm() {
 	strip[0] = new pixelArray(17, GRID);
 	strip[0]->begin();
 	strip[0]->clear();
-	strip[0]->string("Init...", 0, 0, color_t::red().right(5));
+	strip[0]->string("init...", 0, GRID_HEIGHT-5, color_t::red().right(5));
 	strip[0]->show();
 
 
@@ -96,7 +65,7 @@ void setup_arm() {
 	delay(100);
 	digitalWrite(7, HIGH);
 	delay(100);
-	strip[0]->string("Init...", 0, 0, color_t::blue().right(5));
+	strip[0]->string("init...", 0, GRID_HEIGHT-5, color_t::blue().right(5));
 	strip[0]->show();
 
 
@@ -106,7 +75,7 @@ void setup_arm() {
 
 	//ENABLE SERIAL COMMUNICATION FOR DEBUGGING
 	Serial.begin(115200);
-	strip[0]->string("Init...", 0, 0, color_t::lime().right(5));
+	strip[0]->string("init...", 0, GRID_HEIGHT-5, color_t::lime().right(5));
 	strip[0]->show();
 
 
@@ -118,7 +87,7 @@ void setup_arm() {
 
 	//INITIALIZE USB
 	if (Usb.Init() != -1) {
-		strip[0]->string("Init...", 0, 0, color_t::white().right(5));
+		strip[0]->string("init...", 0, GRID_HEIGHT-5, color_t::white().right(5));
 		strip[0]->show();
 
 		//CREATE MAIN GAME OBJECT
@@ -158,10 +127,14 @@ void loop_arm() {
 	}
 
 
-	//HANDLE GAME AND LED RENDERING LOOP
+	//HANDLE GAME LOOP
+	if (game) game->loop(strip, Wii);
+
+
+	//FRAME AND LED RENDERING LOOP
 	if (render_time >= 20) {
 		render_time -= 20;
-		if (game) game->loop(strip, Wii);
+		if (game) game->frame(strip, Wii);
 		strip[0]->show();
 		strip[1]->show();
 	}

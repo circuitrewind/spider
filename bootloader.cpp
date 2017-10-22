@@ -4,7 +4,7 @@
 
 
 
-void bootloader::loop(pixelArray **strip, WII **wii) {
+void bootloader::frame(pixelArray **strip, WII **wii) {
 	if (!loaded) {
 		if (elapsed < 2000) return;
 		elapsed -= 2000;
@@ -25,7 +25,7 @@ void bootloader::loop(pixelArray **strip, WII **wii) {
 		x_offset = GRID_WIDTH + 5;
 	}
 
-	strip[0]->string("PRESS SYNC", x_offset, 0, color_t::purple().right(4));
+	strip[0]->string("PRESS SYNC", x_offset, GRID_HEIGHT-5, color_t::purple().right(4));
 
 
 	for (int i=0; i<PLAYERS; i++) {
