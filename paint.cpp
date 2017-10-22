@@ -1,3 +1,4 @@
+#include "defines.h"
 #include "paint.h"
 
 
@@ -34,7 +35,7 @@ void paint::loop(pixelArray **strip, WII **wii) {
 
 		if (wii[i]->getButtonClick(LEFT)) {
 			Serial.print(F("\r\nLeft"));
-			if (pix_y[i] < 15) {
+			if (pix_y[i] < GRID_HEIGHT-1) {
 				strip[0]->swap(pix_x[i], pix_y[i], pix_z[i]);
 				pix_y[i]++;
 				pix_z[i] = strip[0]->swap(pix_x[i], pix_y[i], pix_c[i]);
@@ -54,7 +55,7 @@ void paint::loop(pixelArray **strip, WII **wii) {
 
 		if (wii[i]->getButtonClick(DOWN)) {
 			Serial.print(F("\r\nDown"));
-			if (pix_x[i] < 15) {
+			if (pix_x[i] < GRID_WIDTH-1) {
 				strip[0]->swap(pix_x[i], pix_y[i], pix_z[i]);
 				pix_x[i]++;
 				pix_z[i] = strip[0]->swap(pix_x[i], pix_y[i], pix_c[i]);

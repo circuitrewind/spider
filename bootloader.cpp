@@ -1,3 +1,4 @@
+#include "defines.h"
 #include "bootloader.h"
 #include "paint.h"
 

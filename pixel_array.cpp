@@ -1,3 +1,4 @@
+#include "defines.h"
 #include "pixel_array.h"
 #include "pixel_font.h"
 

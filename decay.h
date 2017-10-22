@@ -13,13 +13,22 @@ public:
 
 protected:
 	virtual void loop(pixelArray **strip, WII **wii) {
-		uint8_t *data = strip[0]->getPixels();
-		for (uint16_t i=0; i<256*3; i++) {
+		uint8_t *data;
+
+		data = (uint8_t*) strip[0]->getPixels();
+		for (uint16_t i=0; i<GRID_TOTAL*3; i++) {
+			if (data[i] > rate) data[i] -= rate;
+			else data[i] = 0;
+		}
+
+		data = (uint8_t*) strip[1]->getPixels();
+		for (uint16_t i=0; i<GRID_TOTAL*3; i++) {
 			if (data[i] > rate) data[i] -= rate;
 			else data[i] = 0;
 		}
 
 		draw(strip[0]);
+		draw(strip[1]);
 	}
 
 	virtual void draw(pixelArray *strip) {

@@ -33,11 +33,43 @@ WII *Wii[PLAYERS];
 elapsedMillis render_time;
 
 
+const uint16_t GRID[] = {
+	0b000001100000,
+	0b000001100000,
+
+	0b000011110000,
+	0b000011110000,
+
+	0b000111111000,
+	0b000111111000,
+	0b000111111000,
+
+	0b001111111100,
+	0b001111111100,
+	0b001111111100,
+	0b001111111100,
+
+	0b011111111110,
+	0b011111111110,
+	0b011111111110,
+	0b011111111110,
+	0b011111111110,
+	0b011111111110,
+	0b011111111110,
+	0b011111111110,
+
+	0b111111111111,
+	0b111111111111,
+	0b111111111111,
+	0b111111111111,
+};
+
+
 
 void setup_arm() {
 
 	//INITIALIZE THE MAIN LED GRID
-	strip[0] = new pixelArray(300, 17, NEO_GRB + NEO_KHZ800);
+	strip[0] = new pixelArray(17, GRID);
 	strip[0]->begin();
 	strip[0]->clear();
 	strip[0]->string("Init...", 0, 0, color_t::red().right(5));
@@ -45,7 +77,7 @@ void setup_arm() {
 
 
 	//INITIALIZE THE SECONDARY LED GRID
-	strip[1] = new pixelArray(300,  9, NEO_GRB + NEO_KHZ800);
+	strip[1] = new pixelArray(9, GRID);
 	strip[1]->begin();
 	strip[1]->clear();
 	strip[1]->show();
