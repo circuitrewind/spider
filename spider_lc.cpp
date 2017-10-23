@@ -70,12 +70,6 @@ void setup_arm() {
 	dual = new pixelDual(GRID_WIDTH*2, GRID_HEIGHT, strip[0], strip[1]);
 
 
-	//INITIALIZE THE ATTINY85 LED STRIPS
-	Serial.println("ATTiny85");
-	LED_LEFT.fifoWrite(0x0100);
-	LED_RIGHT.fifoWrite(0x0100);
-
-
 	//RANDOMIZE SEED A LITTLE BIT
 	Serial.println("Randomizer");
 	pinMode(22, INPUT);		//ANALOG 8
