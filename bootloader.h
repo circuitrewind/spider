@@ -14,8 +14,14 @@
 class bootloader : public spidergame  {
 public:
 	bootloader(bool load=false) :
-		x_offset(GRID_WIDTH),
-		loaded(load) {}
+		x_offset(GRID_WIDTH*2),
+		loaded(load) {
+
+		//INITIALIZE THE ATTINY85 LED STRIPS
+		Serial.println("ATTiny85");
+		LED_LEFT.fifoWrite(0x0100);
+		LED_RIGHT.fifoWrite(0x0100);
+	}
 
 	virtual void frame(pixelArray **strip, WII **wii);
 

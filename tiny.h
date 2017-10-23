@@ -14,11 +14,11 @@ public:
 			if (!wii[i]->wiimoteConnected) continue;
 
 			if (wii[i]->getButtonClick(ONE)) {
-				LED_LEFT.fifoWrite(0x0101);
+				LED_LEFT.fifoWrite(0x0110);
 			}
 
 			if (wii[i]->getButtonClick(TWO)) {
-				LED_LEFT.fifoWrite(0x0102);
+				LED_LEFT.fifoWrite(0x0111);
 			}
 		}
 	}

@@ -43,6 +43,7 @@ ISR(PCINT0_vect) {
 		case 0x01:	mode		=	data.byte_0;	break;
 		case 0x02:	pause		=	data.byte_0;	break;
 		case 0x03:	direction	= !!data.byte_0;	break;
+		//TODO: command to reset OFFSET value
 	}
 }
 
@@ -65,9 +66,10 @@ void setup_avr() {
 // rainbow equally distributed throughout
 ////////////////////////////////////////////////////////////////////////////////
 void rainbowCycle() {
+	uint16_t segments = (256*3) / strip.total();
 	for(uint16_t i=0; i<strip.total(); i++) {
 		strip.pixel(
-			color_t::hue(((i*256*3) / strip.total()) + offset)
+			color_t::hue((i * segments) + offset)
 		);
 	}
 }
