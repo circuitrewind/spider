@@ -83,7 +83,7 @@ void wave(uint8_t r, uint8_t g, uint8_t b) {
 	g = g ? 0xff : 0x00;
 	b = b ? 0xff : 0x00;
 
-	for (uint16_t i=0; i<TOTAL; i++) {
+	for (uint16_t i=0; i<strip.total(); i++) {
 		switch ((i+offset) & 0x000F) {
 			case 0x00:	strip.pixel((BRIGHT>>7)&r, (BRIGHT>>7)&g, (BRIGHT>>7)&b);	break;
 			case 0x01:	strip.pixel((BRIGHT>>6)&r, (BRIGHT>>6)&g, (BRIGHT>>6)&b);	break;
@@ -115,7 +115,7 @@ void wave(uint8_t r, uint8_t g, uint8_t b) {
 // ??
 ////////////////////////////////////////////////////////////////////////////////
 void rgbwcmyk() {
-	for (uint16_t i=0; i<TOTAL; i++) {
+	for (uint16_t i=0; i<strip.total(); i++) {
 		switch ((i+offset) & 0x0007) {
 			case 0: strip.pixel(BRIGHT, 0, 0); break;
 			case 1: strip.pixel(0, BRIGHT, 0); break;

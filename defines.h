@@ -17,9 +17,9 @@
 #include <avr/io.h>
 #include <stdint.h>
 
-#ifdef CORE_TEENSY
+#ifdef TEENSYDUINO
 #include <WProgram.h>
-#endif //CORE_TEENSY
+#endif //TEENSYDUINO
 
 #include "elapsedMillis.h"
 #include "inline.h"
@@ -28,9 +28,10 @@
 #include "pixel_array.h"
 
 
-#ifdef CORE_TEENSY
+#ifdef TEENSYDUINO
+#include "com_master.h"
 #include "games.h"
-#endif //CORE_TEENSY
+#endif //TEENSYDUINO
 
 
 

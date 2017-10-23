@@ -1,4 +1,4 @@
-#ifdef CORE_TEENSY
+#ifdef TEENSYDUINO
 
 
 
@@ -67,4 +67,4 @@ void host::frame(pixelArray **strip, WII **wii) {
 
 
 
-#endif //CORE_TEENSY
+#endif //TEENSYDUINO

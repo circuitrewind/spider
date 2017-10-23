@@ -1,4 +1,4 @@
-#ifdef CORE_TEENSY
+#ifdef TEENSYDUINO
 
 
 
@@ -69,4 +69,4 @@ uint16_t pixelArray::stringWidth(const char *text) {
 
 
 
-#endif //CORE_TEENSY
+#endif //TEENSYDUINO

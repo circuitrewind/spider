@@ -42,6 +42,8 @@ class PACKED coms {
 		////////////////////////////////////////////////////////////////////////
 		INLINE void enable() {
 			pinMode(this->_miso,	INPUT);
+			pinMode(this->_mosi,	INPUT);
+			pinMode(this->_clk,		INPUT);
 			pinMode(this->_ss,		INPUT);
 
 			PCMSK |= (1 << this->_ss);
@@ -58,6 +60,13 @@ class PACKED coms {
 		////////////////////////////////////////////////////////////////////////
 		INLINE void disable() {
 			PCMSK &= ~(1 << this->_ss);
+
+			pinMode(this->_miso,	INPUT);
+			pinMode(this->_mosi,	INPUT);
+			pinMode(this->_clk,		INPUT);
+			pinMode(this->_ss,		INPUT);
+
+			this->miso(0);
 		}
 
 

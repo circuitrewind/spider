@@ -1,4 +1,4 @@
-#ifdef CORE_TEENSY
+#ifdef TEENSYDUINO
 
 
 
@@ -29,6 +29,10 @@ USB Usb;
 BTD Btd(&Usb);
 WII *Wii[PLAYERS];
 
+
+
+coms LED_LEFT( 11, 12, 14, 4);
+coms LED_RIGHT(11, 12, 14, 3);
 
 
 elapsedMillis render_time;
@@ -127,6 +131,11 @@ void loop_arm() {
 	}
 
 
+	//HANDLE ATTINY85 SPI TRANSFERS
+	LED_LEFT.loop();
+	LED_RIGHT.loop();
+
+
 	//HANDLE GAME LOOP
 	if (game) game->loop(strip, Wii);
 
@@ -142,21 +151,20 @@ void loop_arm() {
 
 	//CHANGE GAME OBJECT BACK TO MAIN MENU
 	for (int i=0; i<PLAYERS; i++) {
-		if (Wii[i]->wiimoteConnected) {
-			if (Wii[i]->getButtonClick(HOME)) {
-				Serial.print("\r\nHOME");
-				delete game;
-				strip[0]->clear();
-				strip[1]->clear();
-				strip[0]->show();
-				strip[1]->show();
-				game = new menu();
-			}
-		}
+		if (!Wii[i]->wiimoteConnected) continue;
+		if (!Wii[i]->getButtonClick(HOME)) continue;
+
+		Serial.print("\r\nHOME");
+		delete game;
+		strip[0]->clear();
+		strip[1]->clear();
+		strip[0]->show();
+		strip[1]->show();
+		game = new menu();
 	}
 }
 
 
 
 
-#endif //CORE_TEENSY
+#endif //TEENSYDUINO

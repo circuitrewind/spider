@@ -13,7 +13,7 @@
 	#include <avr/power.h>
 	extern void setup_avr();
 	extern void loop_avr();
-#endif
+#endif //__AVR__
 
 
 
@@ -21,8 +21,8 @@
 ////////////////////////////////////////////////////////////////////////////////
 // TEENSY SPECIFIC INCLUDES
 ////////////////////////////////////////////////////////////////////////////////
-#ifdef CORE_TEENSY
+#ifdef TEENSYDUINO
 	extern void setup_arm();
 	extern void loop_arm();
 	extern void onInit();
-#endif
+#endif //TEENSYDUINO

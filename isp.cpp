@@ -1,4 +1,4 @@
-#ifdef CORE_TEENSY
+#ifdef TEENSYDUINO
 
 
 
@@ -614,4 +614,4 @@ void isp::read_signature() {
 
 
 
-#endif //CORE_TEENSY
+#endif //TEENSYDUINO

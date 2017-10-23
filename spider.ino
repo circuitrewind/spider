@@ -9,7 +9,7 @@
 #ifdef __AVR__
 void setup()	{ setup_avr();	}
 void loop()		{ loop_avr();	}
-#endif
+#endif //__AVR__
 
 
 
@@ -17,7 +17,7 @@ void loop()		{ loop_avr();	}
 ////////////////////////////////////////////////////////////////////////////////
 // ARM CODE - USED BY TEENSY-LC MICROCONTROLLER
 ////////////////////////////////////////////////////////////////////////////////
-#ifdef CORE_TEENSY
+#ifdef TEENSYDUINO
 void setup()	{ setup_arm();	}
 void loop()		{ loop_arm();	}
-#endif
+#endif //TEENSYDUINO
