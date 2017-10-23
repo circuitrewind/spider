@@ -1,3 +1,7 @@
+#ifdef CORE_TEENSY
+
+
+
 // ArduinoISP
 // Copyright (c) 2008-2011 Randall Bohn
 // If you require a license, see
@@ -606,3 +610,8 @@ void isp::read_signature() {
 	Serial.print((char) low);
 	Serial.print((char) STK_OK);
 }
+
+
+
+
+#endif //CORE_TEENSY

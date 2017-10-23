@@ -8,6 +8,7 @@
 
 
 uint16_b coms::process() {
+	pinMode(this->_miso,	OUTPUT);
 	pinMode(this->_mosi,	INPUT);
 	pinMode(this->_clk,		INPUT);
 	pinMode(this->_ss,		INPUT);
@@ -34,6 +35,7 @@ uint16_b coms::process() {
 	output:
 
 	this->miso(0);
+	pinMode(this->_miso,	INPUT);
 
 	return (bits == 16) ? data : uint16_b::fill();
 }

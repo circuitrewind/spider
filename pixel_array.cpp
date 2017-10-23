@@ -1,3 +1,7 @@
+#ifdef CORE_TEENSY
+
+
+
 #include "defines.h"
 #include "pixel_array.h"
 #include "pixel_font.h"
@@ -61,3 +65,8 @@ uint16_t pixelArray::stringWidth(const char *text) {
 
 	return x_offset;
 }
+
+
+
+
+#endif //CORE_TEENSY

@@ -1,3 +1,7 @@
+#ifdef CORE_TEENSY
+
+
+
 #include "defines.h"
 #include "paint.h"
 
@@ -122,3 +126,8 @@ void paint::frame(pixelArray **strip, WII **wii) {
 		}
 	}
 }
+
+
+
+
+#endif //CORE_TEENSY

@@ -1,11 +1,11 @@
+#ifdef CORE_TEENSY
+
+
+
 #include "spider.h"
 #include "bootloader.h"
 #include "menu.h"
 #include "grid.h"
-
-
-
-#ifdef CORE_TEENSY
 
 
 

@@ -1,3 +1,7 @@
+#ifdef CORE_TEENSY
+
+
+
 #include "defines.h"
 #include "menu.h"
 #include "bootloader.h"
@@ -61,3 +65,8 @@ void menu::frame(pixelArray **strip, WII **wii) {
 	strip[0]->clear();
 	strip[0]->string(text, 1, GRID_HEIGHT-5, pix_colorx[selected]);
 }
+
+
+
+
+#endif //CORE_TEENSY

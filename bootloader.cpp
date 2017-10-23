@@ -1,3 +1,7 @@
+#ifdef CORE_TEENSY
+
+
+
 #include "defines.h"
 #include "bootloader.h"
 #include "paint.h"
@@ -42,3 +46,8 @@ void bootloader::frame(pixelArray **strip, WII **wii) {
 		}
 	}
 }
+
+
+
+
+#endif //CORE_TEENSY

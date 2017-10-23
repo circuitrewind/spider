@@ -2,7 +2,6 @@
 #define __spider_games_h__
 
 
-#include <elapsedMillis.h>
 #include <Wii.h>
 
 

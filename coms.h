@@ -41,7 +41,7 @@ class PACKED coms {
 		// ENABLE INTERUPT
 		////////////////////////////////////////////////////////////////////////
 		INLINE void enable() {
-			pinMode(this->_miso,	OUTPUT);
+			pinMode(this->_miso,	INPUT);
 			pinMode(this->_ss,		INPUT);
 
 			PCMSK |= (1 << this->_ss);

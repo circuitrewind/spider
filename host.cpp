@@ -1,3 +1,7 @@
+#ifdef CORE_TEENSY
+
+
+
 #include "defines.h"
 #include "host.h"
 
@@ -59,3 +63,8 @@ void host::frame(pixelArray **strip, WII **wii) {
 		offset++;
 	}
 }
+
+
+
+
+#endif //CORE_TEENSY
