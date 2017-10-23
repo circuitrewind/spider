@@ -40,7 +40,6 @@ class PACKED coms {
 		// ENABLE OUTPUT
 		////////////////////////////////////////////////////////////////////////
 		INLINE void enable() {
-			Serial.println("Enabling...");
 			pinMode(this->_miso,	INPUT);
 			pinMode(this->_mosi,	OUTPUT);
 			pinMode(this->_clk,		OUTPUT);
@@ -56,7 +55,6 @@ class PACKED coms {
 		// DISABLE OUTPUT
 		////////////////////////////////////////////////////////////////////////
 		INLINE void disable() {
-			Serial.println("Disabling...");
 			pinMode(this->_miso,	INPUT);
 			pinMode(this->_mosi,	OUTPUT);
 			pinMode(this->_clk,		OUTPUT);
@@ -79,11 +77,7 @@ class PACKED coms {
 				return;
 			}
 
-			Serial.println("Waiting for Attiny85...");
-
 			if (!miso()) return;
-
-			Serial.println("Writing...");
 
 			uint16_b data = fifoRead();
 			for (int i=15; i>=0; i--) {
@@ -93,11 +87,6 @@ class PACKED coms {
 				delayMicroseconds(1);
 				clk(false);
 			}
-
-			int thing = data;
-			char str[16];
-			sprintf(str, "Out: %04x", thing);
-			Serial.println(str);
 
 			disable();
 		}
