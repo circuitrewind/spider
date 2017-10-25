@@ -8,7 +8,7 @@
 #include "grid.h"
 #include "pixel_dual.h"
 
-#include "tetris.h"
+#include "pong.h"
 
 
 
@@ -72,7 +72,7 @@ void setup_nano() {
 	//CREATE MAIN GAME OBJECT
 	Serial.println(F("LOADED"));
 //	game = new bootloader();
-	game = new tetris();
+	game = new pong();
 	render_time  = 0;
 
 

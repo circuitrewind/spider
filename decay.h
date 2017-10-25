@@ -21,14 +21,19 @@ protected:
 			else data[i] = 0;
 		}
 
+		#ifdef TEENSYDUINO
 		data = (uint8_t*) strip[1]->getPixels();
 		for (uint16_t i=0; i<GRID_TOTAL*3; i++) {
 			if (data[i] > rate) data[i] -= rate;
 			else data[i] = 0;
 		}
+		#endif
 
 		draw(strip[0]);
+
+		#ifdef TEENSYDUINO
 		draw(strip[1]);
+		#endif
 	}
 
 	virtual void draw(pixelArray *strip) {

@@ -2,6 +2,7 @@
 
 
 
+
 #include "defines.h"
 #include "menu.h"
 #include "bootloader.h"
@@ -11,6 +12,8 @@
 #include "isp.h"
 #include "tiny.h"
 #include "tetris.h"
+#include "pong.h"
+
 
 
 
@@ -19,6 +22,8 @@
 #else
 #define TOTAL_GAMES 6
 #endif
+
+
 
 
 CONST char game_name_0[] = "Paint";
@@ -40,6 +45,7 @@ CONST char* const game_name_table[] = {
 	game_name_6,
 	game_name_7,
 };
+
 
 
 
@@ -67,6 +73,7 @@ void menu::frame(pixelArray **strip, WII **wii) {
 				case 3: game = new host();		break;
 				case 4: game = new tiny();		break;
 				case 5: game = new tetris();	break;
+				case 6: game = new pong();		break;
 				#ifdef TEENSYDUINO
 					case 7: game = new isp();	break;
 				#endif
