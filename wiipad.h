@@ -53,8 +53,8 @@ public:
 		}
 
 		if (buttons != previous) {
-			clicked		= buttons & ~previous;
-			previous	= buttons;
+			clicked		|= (buttons & ~previous);
+			previous	 =  buttons;
 		}
 	}
 

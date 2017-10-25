@@ -41,4 +41,9 @@
 
 
 
+extern int freeRam ();
+extern void print_ram();
+
+
+
 #endif //__defines_h__

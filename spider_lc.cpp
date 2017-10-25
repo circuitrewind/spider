@@ -159,6 +159,11 @@ void loop_arm() {
 		if (game) game->frame(strip, Wii);
 		strip[0]->show();
 		strip[1]->show();
+
+		//CLEAR BUTTON STATES
+		for (int i=0; i<PLAYERS; i++) {
+			Wii[i]->clear();
+		}
 	}
 
 

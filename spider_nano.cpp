@@ -8,6 +8,7 @@
 #include "grid.h"
 #include "pixel_dual.h"
 
+#include "tetris.h"
 
 
 
@@ -40,6 +41,7 @@ elapsedMillis render_time;
 void setup_nano() {
 	//ENABLE SERIAL COMMUNICATION FOR DEBUGGING
 	Serial.begin(115200);
+	print_ram();
 
 
 	//INITIALIZE THE MAIN LED GRID
@@ -77,8 +79,12 @@ void setup_nano() {
 
 	//CREATE MAIN GAME OBJECT
 	Serial.println(F("LOADED"));
-	game = new bootloader();
+//	game = new bootloader();
+	game = new tetris();
 	render_time  = 0;
+
+
+	print_ram();
 }
 
 

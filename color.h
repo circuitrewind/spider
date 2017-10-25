@@ -214,7 +214,7 @@ struct PACKED color_t {
 	static INLINE color_t aqua()					{ return 0x00ffff; }
 	static INLINE color_t blue()					{ return 0x0000ff; }
 	static INLINE color_t fuchsia()					{ return 0xff00ff; }
-	static INLINE color_t orange()					{ return 0xffa500; }
+	static INLINE color_t orange()					{ return 0xff8000; }
 	static INLINE color_t gray()					{ return 0x808080; }
 	static INLINE color_t silver()					{ return 0xc0c0c0; }
 	static INLINE color_t maroon()					{ return 0x800000; }
