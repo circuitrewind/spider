@@ -75,7 +75,7 @@ class ws2812b {
 	INLINE void end() {
 		digitalWrite(this->_pin, LOW);
 		interrupts();
-		delay(1);
+		delay(1);	//TODO: git rid of this last delay!
 	}
 
 
@@ -104,7 +104,6 @@ class ws2812b {
 	private:
 		uint8_t		_pin;
 		uint16_t	_total;
-
 };
 
 

@@ -3,19 +3,18 @@
 
 
 
-
 enum WII_BUTTONS {
-	UP		=  4,
-	DOWN	=  6,
-	LEFT	=  5,
-	RIGHT	= 19,
 	PLUS	=  3,
-	MINUS	= 17,
-	ONE		= 16,
+	RIGHT	=  4,
+	UP		=  5,
+	LEFT	=  6,
 	TWO		=  7,
 	A		=  8,
 	B		= 15,
+	ONE		= 16,
+	MINUS	= 17,
 	HOME	= 18,
+	DOWN	= 19,
 };
 
 
@@ -26,20 +25,52 @@ public:
 	WII(uint8_t player_id) {
 		buttons				= 0;
 		previous			= 0;
+		clicked				= 0;
 		player				= player_id;
-		wiimoteConnected	= (player == 1);
+		wiimoteConnected	= (player == 0);
+
+		for (int i=3; i<=8; i++) {
+			pinMode(i, INPUT_PULLUP);
+		}
+
+		for (int i=15; i<=19; i++) {
+			pinMode(i, INPUT_PULLUP);
+		}
 	}
 
 
-	INLINE void loop() {
-		previous	= buttons;
-		buttons		= 0;
-		clicked		= previous | buttons;
+	void loop() {
+		buttons = 0;
+
+		for (int i=3; i<=8; i++) {
+			uint32_t press = (digitalRead(i) == LOW);
+			buttons |= press << i;
+		}
+
+		for (int i=15; i<=19; i++) {
+			uint32_t press = (digitalRead(i) == LOW);
+			buttons |= press << i;
+		}
+
+		if (buttons != previous) {
+			clicked		= buttons & ~previous;
+			previous	= buttons;
+		}
 	}
 
 
-	bool getButtonClick(uint8_t button) {
-		return false;
+	void clear() {
+		clicked = 0;
+	}
+
+
+	INLINE bool getButtonPress(uint32_t button) {
+		return (buttons & (((uint32_t)1) << button));
+	}
+
+
+	INLINE bool getButtonClick(uint32_t button) {
+		return (clicked & (((uint32_t)1) << button));
 	}
 
 

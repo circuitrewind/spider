@@ -8,8 +8,8 @@
 
 
 struct PACKED character {
-	byte width;
-	byte data[5];
+	uint8_t width;
+	uint8_t data[5];
 };
 
 

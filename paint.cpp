@@ -7,7 +7,7 @@
 
 
 
-CONST color_t pix_colorz[7] = {
+const color_t pix_colorz[7] = {
 	color_t(32,  0,  0),
 	color_t( 0, 32,  0),
 	color_t( 0,  0, 32),
@@ -19,7 +19,7 @@ CONST color_t pix_colorz[7] = {
 
 
 
-CONST color_t pix_colorx[7] = {
+const color_t pix_colorx[7] = {
 	color_t(255,   0,   0),
 	color_t( 0,  255,   0),
 	color_t( 0,    0, 255),

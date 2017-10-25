@@ -9,6 +9,53 @@
 
 
 
+#ifdef TEENSYDUINO
+void pixelArray::show() {
+	this->begin();
+	for (int y=height()-1; y>=0; y--) {
+		uint16_t	row = layout[y];
+		uint16_t	set = y * width();
+		for (int x=0; x<width(); x++) {
+			if (row & (1<<x)) {
+				if (y & 0x01) {
+					pixel(grid[set + ((width() - 1) - x)]);
+				} else {
+					pixel(grid[set + x]);
+				}
+			}
+		}
+	}
+	this->end();
+}
+#endif //TEENSYDUINO
+
+
+
+
+#ifdef ARDUINO_AVR_NANO
+void pixelArray::show() {
+	this->begin();
+	for (int y=height()-1; y>=0; y--) {
+		uint16_t	row = layout[y];
+		uint16_t	set = y * width();
+		for (int x=width(); x>=0; x--) {
+			if (row & (1<<x)) {
+				if (y & 0x01) {
+					pixel(grid[set + x]);
+				} else {
+					pixel(grid[set + ((width() - 1) - x)]);
+				}
+			}
+		}
+	}
+	this->end();
+}
+#endif //ARDUINO_AVR_NANO
+
+
+
+
+
 color_t pixelArray::swap(int8_t x, int8_t y, color_t color) {
 	int16_t pos = index(x, y);
 	if (pos == -1) return color_t::black();
@@ -20,7 +67,7 @@ color_t pixelArray::swap(int8_t x, int8_t y, color_t color) {
 
 
 
-void pixelArray::string(const char *text, int8_t x_offset, int8_t y_offset, color_t color) {
+void pixelArray::string(const char *text, int16_t x_offset, int16_t y_offset, color_t color) {
 	while (*text) {
 
 		if (*text < 0x21) {
@@ -29,9 +76,14 @@ void pixelArray::string(const char *text, int8_t x_offset, int8_t y_offset, colo
 			continue;
 		}
 
-		char index = (*text > 0x7E) ? 0x7F : *text;
+		char index = ((*text > 0x7E) ? 0x7F : *text) - 0x21;
 
-		character item = pixelfont[index - 0x21];
+		#ifdef ARDUINO_AVR_NANO
+			character item = PROGMEM_getAnything(&pixelfont[index]);
+		#else
+			character item = pixelfont[index];
+		#endif
+
 		for (int x=0; x<item.width; x++) {
 			uint8_t column = item.data[x];
 
@@ -49,8 +101,8 @@ void pixelArray::string(const char *text, int8_t x_offset, int8_t y_offset, colo
 
 
 
-uint16_t pixelArray::stringWidth(const char *text) {
-	uint16_t x_offset = 0;
+int16_t pixelArray::stringWidth(const char *text) {
+	int16_t x_offset = 0;
 	while (*text) {
 
 		if (*text < 0x21) {
@@ -59,8 +111,13 @@ uint16_t pixelArray::stringWidth(const char *text) {
 			continue;
 		}
 
-		char index = (*text > 0x7E) ? 0x7F : *text;
-		character item = pixelfont[index - 0x21];
+		char index = ((*text > 0x7E) ? 0x7F : *text) - 0x21;
+
+		#ifdef ARDUINO_AVR_NANO
+			character item = PROGMEM_getAnything(&pixelfont[index]);
+		#else
+			character item = pixelfont[index];
+		#endif
 
 		x_offset += item.width + 1;
 		text++;

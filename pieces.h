@@ -4,7 +4,7 @@ struct piece {
 };
 
 
-CONST piece pieces[] = {
+const piece pieces[] = {
 
 	{{	//LINE
 		(0b0000) +

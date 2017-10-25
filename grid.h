@@ -1,4 +1,7 @@
-CONST uint16_t GRID[] = {
+#ifdef TEENSYDUINO
+
+
+const uint16_t GRID[] = {
 	0b000001100000,
 	0b000001100000,
 
@@ -28,3 +31,17 @@ CONST uint16_t GRID[] = {
 	0b111111111111,
 	0b111111111111,
 };
+
+
+#else
+
+
+const uint16_t GRID[] = {
+	0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF,
+	0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF,
+	0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF,
+	0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF,
+};
+
+
+#endif

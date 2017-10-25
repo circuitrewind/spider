@@ -17,6 +17,11 @@
 #include <avr/io.h>
 #include <stdint.h>
 
+#ifdef ARDUINO_AVR_NANO
+#include <avr/pgmspace.h>
+#include "progmem.h"
+#endif //
+
 //#ifdef TEENSYDUINO
 //#include <WProgram.h>
 //#endif //TEENSYDUINO

@@ -8,11 +8,20 @@
 #include "pixel_dual.h"
 
 
+#ifdef TEENSYDUINO
+#define RENDERER	dual
+#define BOOT_DELAY	2000;
+#else
+#define RENDERER	strip[0]
+#define BOOT_DELAY	10
+#endif
+
+
 
 void bootloader::frame(pixelArray **strip, WII **wii) {
 	if (!loaded) {
-		if (elapsed < 2000) return;
-		elapsed -= 2000;
+		if (elapsed < BOOT_DELAY) return;
+		elapsed -= BOOT_DELAY;
 		loaded = true;
 	}
 
@@ -24,15 +33,15 @@ void bootloader::frame(pixelArray **strip, WII **wii) {
 
 	const char *sync_text = "SYNC WII REMOTES AND THEN PRESS HOME";
 
+	RENDERER->clear();
 
-	dual->clear();
 
 	x_offset--;
-	if (x_offset < -pixelArray::stringWidth(sync_text)) {
-		x_offset = (dual->width()) + 5;
+	if (x_offset < 0-pixelArray::stringWidth(sync_text)) {
+		x_offset = (RENDERER->width()) + 5;
 	}
 
-	dual->string(sync_text, x_offset, dual->height()-5, color_t::purple().right(4));
+	RENDERER->string(sync_text, x_offset, RENDERER->height()-5, color_t::purple().right(4));
 
 
 	for (int i=0; i<PLAYERS; i++) {
@@ -40,10 +49,10 @@ void bootloader::frame(pixelArray **strip, WII **wii) {
 			char str[3] = {'P', '\0', '\0'};
 			str[1] = i + '1';
 
-			dual->string(
+			RENDERER->string(
 				str,
 				(i & 0x01) * 8,
-				(((i & 0x02) >> 1) * 6) + (dual->height()-11),
+				(((i & 0x02) >> 1) * 6) + (RENDERER->height()-11),
 				pix_colorz[i+1]
 			);
 		}

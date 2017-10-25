@@ -7,16 +7,16 @@
 
 
 
-extern CONST color_t pix_colorz[7];
-extern CONST color_t pix_colorx[7];
+extern const color_t pix_colorz[7];
+extern const color_t pix_colorx[7];
 
 
 #ifdef TEENSYDUINO
 #define GRID_WIDTH	12
 #define GRID_HEIGHT	23
 #else
-#define GRID_WIDTH	10
-#define GRID_HEIGHT	10
+#define GRID_WIDTH	16
+#define GRID_HEIGHT	16
 #endif
 
 
@@ -39,6 +39,9 @@ public:
 				: (color_t*) malloc(total() * sizeof(color_t));
 	}
 
+
+
+	void show();
 
 
 
@@ -102,29 +105,9 @@ public:
 
 
 
-	void string(const char *text, int8_t x_offset, int8_t y_offset, color_t color);
-	static uint16_t stringWidth(const char *text);
+	void string(const char *text, int16_t x_offset, int16_t y_offset, color_t color);
+	static int16_t stringWidth(const char *text);
 
-
-
-
-	void show() {
-		this->begin();
-		for (int y=height()-1; y>=0; y--) {
-			uint16_t	row = layout[y];
-			int			set = y * width();
-			for (int x=0; x<width(); x++) {
-				if (row & (1<<x)) {
-					if (y & 0x01) {
-						pixel(grid[set + ((width() - 1) - x)]);
-					} else {
-						pixel(grid[set + x]);
-					}
-				}
-			}
-		}
-		this->end();
-	}
 
 
 

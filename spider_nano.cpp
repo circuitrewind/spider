@@ -31,7 +31,7 @@ WII *Wii[PLAYERS];
 
 
 coms LED_LEFT( 11, 12, 13, 10);
-coms LED_RIGHT(11, 12, 13,  2);
+coms LED_RIGHT(11, 12, 13, 10);
 
 
 elapsedMillis render_time;
@@ -43,42 +43,40 @@ void setup_nano() {
 
 
 	//INITIALIZE THE MAIN LED GRID
-	Serial.println("Grid 0");
+	Serial.println(F("Grid 0"));
 	strip[0] = new pixelArray(2, GRID_WIDTH, GRID_HEIGHT, GRID, &grid_data[0]);
-	strip[0]->begin();
 	strip[0]->clear();
 	strip[0]->string("\x7F", 0, GRID_HEIGHT-5, color_t::red().right(5));
 	strip[0]->show();
 
 
 	//INITIALIZE THE SECONDARY LED GRID
-	Serial.println("Grid 1");
+	Serial.println(F("Grid 1"));
 	strip[1] = new pixelArray(14, GRID_WIDTH, GRID_HEIGHT, GRID, &grid_data[0]);
-	strip[1]->begin();
 	strip[1]->clear();
 	strip[1]->string("\x7F", 0, GRID_HEIGHT-5, color_t::red().right(5));
 	strip[1]->show();
 
 
 	//INITIALIZE THE SECONDARY LED GRID
-	Serial.println("Dual Grids");
+	Serial.println(F("Dual Grids"));
 	dual = new pixelDual(GRID_WIDTH*2, GRID_HEIGHT, strip[0], strip[1]);
 
 
 	//RANDOMIZE SEED A LITTLE BIT
-	Serial.println("Randomizer");
+	Serial.println(F("Randomizer"));
 	randomSeed((uint32_t)uint32_b(analogRead(6), analogRead(7)));
 
 
 	//CREATE WII REMOTE BLUETOOTH SERVICES
-	Serial.println("Players");
+	Serial.println(F("Players"));
 	for (int i=0; i<PLAYERS; i++) {
 		Wii[i] = new WII(i);
 	}
 
 
 	//CREATE MAIN GAME OBJECT
-	Serial.println("LOADED");
+	Serial.println(F("LOADED"));
 	game = new bootloader();
 	render_time  = 0;
 }
@@ -99,6 +97,7 @@ void loop_nano() {
 
 
 	//HANDLE GAME LOOP
+	Wii[0]->loop();
 	if (game) game->loop(strip, Wii);
 
 
@@ -107,21 +106,24 @@ void loop_nano() {
 		render_time -= 20;
 		if (game) game->frame(strip, Wii);
 		strip[0]->show();
-		strip[1]->show();
+//		strip[1]->show();
+
+		//CLEAR OUT THE BUTTON STATE
+		Wii[0]->clear();
 	}
 
 
 	//CHANGE GAME OBJECT BACK TO MAIN MENU
 	for (int i=0; i<PLAYERS; i++) {
 		if (!Wii[i]->wiimoteConnected) continue;
-		if (!Wii[i]->getButtonClick(HOME)) continue;
+		if (!Wii[i]->getButtonClick(WII_BUTTONS::HOME)) continue;
 
-		Serial.print("\r\nHOME");
+		Serial.println("HOME");
 		delete game;
 		strip[0]->clear();
-		strip[1]->clear();
+//		strip[1]->clear();
 		strip[0]->show();
-		strip[1]->show();
+//		strip[1]->show();
 		game = new menu();
 	}
 }
