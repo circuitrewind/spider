@@ -12,14 +12,6 @@
 
 
 
-// Satisfy the IDE, which needs to see the include statment in the ino too.
-#ifdef dobogusinclude
-#include <spi4teensy3.h>
-#endif
-#include <SPI.h>
-
-
-
 
 pixelArray	*strip[2];
 pixelDual	*dual;
@@ -110,6 +102,7 @@ void loop_nano() {
 	//FRAME AND LED RENDERING LOOP
 	if (render_time >= 20) {
 		render_time -= 20;
+		print_ram();
 		if (game) game->frame(strip, Wii);
 		strip[0]->show();
 //		strip[1]->show();
@@ -124,7 +117,7 @@ void loop_nano() {
 		if (!Wii[i]->wiimoteConnected) continue;
 		if (!Wii[i]->getButtonClick(WII_BUTTONS::HOME)) continue;
 
-		Serial.println("HOME");
+		Serial.println(F("HOME"));
 		delete game;
 		strip[0]->clear();
 //		strip[1]->clear();

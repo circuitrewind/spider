@@ -10,14 +10,36 @@
 #include "host.h"
 #include "isp.h"
 #include "tiny.h"
+#include "tetris.h"
 
 
 
 #ifdef TEENSYDUINO
-#define TOTAL_GAMES 6
+#define TOTAL_GAMES 7
 #else
-#define TOTAL_GAMES 5
+#define TOTAL_GAMES 6
 #endif
+
+
+CONST char game_name_0[] = "Paint";
+CONST char game_name_1[] = "PEW";
+CONST char game_name_2[] = "Fade";
+CONST char game_name_3[] = "Host";
+CONST char game_name_4[] = "Tiny";
+CONST char game_name_5[] = "Tetris";
+CONST char game_name_6[] = "Pong";
+CONST char game_name_7[] = "ISP";
+
+CONST char* const game_name_table[] = {
+	game_name_0,
+	game_name_1,
+	game_name_2,
+	game_name_3,
+	game_name_4,
+	game_name_5,
+	game_name_6,
+	game_name_7,
+};
 
 
 
@@ -44,9 +66,10 @@ void menu::frame(pixelArray **strip, WII **wii) {
 				case 2: game = new decay();		break;
 				case 3: game = new host();		break;
 				case 4: game = new tiny();		break;
-#ifdef TEENSYDUINO
-				case 5: game = new isp();		break;
-#endif
+				case 5: game = new tetris();	break;
+				#ifdef TEENSYDUINO
+					case 7: game = new isp();	break;
+				#endif
 			}
 
 			return;
@@ -59,17 +82,13 @@ void menu::frame(pixelArray **strip, WII **wii) {
 		}
 	}
 
+	#ifdef TEENSYDUINO
+		const char *text = game_name_table[selected];
+	#else
+		char text[10] = {0};
+		strcpy_P(text, (char*)pgm_read_word(&(game_name_table[selected])));
+	#endif
 
-	const char *text = NULL;
-
-	switch (selected) {
-		case 0: text = "Paint";	break;
-		case 1: text = "PEW";	break;
-		case 2: text = "Fade";	break;
-		case 3: text = "Host";	break;
-		case 4: text = "Tiny";	break;
-		case 5: text = "ISP";	break;
-	}
 
 	strip[0]->clear();
 	strip[0]->string(text, 1, GRID_HEIGHT-5, pix_colorx[selected]);

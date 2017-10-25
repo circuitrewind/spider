@@ -110,7 +110,7 @@ void tetris::lines() {
 			}
 			if (x == TETRIS_WIDTH - 1) {
 				clear(y);
-				y--;
+				y++;
 			}
 		}
 	}

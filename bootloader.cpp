@@ -10,7 +10,7 @@
 
 #ifdef TEENSYDUINO
 #define RENDERER	dual
-#define BOOT_DELAY	2000;
+#define BOOT_DELAY	2000
 #else
 #define RENDERER	strip[0]
 #define BOOT_DELAY	10

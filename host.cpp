@@ -26,7 +26,7 @@ void host::frame(pixelArray **strip, WII **wii) {
 			case '\r':
 			case '\n':
 			case ';':
-				Serial.print("Command: ");
+				Serial.print(F("Command: "));
 				if (offset) {
 					int side=0, start=0, end=0, red=0, green=0, blue=0;
 					sscanf(
@@ -42,19 +42,19 @@ void host::frame(pixelArray **strip, WII **wii) {
 					color_t	color = color_t(red, green, blue);
 
 					Serial.print(side);
-					Serial.print(", ");
+					Serial.print(F(", "));
 					Serial.print(start);
-					Serial.print(", ");
+					Serial.print(F(", "));
 					Serial.print(end);
-					Serial.print(" = ");
+					Serial.print(F(" = "));
 					Serial.print(color);
-					Serial.print("\n");
+					Serial.print(F("\n"));
 
 					for (int i=start; i<=end; i++) {
 						strip[side]->setPixelColor(i, color);
 					}
 				} else {
-					Serial.print("[NONE]\n");
+					Serial.print(F("[NONE]\n"));
 				}
 				reset();
 			continue;

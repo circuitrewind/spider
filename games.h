@@ -4,12 +4,13 @@
 
 #ifdef TEENSYDUINO
 #include <Wii.h>
-#else
-#include "wiipad.h"
-#endif //TEENSYDUINO
-
-
 #define PLAYERS 4
+#else //ARDUINO_AVR_NANO
+#include "wiipad.h"
+#define PLAYERS 1
+#endif //TEENSYDUINO/ARDUINO_AVR_NANO
+
+
 
 
 

@@ -116,7 +116,7 @@ void isp::loop(pixelArray **strip, WII **wii) {
 		case '1':
 			if (getch() == CRC_EOP) {
 				Serial.print((char) STK_INSYNC);
-				Serial.print("AVR ISP");
+				Serial.print(F("AVR ISP"));
 				Serial.print((char) STK_OK);
 			} else {
 				error++;
