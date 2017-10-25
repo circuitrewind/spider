@@ -1,4 +1,4 @@
-#ifdef TEENSYDUINO
+#if defined TEENSYDUINO || defined ARDUINO_AVR_NANO
 
 
 
@@ -7,7 +7,7 @@
 
 
 
-color_t pix_colorz[7] = {
+CONST color_t pix_colorz[7] = {
 	color_t(32,  0,  0),
 	color_t( 0, 32,  0),
 	color_t( 0,  0, 32),
@@ -19,7 +19,7 @@ color_t pix_colorz[7] = {
 
 
 
-color_t pix_colorx[7] = {
+CONST color_t pix_colorx[7] = {
 	color_t(255,   0,   0),
 	color_t( 0,  255,   0),
 	color_t( 0,    0, 255),
@@ -130,4 +130,4 @@ void paint::frame(pixelArray **strip, WII **wii) {
 
 
 
-#endif //TEENSYDUINO
+#endif //TEENSYDUINO || ARDUINO_AVR_NANO

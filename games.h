@@ -2,7 +2,11 @@
 #define __spider_games_h__
 
 
+#ifdef TEENSYDUINO
 #include <Wii.h>
+#else
+#include "wiipad.h"
+#endif //TEENSYDUINO
 
 
 #define PLAYERS 4

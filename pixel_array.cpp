@@ -1,4 +1,4 @@
-#ifdef TEENSYDUINO
+#if defined TEENSYDUINO || defined ARDUINO_AVR_NANO
 
 
 
@@ -72,4 +72,4 @@ uint16_t pixelArray::stringWidth(const char *text) {
 
 
 
-#endif //TEENSYDUINO
+#endif //TEENSYDUINO || ARDUINO_AVR_NANO

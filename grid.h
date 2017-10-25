@@ -1,4 +1,4 @@
-const uint16_t GRID[] = {
+CONST uint16_t GRID[] = {
 	0b000001100000,
 	0b000001100000,
 

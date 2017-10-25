@@ -1,4 +1,4 @@
-#ifdef TEENSYDUINO
+#if defined TEENSYDUINO || defined ARDUINO_AVR_NANO
 
 
 
@@ -50,4 +50,4 @@ void pixelDual::string(const char *text, int8_t x_offset, int8_t y_offset, color
 
 
 
-#endif //TEENSYDUINO
+#endif //TEENSYDUINO || ARDUINO_AVR_NANO

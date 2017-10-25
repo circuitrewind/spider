@@ -9,11 +9,11 @@
 ////////////////////////////////////////////////////////////////////////////////
 // ATTINY85 SPECIFIC INCLUDES
 ////////////////////////////////////////////////////////////////////////////////
-#ifdef __AVR__
+#ifdef ARDUINO_attiny
 	#include <avr/power.h>
 	extern void setup_avr();
 	extern void loop_avr();
-#endif //__AVR__
+#endif //ARDUINO_attiny
 
 
 
@@ -24,5 +24,15 @@
 #ifdef TEENSYDUINO
 	extern void setup_arm();
 	extern void loop_arm();
-	extern void onInit();
 #endif //TEENSYDUINO
+
+
+
+
+////////////////////////////////////////////////////////////////////////////////
+// ARDUINO NANO SPECIFIC INCLUDES
+////////////////////////////////////////////////////////////////////////////////
+#ifdef ARDUINO_AVR_NANO
+	extern void setup_nano();
+	extern void loop_nano();
+#endif //ARDUINO_AVR_NANO

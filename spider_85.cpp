@@ -1,4 +1,4 @@
-#ifdef __AVR__
+#ifdef ARDUINO_attiny
 
 
 
@@ -164,4 +164,4 @@ void loop_avr() {
 
 
 
-#endif //__AVR__
+#endif //ARDUINO_attiny

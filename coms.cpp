@@ -1,4 +1,4 @@
-#ifdef __AVR__
+#ifdef ARDUINO_attiny
 
 
 
@@ -43,4 +43,4 @@ uint16_b coms::process() {
 
 
 
-#endif //__AVR__
+#endif //ARDUINO_attiny

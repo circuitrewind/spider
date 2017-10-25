@@ -1,4 +1,4 @@
-#ifdef TEENSYDUINO
+#if defined TEENSYDUINO
 
 
 

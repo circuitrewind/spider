@@ -17,9 +17,9 @@
 #include <avr/io.h>
 #include <stdint.h>
 
-#ifdef TEENSYDUINO
-#include <WProgram.h>
-#endif //TEENSYDUINO
+//#ifdef TEENSYDUINO
+//#include <WProgram.h>
+//#endif //TEENSYDUINO
 
 #include "elapsedMillis.h"
 #include "inline.h"
@@ -28,10 +28,10 @@
 #include "pixel_array.h"
 
 
-#ifdef TEENSYDUINO
+#if defined TEENSYDUINO || defined ARDUINO_AVR_NANO
 #include "com_master.h"
 #include "games.h"
-#endif //TEENSYDUINO
+#endif //TEENSYDUINO || ARDUINO_AVR_NANO
 
 
 

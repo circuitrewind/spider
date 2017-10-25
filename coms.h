@@ -4,7 +4,7 @@
 
 
 
-#ifdef	__AVR__
+#ifdef	ARDUINO_attiny
 #ifndef	__coms_h__
 #define	__coms_h__
 
@@ -115,4 +115,4 @@ class PACKED coms {
 
 
 #endif //__coms_h__
-#endif //__AVR__
+#endif //ARDUINO_attiny

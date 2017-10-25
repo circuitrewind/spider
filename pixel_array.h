@@ -7,13 +7,19 @@
 
 
 
-extern color_t pix_colorz[7];
-extern color_t pix_colorx[7];
+extern CONST color_t pix_colorz[7];
+extern CONST color_t pix_colorx[7];
 
 
-
+#ifdef TEENSYDUINO
 #define GRID_WIDTH	12
 #define GRID_HEIGHT	23
+#else
+#define GRID_WIDTH	10
+#define GRID_HEIGHT	10
+#endif
+
+
 #define GRID_TOTAL	(GRID_WIDTH*GRID_HEIGHT)
 
 

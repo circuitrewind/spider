@@ -6,10 +6,10 @@
 ////////////////////////////////////////////////////////////////////////////////
 // AVR CODE - USED BY ATTINY85 MICROCONTROLLER
 ////////////////////////////////////////////////////////////////////////////////
-#ifdef __AVR__
+#ifdef ARDUINO_attiny
 void setup()	{ setup_avr();	}
 void loop()		{ loop_avr();	}
-#endif //__AVR__
+#endif //ARDUINO_attiny
 
 
 
@@ -20,4 +20,15 @@ void loop()		{ loop_avr();	}
 #ifdef TEENSYDUINO
 void setup()	{ setup_arm();	}
 void loop()		{ loop_arm();	}
-#endif //TEENSYDUINO
+#endif //TEENSYDUINO || ARDUINO_AVR_NANO
+
+
+
+
+////////////////////////////////////////////////////////////////////////////////
+// AVR CODE - USED BY ARDUINO NANO MICROCONTROLLER
+////////////////////////////////////////////////////////////////////////////////
+#ifdef ARDUINO_AVR_NANO
+void setup()	{ setup_nano();	}
+void loop()		{ loop_nano();	}
+#endif //ARDUINO_AVR_NANO

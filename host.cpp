@@ -1,4 +1,4 @@
-#ifdef TEENSYDUINO
+#if defined TEENSYDUINO || defined ARDUINO_AVR_NANO
 
 
 
@@ -67,4 +67,4 @@ void host::frame(pixelArray **strip, WII **wii) {
 
 
 
-#endif //TEENSYDUINO
+#endif //TEENSYDUINO || ARDUINO_AVR_NANO

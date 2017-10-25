@@ -1,4 +1,4 @@
-#ifdef TEENSYDUINO
+#if defined TEENSYDUINO || defined ARDUINO_AVR_NANO
 
 
 
@@ -13,7 +13,11 @@
 
 
 
+#ifdef TEENSYDUINO
 #define TOTAL_GAMES 6
+#else
+#define TOTAL_GAMES 5
+#endif
 
 
 
@@ -40,7 +44,9 @@ void menu::frame(pixelArray **strip, WII **wii) {
 				case 2: game = new decay();		break;
 				case 3: game = new host();		break;
 				case 4: game = new tiny();		break;
+#ifdef TEENSYDUINO
 				case 5: game = new isp();		break;
+#endif
 			}
 
 			return;
@@ -72,4 +78,4 @@ void menu::frame(pixelArray **strip, WII **wii) {
 
 
 
-#endif //TEENSYDUINO
+#endif //TEENSYDUINO || ARDUINO_AVR_NANO

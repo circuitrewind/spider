@@ -15,7 +15,7 @@ struct PACKED character {
 
 
 
-const character pixelfont[96] = {
+CONST character pixelfont[96] = {
 	{1, { 23}},					// !		0x21
 	{3, {  3,  0,  3}},			// "
 	{5, { 10, 31, 10, 31, 10}},	// #
