@@ -13,27 +13,29 @@
 #include "tiny.h"
 #include "tetris.h"
 #include "pong.h"
+#include "anim.h"
 
 
 
 
 #ifdef TEENSYDUINO
-#define TOTAL_GAMES 7
+#define TOTAL_GAMES 8
 #else
-#define TOTAL_GAMES 6
+#define TOTAL_GAMES 7
 #endif
 
 
 
 
-CONST char game_name_0[] = "Paint";
-CONST char game_name_1[] = "PEW";
-CONST char game_name_2[] = "Fade";
-CONST char game_name_3[] = "Host";
-CONST char game_name_4[] = "Tiny";
-CONST char game_name_5[] = "Tetris";
-CONST char game_name_6[] = "Pong";
-CONST char game_name_7[] = "ISP";
+CONST char game_name_0[] = "Anim";
+CONST char game_name_1[] = "Blck";
+CONST char game_name_2[] = "Pong";
+CONST char game_name_3[] = "Draw";
+CONST char game_name_4[] = "PEW";
+CONST char game_name_5[] = "Fade";
+CONST char game_name_6[] = "Host";
+CONST char game_name_7[] = "Tiny";
+CONST char game_name_8[] = "ISP";
 
 CONST char* const game_name_table[] = {
 	game_name_0,
@@ -44,6 +46,7 @@ CONST char* const game_name_table[] = {
 	game_name_5,
 	game_name_6,
 	game_name_7,
+	game_name_8,
 };
 
 
@@ -67,15 +70,16 @@ void menu::frame(pixelArray **strip, WII **wii) {
 			strip[0]->clear();
 
 			switch (selected) {
-				case 0: game = new paint();		break;
-				case 1: game = new decayPew();	break;
-				case 2: game = new decay();		break;
-				case 3: game = new host();		break;
-				case 4: game = new tiny();		break;
-				case 5: game = new tetris();	break;
-				case 6: game = new pong();		break;
+				case 0: game = new anim();		break;
+				case 1: game = new tetris();	break;
+				case 2: game = new pong();		break;
+				case 3: game = new paint();		break;
+				case 4: game = new decayPew();	break;
+				case 5: game = new decay();		break;
+				case 6: game = new host();		break;
+				case 7: game = new tiny();		break;
 				#ifdef TEENSYDUINO
-					case 7: game = new isp();	break;
+					case 8: game = new isp();	break;
 				#endif
 			}
 

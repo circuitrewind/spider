@@ -49,11 +49,14 @@ void bootloader::frame(pixelArray **strip, WII **wii) {
 			char str[3] = {'P', '\0', '\0'};
 			str[1] = i + '1';
 
+			color_t color = pix_colorx[i+1];
+			color.right(3);
+
 			RENDERER->string(
 				str,
 				(i & 0x01) * 8,
 				(((i & 0x02) >> 1) * 6) + (RENDERER->height()-11),
-				pix_colorz[i+1]
+				color
 			);
 		}
 	}

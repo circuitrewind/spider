@@ -9,6 +9,23 @@
 
 
 
+const color_t pix_colorx[10] = {
+	color_t(255,   0,   0),
+	color_t( 0,  255,   0),
+	color_t( 0,    0, 255),
+	color_t( 0,  255, 255),
+	color_t(255,   0, 255),
+
+	color_t(255, 255,   0),
+	color_t(255,  64,   0),
+	color_t(0,   255,  64),
+	color_t(64,    0, 255),
+	color_t(100, 100, 255),
+};
+
+
+
+
 #ifdef TEENSYDUINO
 void pixelArray::show() {
 	this->begin();
@@ -62,6 +79,44 @@ color_t pixelArray::swap(int8_t x, int8_t y, color_t color) {
 	color_t ret = getPixelColor(pos);
 	setPixelColor(pos, color);
 	return ret;
+}
+
+
+
+
+void pixelArray::string(const char *text, int16_t x_offset, int16_t y_offset) {
+	uint16_t segments = (256*3) / GRID_WIDTH;
+
+	while (*text) {
+
+		if (*text < 0x21) {
+			x_offset += 3;
+			text++;
+			continue;
+		}
+
+		char index = ((*text > 0x7E) ? 0x7F : *text) - 0x21;
+
+		#ifdef ARDUINO_AVR_NANO
+			character item = PROGMEM_getAnything(&pixelfont[index]);
+		#else
+			character item = pixelfont[index];
+		#endif
+
+		for (int x=0; x<item.width; x++) {
+			uint8_t column = item.data[x];
+			color_t color = color_t::hue((x+x_offset) * segments);
+
+			for (int y=0; y<6; y++) {
+				if (column & (1<<y)) {
+					draw(x+x_offset, y+y_offset, color);
+				}
+			}
+		}
+
+		x_offset += item.width + 1;
+		text++;
+	}
 }
 
 

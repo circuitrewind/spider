@@ -7,31 +7,6 @@
 
 
 
-const color_t pix_colorz[7] = {
-	color_t(32,  0,  0),
-	color_t( 0, 32,  0),
-	color_t( 0,  0, 32),
-	color_t( 0, 32, 32),
-	color_t(32,  0, 32),
-	color_t(32, 32,  0),
-	color_t(32, 32, 32),
-};
-
-
-
-const color_t pix_colorx[7] = {
-	color_t(255,   0,   0),
-	color_t( 0,  255,   0),
-	color_t( 0,    0, 255),
-	color_t( 0,  255, 255),
-	color_t(255,   0, 255),
-	color_t(255, 255,   0),
-	color_t(255, 255, 255),
-};
-
-
-
-
 void paint::frame(pixelArray **strip, WII **wii) {
 	for (int i=0; i<PLAYERS; i++) {
 		if (!wii[i]->wiimoteConnected) continue;
@@ -79,12 +54,12 @@ void paint::frame(pixelArray **strip, WII **wii) {
 
 		if (wii[i]->getButtonClick(PLUS)) {
 			Serial.print(F("\r\nPlus"));
-			if (pix_cycle[i] == 6) {
+			if (pix_cycle[i] == 9) {
 				pix_cycle[i] = 0;
 			} else {
 				pix_cycle[i]++;
 			}
-			pix_c[i] = pix_colorz[pix_cycle[i]];
+			pix_c[i] = pix_colorx[pix_cycle[i]];
 			strip[0]->swap(pix_x[i], pix_y[i], pix_c[i]);
 		}
 
@@ -92,11 +67,11 @@ void paint::frame(pixelArray **strip, WII **wii) {
 		if (wii[i]->getButtonClick(MINUS)) {
 			Serial.print(F("\r\nMinus"));
 			if (pix_cycle[i] == 0) {
-				pix_cycle[i] = 6;
+				pix_cycle[i] = 9;
 			} else {
 				pix_cycle[i]--;
 			}
-			pix_c[i] = pix_colorz[pix_cycle[i]];
+			pix_c[i] = pix_colorx[pix_cycle[i]];
 			strip[0]->swap(pix_x[i], pix_y[i], pix_c[i]);
 		}
 

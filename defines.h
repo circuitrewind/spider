@@ -40,6 +40,9 @@
 
 
 
+#define SCROLL_DELAY 70
+
+
 
 extern int freeRam ();
 extern void print_ram();

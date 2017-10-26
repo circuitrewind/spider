@@ -7,8 +7,7 @@
 
 
 
-extern const color_t pix_colorz[7];
-extern const color_t pix_colorx[7];
+extern const color_t pix_colorx[10];
 
 
 #ifdef TEENSYDUINO
@@ -105,6 +104,7 @@ public:
 
 
 
+	void string(const char *text, int16_t x_offset, int16_t y_offset);
 	void string(const char *text, int16_t x_offset, int16_t y_offset, color_t color);
 	static int16_t stringWidth(const char *text);
 

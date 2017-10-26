@@ -14,7 +14,7 @@ public:
 			pix_x[i]		= 7;
 			pix_y[i]		= i+8;
 			pix_z[i]		= 0;
-			pix_c[i]		= pix_colorz[i+1];
+			pix_c[i]		= pix_colorx[i+1];
 			pix_cycle[i]	= i+1;
 		}
 	}
@@ -25,7 +25,7 @@ private:
 	int8_t		pix_x[PLAYERS];
 	int8_t		pix_y[PLAYERS];
 	uint32_t	pix_z[PLAYERS];
-	uint32_t	pix_c[PLAYERS];
+	color_t		pix_c[PLAYERS];
 	int8_t		pix_cycle[PLAYERS];
 };
 

@@ -22,6 +22,8 @@ public:
 	virtual void loop( pixelArray **strip, WII **wii) {}
 	virtual void frame(pixelArray **strip, WII **wii) {}
 
+	INLINE void reset() { elapsed = 0; }
+
 protected:
 	elapsedMillis elapsed;
 };

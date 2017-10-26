@@ -7,10 +7,6 @@
 
 
 
-#define SCROLL_DELAY 100
-
-
-
 class bootloader : public spidergame  {
 public:
 	bootloader(bool load=false) :

@@ -8,7 +8,7 @@
 #include "grid.h"
 #include "pixel_dual.h"
 
-#include "pong.h"
+#include "anim.h"
 
 
 
@@ -72,7 +72,7 @@ void setup_nano() {
 	//CREATE MAIN GAME OBJECT
 	Serial.println(F("LOADED"));
 //	game = new bootloader();
-	game = new pong();
+	game = new anim();
 	render_time  = 0;
 
 
@@ -102,7 +102,7 @@ void loop_nano() {
 	//FRAME AND LED RENDERING LOOP
 	if (render_time >= 20) {
 		render_time -= 20;
-		print_ram();
+
 		if (game) game->frame(strip, Wii);
 		strip[0]->show();
 //		strip[1]->show();
