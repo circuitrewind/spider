@@ -57,6 +57,20 @@ public:
 
 
 
+	INLINE void draw_clone(int8_t x, int8_t y, color_t color) {
+		grid_left->draw(x, y, color);
+		grid_right->draw(x, y, color);
+	}
+
+
+
+	INLINE void draw_mirror(int8_t x, int8_t y, color_t color) {
+		grid_left->draw(x, y, color);
+		grid_right->draw(half()-x, y, color);
+	}
+
+
+
 
 	INLINE color_t read(int8_t x, int8_t y) const {
 		if (x >= half()) {
