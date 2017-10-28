@@ -13,15 +13,14 @@
 
 
 
-
 ////////////////////////////////////////////////////////////////////////////////
 // MAIN CONFIGURATION AND DEFAULTS
 ////////////////////////////////////////////////////////////////////////////////
 #define				TOTAL		  10
 #define				BRIGHT		  0xff
 uint16_t			offset		= 0;
-volatile uint8_t	pause		= 20;
-volatile uint8_t	mode		= 0;
+volatile uint8_t	pause		= 100;
+volatile uint8_t	mode		= 3;
 volatile uint8_t	direction	= 0;
 volatile color_t	color		= color_t::white();
 
@@ -57,8 +56,13 @@ CONST color_t color_table[] = {
 ////////////////////////////////////////////////////////////////////////////////
 // MAIN OBJECTS
 ////////////////////////////////////////////////////////////////////////////////
+#ifdef ARDUINO_AVR_DIGISPARK
+ws2812b	strip(2, TOTAL);
+coms	spi(0, 1, 4, 3);
+#else
 ws2812b	strip(4, TOTAL);
 coms	spi(0, 1, 2, 3);
+#endif
 
 
 
@@ -171,6 +175,23 @@ void rgbwcmyk() {
 ////////////////////////////////////////////////////////////////////////////////
 // ??
 ////////////////////////////////////////////////////////////////////////////////
+void chase() {
+	for (uint16_t i=0; i<strip.total(); i++) {
+		if (((i+offset) & 0x03) == 0x00) {
+			strip.pixel(color);
+		} else {
+			strip.pixel(color_t::black());
+		}
+	}
+}
+
+
+
+
+
+////////////////////////////////////////////////////////////////////////////////
+// ??
+////////////////////////////////////////////////////////////////////////////////
 void loop_avr() {
 	direction ? offset++ : offset--;
 
@@ -180,6 +201,7 @@ void loop_avr() {
 		case 0x00:	strip.clear();	break;
 		case 0x01:	rgbwcmyk();		break;
 		case 0x02:	rainbowCycle();	break;
+		case 0x03:	chase();		break;
 
 		case 0x10:	wave(1, 0, 0);	break;
 		case 0x11:	wave(0, 1, 0);	break;
