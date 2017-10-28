@@ -6,10 +6,10 @@
 ////////////////////////////////////////////////////////////////////////////////
 // AVR CODE - USED BY ATTINY85 MICROCONTROLLER
 ////////////////////////////////////////////////////////////////////////////////
-#ifdef ARDUINO_attiny
+#if defined ARDUINO_attiny || defined ARDUINO_AVR_DIGISPARK
 void setup()	{ setup_avr();	}
 void loop()		{ loop_avr();	}
-#endif //ARDUINO_attiny
+#endif //ARDUINO_attiny || ARDUINO_AVR_DIGISPARK
 
 
 

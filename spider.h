@@ -9,11 +9,11 @@
 ////////////////////////////////////////////////////////////////////////////////
 // ATTINY85 SPECIFIC INCLUDES
 ////////////////////////////////////////////////////////////////////////////////
-#ifdef ARDUINO_attiny
+#if defined ARDUINO_attiny || defined ARDUINO_AVR_DIGISPARK
 	#include <avr/power.h>
 	extern void setup_avr();
 	extern void loop_avr();
-#endif //ARDUINO_attiny
+#endif //ARDUINO_attiny || ARDUINO_AVR_DIGISPARK
 
 
 

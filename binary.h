@@ -118,7 +118,7 @@ union PACKED uint16_b {
 	}
 
 
-	uint8_b		byte[2];
+	uint8_t		byte[2];
 	uint16_t	word[1];
 	uint16_t	word_0;
 
@@ -223,8 +223,8 @@ union PACKED uint32_b {
 	}
 
 
-	uint8_b		byte[4];
-	uint16_b	word[2];
+	uint8_t		byte[4];
+	uint16_t	word[2];
 	uint32_t	dword[1];
 	uint32_t	dword_0;
 

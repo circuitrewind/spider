@@ -1,4 +1,4 @@
-#ifdef ARDUINO_attiny
+#if defined ARDUINO_attiny || defined ARDUINO_AVR_DIGISPARK
 
 
 
@@ -43,4 +43,4 @@ uint16_b coms::process() {
 
 
 
-#endif //ARDUINO_attiny
+#endif //ARDUINO_attiny || ARDUINO_AVR_DIGISPARK

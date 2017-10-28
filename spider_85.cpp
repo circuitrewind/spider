@@ -1,4 +1,4 @@
-#ifdef ARDUINO_attiny
+#if defined ARDUINO_attiny || defined ARDUINO_AVR_DIGISPARK
 
 
 
@@ -8,6 +8,8 @@
 ////////////////////////////////////////////////////////////////////////////////
 #include "spider.h"
 #include "coms.h"
+#include "progmem.h"
+
 
 
 
@@ -15,12 +17,39 @@
 ////////////////////////////////////////////////////////////////////////////////
 // MAIN CONFIGURATION AND DEFAULTS
 ////////////////////////////////////////////////////////////////////////////////
-#define				TOTAL		  50
+#define				TOTAL		  10
 #define				BRIGHT		  0xff
 uint16_t			offset		= 0;
 volatile uint8_t	pause		= 20;
 volatile uint8_t	mode		= 0;
 volatile uint8_t	direction	= 0;
+volatile color_t	color		= color_t::white();
+
+
+
+
+////////////////////////////////////////////////////////////////////////////////
+// LIST OF COLORS
+////////////////////////////////////////////////////////////////////////////////
+CONST color_t color_table[] = {
+	color_t::white(),
+	color_t::red(),
+	color_t::yellow(),
+	color_t::lime(),
+	color_t::aqua(),
+	color_t::blue(),
+	color_t::fuchsia(),
+	color_t::orange(),
+	color_t::gray(),
+	color_t::silver(),
+	color_t::maroon(),
+	color_t::olive(),
+	color_t::green(),
+	color_t::teal(),
+	color_t::navy(),
+	color_t::purple(),
+	color_t::black(),
+};
 
 
 
@@ -43,7 +72,11 @@ ISR(PCINT0_vect) {
 		case 0x01:	mode		=	data.byte_0;	break;
 		case 0x02:	pause		=	data.byte_0;	break;
 		case 0x03:	direction	= !!data.byte_0;	break;
-		//TODO: command to reset OFFSET value
+		case 0x04:	offset		=	data.byte_0;	break;
+
+		case 0x05:
+			color = PROGMEM_getAnything(&color_table[data.byte_0 & 0x0F]);
+		break;
 	}
 }
 
@@ -164,4 +197,4 @@ void loop_avr() {
 
 
 
-#endif //ARDUINO_attiny
+#endif //ARDUINO_attiny || ARDUINO_AVR_DIGISPARK

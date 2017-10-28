@@ -4,7 +4,7 @@
 
 
 
-#ifdef ARDUINO_attiny
+#if defined ARDUINO_attiny || defined ARDUINO_AVR_DIGISPARK
 
 ////////////////////////////////////////////////////////////////////////////////
 // THE MAGIC FUNCTION - THIS ALLOWS RENDERING TO THE LED ARRAY
@@ -95,7 +95,7 @@ void ws2812b::pixel(const color_t &color) {
 }
 
 
-#endif //ARDUINO_attiny
+#endif //ARDUINO_attiny || ARDUINO_AVR_DIGISPARK
 
 
 
