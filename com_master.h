@@ -81,7 +81,7 @@ class PACKED coms {
 
 			uint32_b data = fifoRead();
 			for (uint32_t i=31; i>=0; i--) {
-				mosi(data & (1 << i));
+				mosi(data.bit(i));
 				delayMicroseconds(1);
 				clk(true);
 				delayMicroseconds(1);
@@ -123,6 +123,16 @@ class PACKED coms {
 		////////////////////////////////////////////////////////////////////////
 		INLINE bool hasData() {
 			return !!buffer[0];
+		}
+
+
+
+
+		////////////////////////////////////////////////////////////////////////
+		// RETURN THE FIRST ITEM IN THE BUFFER WITHOUT CLEARING ANYTHING OUT
+		////////////////////////////////////////////////////////////////////////
+		INLINE uint32_b fifoPeak() {
+			return buffer[0]
 		}
 
 
