@@ -93,6 +93,17 @@ union PACKED uint8_b {
 	}
 
 
+	INLINE uint8_t bit(uint8_t offset) {
+		return (this->dword_0 >> ((uint8_t)offset)) & 0x01;
+	}
+
+
+	INLINE void bit(uint8_t offset, bool value) {
+		value	? this->dword_0 |=  ((uint8_t)value)<<((uint8_t)offset)
+				: this->dword_0 &= ~((uint8_t)1)<<((uint8_t)offset);
+	}
+
+
 	static INLINE uint8_t fill() { return 0xff; }
 };
 
@@ -173,6 +184,17 @@ union PACKED uint16_b {
 		uint8_t out		= this->word_0 & 0x01;
 		this->word_0	= this->word_0 >> 1;
 		return out;
+	}
+
+
+	INLINE uint8_t bit(uint8_t offset) {
+		return (this->dword_0 >> ((uint16_t)offset)) & 0x01;
+	}
+
+
+	INLINE void bit(uint8_t offset, bool value) {
+		value	? this->dword_0 |=  ((uint16_t)value)<<((uint16_t)offset)
+				: this->dword_0 &= ~((uint16_t)1)<<((uint16_t)offset);
 	}
 
 
@@ -319,6 +341,17 @@ union PACKED uint32_b {
 		uint8_t out		= this->dword_0 & 0x01;
 		this->dword_0	= this->dword_0 >> 1L;
 		return out;
+	}
+
+
+	INLINE uint8_t bit(uint8_t offset) {
+		return (this->dword_0 >> ((uint32_t)offset)) & 0x01;
+	}
+
+
+	INLINE void bit(uint8_t offset, bool value) {
+		value	? this->dword_0 |=  ((uint32_t)value)<<((uint32_t)offset)
+				: this->dword_0 &= ~((uint32_t)1)<<((uint32_t)offset);
 	}
 
 
