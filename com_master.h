@@ -13,7 +13,7 @@
 #include "defines.h"
 
 
-#define COMS_FIFO_SIZE 4
+#define COMS_FIFO_SIZE 5
 
 
 
@@ -79,8 +79,8 @@ class PACKED coms {
 
 			if (!miso()) return;
 
-			uint16_b data = fifoRead();
-			for (int i=15; i>=0; i--) {
+			uint32_b data = fifoRead();
+			for (uint32_t i=31; i>=0; i--) {
 				mosi(data & (1 << i));
 				delayMicroseconds(1);
 				clk(true);
@@ -131,7 +131,7 @@ class PACKED coms {
 		////////////////////////////////////////////////////////////////////////
 		// TRUE IF THERE IS CURRENT DATA IN THE BUFFER
 		////////////////////////////////////////////////////////////////////////
-		void fifoWrite(uint16_b data) {
+		void fifoWrite(uint32_b data) {
 			for (int i=0; i<COMS_FIFO_SIZE; i++) {
 				if (buffer[i] == 0) {
 					buffer[i] = data;
@@ -150,10 +150,10 @@ class PACKED coms {
 		////////////////////////////////////////////////////////////////////////
 		// TRUE IF THERE IS CURRENT DATA IN THE BUFFER
 		////////////////////////////////////////////////////////////////////////
-		uint16_b fifoRead() {
-			if (!hasData()) return uint16_b();
+		uint32_b fifoRead() {
+			if (!hasData()) return uint32_b();
 
-			uint16_b ret = buffer[0];
+			uint32_b ret = buffer[0];
 
 			for (int i=0; i<COMS_FIFO_SIZE-1; i++) {
 				buffer[i] = buffer[i + 1];
@@ -172,7 +172,7 @@ class PACKED coms {
 		uint8_t		_miso;
 		uint8_t		_clk;
 		uint8_t		_ss;
-		uint16_b	buffer[COMS_FIFO_SIZE];
+		uint32_b	buffer[COMS_FIFO_SIZE];
 };
 
 
