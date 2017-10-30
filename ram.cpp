@@ -1,3 +1,8 @@
+#ifdef ARDUINO_AVR_NANO || defined TEENSYDUINO
+
+
+
+
 #include "defines.h"
 
 
@@ -12,3 +17,8 @@ void print_ram() {
 	Serial.print(F("Free RAM: "));
 	Serial.println(freeRam());
 }
+
+
+
+
+#endif //ARDUINO_AVR_NANO || TEENSYDUINO
