@@ -19,10 +19,10 @@
 #define				TOTAL		  10
 #define				BRIGHT		  0xff
 uint16_t			offset		= 0;
-volatile uint8_t	pause		= 100;
+volatile uint8_t	pause		= 20;
 volatile uint8_t	mode		= 3;
 volatile uint8_t	direction	= 0;
-volatile color_t	color		= color_t::white();
+volatile color_t	color		= color_t::blue();
 
 
 
@@ -71,15 +71,23 @@ coms	spi(0, 1, 2, 3);
 // INTERRUPT HANDLER
 ////////////////////////////////////////////////////////////////////////////////
 ISR(PCINT0_vect) {
-	uint16_b data = spi.process();
+	uint32_b data = spi.process();
+
+	uint8_t xor_0 = data.byte_1 ^ data.byte_2 ^ data.byte_3 ^ 0b10101010;
+	if (xor_0 != data.byte_0) return;
+
 	switch (data.byte_1) {
-		case 0x01:	mode		=	data.byte_0;	break;
-		case 0x02:	pause		=	data.byte_0;	break;
-		case 0x03:	direction	= !!data.byte_0;	break;
-		case 0x04:	offset		=	data.byte_0;	break;
+		case 0x01:	mode		=	data.word_1;	break;
+		case 0x02:	pause		=	data.word_1;	break;
+		case 0x03:	direction	= !!data.word_1;	break;
+		case 0x04:	offset		=	data.word_1;	break;
 
 		case 0x05:
-			color = PROGMEM_getAnything(&color_table[data.byte_0 & 0x0F]);
+			color = PROGMEM_getAnything(&color_table[data.word_1 & 0x0F]);
+		break;
+
+		case 0x06:
+			color = color_t(data.word_1);
 		break;
 	}
 }
@@ -176,6 +184,73 @@ void rgbwcmyk() {
 // ??
 ////////////////////////////////////////////////////////////////////////////////
 void chase() {
+	color_t cx = (color_t) color;
+
+	uint16_t total = strip.total() << 2;
+	color_t cl;
+
+	for(uint16_t i=0; i<total; i+=4) {
+		cl = (color_t) (uint32_t) color;
+		switch ((i+offset) & 0x1f) {
+			case 0x00:
+			case 0x0c:
+				strip.pixel(cl.right(6));
+			break;
+
+			case 0x01:
+			case 0x0b:
+				strip.pixel(cl.right(5));
+			break;
+
+			case 0x02:
+			case 0x0a:
+				strip.pixel(cl.right(4));
+			break;
+
+			case 0x03:
+			case 0x09:
+				strip.pixel(cl.right(3));
+			break;
+
+			case 0x04:
+			case 0x08:
+				strip.pixel(cl.right(2));
+			break;
+
+			case 0x05:
+			case 0x07:
+				strip.pixel(cl.right(1));
+			break;
+
+			case 0x06:
+				strip.pixel(cl);
+			break;
+
+			default:
+				strip.pixel(color_t::black());
+		}
+	}
+
+
+/*
+
+	uint16_t segments = (256*3) / strip.total();
+	for(uint16_t i=0; i<strip.total(); i++) {
+		strip.pixel(
+			color_t::hue((i * segments) + offset)
+		);
+	}
+
+	static color_t hue(uint16_t hue) {
+		uint8_t step = hue & 0xff;
+
+		switch ((hue >> 8) & 0x03) {
+			case 0x01:	return color_t(    0, ~step,  step);
+			case 0x02:	return color_t( step,     0, ~step);
+			default:	return color_t(~step,  step,     0);
+		}
+	}
+/ *
 	for (uint16_t i=0; i<strip.total(); i++) {
 		if (((i+offset) & 0x03) == 0x00) {
 			strip.pixel(color);
@@ -183,6 +258,7 @@ void chase() {
 			strip.pixel(color_t::black());
 		}
 	}
+*/
 }
 
 

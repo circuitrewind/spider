@@ -36,7 +36,7 @@ class ws2812b {
 	// ???
 	////////////////////////////////////////////////////////////////////////////
 	INLINE void pixel(volatile const color_t &color) {
-		pixel((const color_t)color);
+		pixel(color_t(color));
 	}
 
 
