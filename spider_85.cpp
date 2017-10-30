@@ -83,7 +83,7 @@ ISR(PCINT0_vect) {
 		case 0x04:	offset		=	data.word_1;	break;
 
 		case 0x05:
-			color = PROGMEM_getAnything(&color_table[data.word_1 & 0x0F]);
+			color = color_t::progmem(&color_table[data.word_1 & 0x0F]);
 		break;
 
 		case 0x06:
