@@ -443,11 +443,13 @@ struct PACKED color_t {
 	////////////////////////////////////////////////////////////////////////////
 	//RETURN A COLOR_T FROM PROGMEM
 	////////////////////////////////////////////////////////////////////////////
-	static color_t progmem(const color_t &address) {
-		color_t output;
-		memcpy_P (&output, &address, sizeof(color_t));
+	#ifdef PROGMEM
+	static color_t progmem(const void *address) {
+		static color_t output;
+		memcpy_P(&output, address, sizeof(color_t));
 		return output;
 	}
+	#endif
 
 
 
