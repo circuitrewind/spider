@@ -311,13 +311,13 @@ union PACKED uint32_b {
 
 
 	INLINE void in(uint8_t bit) {
-		this->dword_0 = (this->dword_0 << 1) | !!bit;
+		this->dword_0 = (this->dword_0 << 1L) | !!bit;
 	}
 
 
 	INLINE uint8_t out() {
 		uint8_t out		= this->dword_0 & 0x01;
-		this->dword_0	= this->dword_0 >> 1;
+		this->dword_0	= this->dword_0 >> 1L;
 		return out;
 	}
 
@@ -333,7 +333,7 @@ union PACKED uint32_b {
 	}
 
 
-	static INLINE uint32_t fill() { return 0xffffffff; }
+	static INLINE uint32_t fill() { return 0xffffffffL; }
 };
 
 
