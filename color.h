@@ -17,6 +17,7 @@
 
 
 
+
 #include "inline.h"
 
 
@@ -445,7 +446,7 @@ struct PACKED color_t {
 	////////////////////////////////////////////////////////////////////////////
 	#ifdef PROGMEM
 	static color_t progmem(const void *address) {
-		static color_t output;
+		color_t output;
 		memcpy_P(&output, address, sizeof(color_t));
 		return output;
 	}
