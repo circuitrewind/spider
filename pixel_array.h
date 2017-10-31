@@ -4,6 +4,7 @@
 
 
 #include "led.h"
+#include "pixel_rainbow.h"
 
 
 
@@ -19,7 +20,9 @@ extern const color_t pix_colorx[10];
 #endif
 
 
-#define GRID_TOTAL	(GRID_WIDTH*GRID_HEIGHT)
+#define GRID_TOTAL	((GRID_WIDTH)*(GRID_HEIGHT))
+#define GRID_MAX	((GRID_WIDTH)>(GRID_HEIGHT)?(GRID_WIDTH):(GRID_HEIGHT))
+#define GRID_MIN	((GRID_WIDTH)<(GRID_HEIGHT)?(GRID_WIDTH):(GRID_HEIGHT))
 
 
 
@@ -104,7 +107,7 @@ public:
 
 
 
-	void string(const char *text, int16_t x_offset, int16_t y_offset);
+	void string(const char *text, int16_t x_offset, int16_t y_offset, PIXEL_RAINBOW rainbow);
 	void string(const char *text, int16_t x_offset, int16_t y_offset, color_t color);
 	static int16_t stringWidth(const char *text);
 
