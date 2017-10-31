@@ -10,12 +10,12 @@
 class menu : public spidergame {
 public:
 	menu() : selected(0) {
-		LED_LEFT.fifoWrite(0x0101);
-		LED_RIGHT.fifoWrite(0x0101);
-		LED_LEFT.fifoWrite(0x0240);
-		LED_RIGHT.fifoWrite(0x0240);
-		LED_LEFT.fifoWrite(0x0300);
-		LED_RIGHT.fifoWrite(0x0300);
+		LED_LEFT.fifoWrite( 0x010001L);
+		LED_RIGHT.fifoWrite(0x010001L);
+		LED_LEFT.fifoWrite( 0x020040L);
+		LED_RIGHT.fifoWrite(0x020040L);
+		LED_LEFT.fifoWrite( 0x030000L);
+		LED_RIGHT.fifoWrite(0x030000L);
 	}
 	virtual void frame(pixelArray **strip, WII **wii);
 
