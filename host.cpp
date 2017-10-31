@@ -47,7 +47,7 @@ void host::frame(pixelArray **strip, WII **wii) {
 					Serial.print(F(", "));
 					Serial.print(end);
 					Serial.print(F(" = "));
-					Serial.print(color);
+					Serial.print((uint32_t)color);
 					Serial.print(F("\n"));
 
 					for (int i=start; i<=end; i++) {

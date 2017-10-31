@@ -79,8 +79,13 @@ class PACKED coms {
 
 			if (!miso()) return;
 
+
+			//READ FIFO BUFFER AND CALCULATE CHECKSUM
 			uint32_b data = fifoRead();
-			for (uint32_t i=31; i>=0; i--) {
+			data.byte[3] = data.byte[0] ^ data.byte[1] ^ data.byte[2] ^ 0b10101010;
+
+			//BITBANG THAT DATA
+			for (int i=31; i>=0; i--) {
 				mosi(data.shift(i));
 				delayMicroseconds(1);
 				clk(true);
@@ -132,7 +137,7 @@ class PACKED coms {
 		// RETURN THE FIRST ITEM IN THE BUFFER WITHOUT CLEARING ANYTHING OUT
 		////////////////////////////////////////////////////////////////////////
 		INLINE uint32_b fifoPeak() {
-			return buffer[0]
+			return buffer[0];
 		}
 
 

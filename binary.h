@@ -206,6 +206,12 @@ union PACKED uint16_b {
 // BITFIELD - 32-BIT
 ////////////////////////////////////////////////////////////////////////////////
 union PACKED uint32_b {
+	uint8_t		byte[4];
+	uint16_t	word[2];
+	uint32_t	dword[1];
+	uint32_t	dword_0;
+
+
 	INLINE uint32_b()					{ this->dword_0 = 0; }
 	INLINE uint32_b(uint32_t dword)		{ this->dword_0 = dword; }
 	INLINE uint32_b(uint32_t *dword)	{ this->dword_0 = dword[0]; }
@@ -234,12 +240,6 @@ union PACKED uint32_b {
 		this->byte_2 = byte_2;
 		this->byte_3 = byte_3;
 	}
-
-
-	uint8_t		byte[4];
-	uint16_t	word[2];
-	uint32_t	dword[1];
-	uint32_t	dword_0;
 
 
 	struct PACKED {

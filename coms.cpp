@@ -14,7 +14,7 @@ uint32_b coms::process() {
 	pinMode(this->_ss,		INPUT);
 
 	uint32_b	data;
-	uint8_t		bits = 31;
+	uint8_t		bits = 32;
 
 	this->miso(1);
 
@@ -23,9 +23,9 @@ uint32_b coms::process() {
 			if (this->ss()) goto output;
 		}
 
-		data.shift(bits, this->mosi());
+		data.shift(--bits, this->mosi());
 
-		if (--bits == 0) goto output;
+		if (bits == 0) goto output;
 
 		while (this->clk()) {
 			if (this->ss()) goto output;

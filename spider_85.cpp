@@ -75,21 +75,21 @@ coms	spi(0, 1, 2, 3);
 ISR(PCINT0_vect) {
 	uint32_b data = spi.process();
 
-	uint8_t xor_0 = data.byte_1 ^ data.byte_2 ^ data.byte_3 ^ 0b10101010;
-	if (xor_0 != data.byte_0) return;
+	uint8_t xor_0 = data.byte_0 ^ data.byte_1 ^ data.byte_2 ^ 0b10101010;
+	if (xor_0 != data.byte_3) return;
 
-	switch (data.byte_1) {
-		case 0x01:	mode		=	data.word_1;	break;
-		case 0x02:	pause		=	data.word_1;	break;
-		case 0x03:	direction	= !!data.word_1;	break;
-		case 0x04:	offset		=	data.word_1;	break;
+	switch (data.byte_2) {
+		case 0x01:	mode		=	data.word_0;	break;
+		case 0x02:	pause		=	data.word_0;	break;
+		case 0x03:	direction	= !!data.word_0;	break;
+		case 0x04:	offset		=	data.word_0;	break;
 
 		case 0x05:
-			color = color_table[data.word_1 & 0x0F];
+			color = color_table[data.word_0 & 0x0F];
 		break;
 
 		case 0x06:
-			color = color_t(data.word_1);
+			color = color_t(data.word_0);
 		break;
 	}
 }
