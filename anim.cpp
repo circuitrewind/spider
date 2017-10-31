@@ -43,7 +43,7 @@ void anim::frame(pixelArray **strip, WII **wii) {
 			}
 
 			strip[0]->clear();
-			strip[0]->string("KAEATRI", cycle, strip[0]->height()-5);
+			strip[0]->string("KAEATRI", cycle, strip[0]->height()-5, PR_LEFT);
 		break;
 
 
@@ -79,13 +79,13 @@ void anim::frame(pixelArray **strip, WII **wii) {
 		// LUV DVA
 		////////////////////////////////////////////////////////////////////////
 		case 2:
-			strip[0]->string("L",  0,  0);
-			strip[0]->string("U",  4,  5);
-			strip[0]->string("V",  0, 10);
+			strip[0]->string("L",  0,  0, PR_LEFT);
+			strip[0]->string("U",  4,  5, PR_LEFT);
+			strip[0]->string("V",  0, 10, PR_LEFT);
 
-			strip[0]->string("D",  9,  0);
-			strip[0]->string("V", 13,  5);
-			strip[0]->string("A",  9, 10);
+			strip[0]->string("D",  9,  0, PR_LEFT);
+			strip[0]->string("V", 13,  5, PR_LEFT);
+			strip[0]->string("A",  9, 10, PR_LEFT);
 		break;
 	}
 
