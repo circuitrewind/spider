@@ -81,7 +81,7 @@ class PACKED coms {
 
 			uint32_b data = fifoRead();
 			for (uint32_t i=31; i>=0; i--) {
-				mosi(data.bit(i));
+				mosi(data.shift(i));
 				delayMicroseconds(1);
 				clk(true);
 				delayMicroseconds(1);

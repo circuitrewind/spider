@@ -112,6 +112,7 @@ void setup_avr() {
 
 ////////////////////////////////////////////////////////////////////////////////
 // rainbow equally distributed throughout
+// TODO: A SECOND VERSION OF THIS WHERE THE RAINBOW REPEATS X NUMBER OF TIMES IN A SINGLE STRIP
 ////////////////////////////////////////////////////////////////////////////////
 void rainbowCycle() {
 	uint16_t segments = (256*3) / strip.total();
