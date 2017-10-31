@@ -106,6 +106,8 @@ void pixelArray::string(const char *text, int16_t x_offset, int16_t y_offset) {
 		for (int x=0; x<item.width; x++) {
 			uint8_t column = item.data[x];
 			color_t color = color_t::hue((x+x_offset) * segments);
+			//TODO: support different rainbow animations
+			//X speed, Y speed
 
 			for (int y=0; y<6; y++) {
 				if (column & (1<<y)) {

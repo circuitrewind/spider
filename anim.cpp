@@ -21,6 +21,12 @@ void anim::frame(pixelArray **strip, WII **wii) {
 			strip[0]->clear();
 			reset(1);
 		}
+
+
+		if (wii[i]->getButtonClick(PLUS)) {
+			strip[0]->clear();
+			reset(2);
+		}
 	}
 
 
@@ -46,7 +52,7 @@ void anim::frame(pixelArray **strip, WII **wii) {
 		////////////////////////////////////////////////////////////////////////
 		// Custom "heart" animation for YOU KNOW WHO ;)
 		////////////////////////////////////////////////////////////////////////
-		case 1:
+		case 1: {
 			pixel_command current = command_list[cycle];
 			while (elapsed >= current.delay) {
 				elapsed -= current.delay;
@@ -64,6 +70,22 @@ void anim::frame(pixelArray **strip, WII **wii) {
 
 				current = command_list[cycle];
 			}
+		} break;
+
+
+
+
+		////////////////////////////////////////////////////////////////////////
+		// LUV DVA
+		////////////////////////////////////////////////////////////////////////
+		case 2:
+			strip[0]->string("L",  0,  0);
+			strip[0]->string("U",  4,  5);
+			strip[0]->string("V",  0, 10);
+
+			strip[0]->string("D",  9,  0);
+			strip[0]->string("V", 13,  5);
+			strip[0]->string("A",  9, 10);
 		break;
 	}
 
