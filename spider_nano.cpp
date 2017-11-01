@@ -104,6 +104,9 @@ void loop_nano() {
 		render_time -= 20;
 
 		if (game) game->frame(strip, Wii);
+
+		animation::loop_all(strip);
+
 		strip[0]->show();
 //		strip[1]->show();
 

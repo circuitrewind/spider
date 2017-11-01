@@ -31,6 +31,7 @@
 #include "binary.h"
 #include "color.h"
 #include "pixel_array.h"
+#include "animation.h"
 
 
 #if defined TEENSYDUINO || defined ARDUINO_AVR_NANO

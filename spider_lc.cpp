@@ -156,7 +156,11 @@ void loop_arm() {
 	//FRAME AND LED RENDERING LOOP
 	if (render_time >= 20) {
 		render_time -= 20;
+
 		if (game) game->frame(strip, Wii);
+
+		animation::loop_all(strip);
+
 		strip[0]->show();
 		strip[1]->show();
 

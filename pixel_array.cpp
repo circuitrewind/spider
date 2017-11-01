@@ -220,6 +220,7 @@ void pixelArray::string(const char *text, int16_t x_offset, int16_t y_offset, co
 
 
 
+
 int16_t pixelArray::stringWidth(const char *text) {
 	int16_t x_offset = 0;
 	while (*text) {
