@@ -18,7 +18,16 @@ public:
 	}
 
 
-	INLINE void reset() { elapsed = 0; }
+	INLINE void reset() {
+		elapsed	= 0;
+		paused	= false;
+	}
+
+
+
+	INLINE bool pause() { return paused; }
+	INLINE void pause(bool pause) { paused = pause; }
+	INLINE void repause() { paused = !paused; }
 
 
 
@@ -32,14 +41,18 @@ protected:
 public:
 	INLINE static void loop_all(pixelArray **strip, WII **wii) {
 		for (int i=0; i<10; i++) {
-			if (list[i]) list[i]->loop(strip, wii);
+			if (list[i]  &&  !list[i]->paused) {
+				list[i]->loop(strip, wii);
+			}
 		}
 	}
 
 
 	INLINE static void frame_all(pixelArray **strip, WII **wii) {
 		for (int i=0; i<10; i++) {
-			if (list[i]) list[i]->frame(strip, wii);
+			if (list[i]  &&  !list[i]->paused) {
+				list[i]->frame(strip, wii);
+			}
 		}
 	}
 
@@ -55,7 +68,7 @@ public:
 
 protected:
 	elapsedMillis elapsed;
-
+	bool paused;
 
 
 private:
