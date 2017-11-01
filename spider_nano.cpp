@@ -124,7 +124,13 @@ void loop_nano() {
 //		strip[1]->clear();
 		strip[0]->show();
 //		strip[1]->show();
+
+		for (int x=0; x<PLAYERS; x++) {
+			wii[x]->clear();
+		}
+
 		new menu();
+		return;
 	}
 }
 
