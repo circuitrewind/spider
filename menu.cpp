@@ -66,29 +66,29 @@ void menu::frame(pixelArray **strip, WII **wii) {
 			if (selected < 0) selected = TOTAL_GAMES-1;
 
 		} else if (wii[i]->getButtonClick(TWO)) {
-			delete game;
+			animation::delete_all();
 			strip[0]->clear();
 
 			switch (selected) {
-				case 0: game = new anim();		break;
-				case 1: game = new tetris();	break;
-				case 2: game = new pong();		break;
-				case 3: game = new paint();		break;
-				case 4: game = new decayPew();	break;
-				case 5: game = new decay();		break;
-				case 6: game = new host();		break;
-				case 7: game = new tiny();		break;
+				case 0: new anim();		break;
+				case 1: new tetris();	break;
+				case 2: new pong();		break;
+				case 3: new paint();	break;
+				case 4: new decayPew();	break;
+				case 5: new decay();	break;
+				case 6: new host();		break;
+				case 7: new tiny();		break;
 				#ifdef TEENSYDUINO
-					case 8: game = new isp();	break;
+				case 8: new isp();		break;
 				#endif
 			}
 
 			return;
 
 		} else if (wii[i]->getButtonClick(B)) {
-			delete game;
+			animation::delete_all();
 			strip[0]->clear();
-			game = new bootloader(true);
+			new bootloader(true);
 			return;
 		}
 	}

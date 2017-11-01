@@ -32,12 +32,11 @@
 #include "color.h"
 #include "config.h"
 #include "pixel_array.h"
-#include "animation.h"
 
 
 #if defined TEENSYDUINO || defined ARDUINO_AVR_NANO
 #include "com_master.h"
-#include "games.h"
+#include "animation.h"
 #endif //TEENSYDUINO || ARDUINO_AVR_NANO
 
 

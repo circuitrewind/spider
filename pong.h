@@ -7,7 +7,7 @@
 
 
 
-class pong : public spidergame {
+class pong : public animation {
 public:
 	pong() {
 		fade = 4;

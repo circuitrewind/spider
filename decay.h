@@ -7,7 +7,7 @@
 
 
 
-class decay : public spidergame {
+class decay : public animation {
 public:
 	decay(uint8_t decay_rate=4) : rate(decay_rate) {}
 

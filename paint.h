@@ -7,7 +7,7 @@
 
 
 
-class paint : public spidergame {
+class paint : public animation {
 public:
 	paint() {
 		for (int i=0; i<PLAYERS; i++) {

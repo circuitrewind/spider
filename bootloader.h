@@ -7,7 +7,7 @@
 
 
 
-class bootloader : public spidergame  {
+class bootloader : public animation  {
 public:
 	bootloader(bool load=false) :
 		x_offset(GRID_WIDTH*2),

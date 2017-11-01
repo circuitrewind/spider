@@ -7,7 +7,7 @@
 
 
 
-class menu : public spidergame {
+class menu : public animation {
 public:
 	menu() : selected(0) {
 		LED_LEFT.fifoWrite( 0x010001L);

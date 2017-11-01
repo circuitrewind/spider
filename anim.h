@@ -32,7 +32,7 @@ static const pixel_command command_list[] = {
 
 
 
-class anim : public spidergame {
+class anim : public animation {
 public:
 	anim() {
 		reset();
@@ -42,7 +42,7 @@ public:
 	void reset(int new_mode=0, int new_cycle=0) {
 		mode	= new_mode;
 		cycle	= new_cycle;
-		spidergame::reset();
+		animation::reset();
 	}
 
 

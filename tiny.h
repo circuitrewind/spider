@@ -7,7 +7,7 @@
 
 
 
-class tiny : public spidergame {
+class tiny : public animation {
 public:
 	virtual void frame(pixelArray **strip, WII **wii) {
 		for (int i=0; i<PLAYERS; i++) {

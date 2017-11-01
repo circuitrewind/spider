@@ -13,7 +13,7 @@
 
 
 
-class tetris : public spidergame {
+class tetris : public animation {
 public:
 	tetris() {
 		elapsed = 0;

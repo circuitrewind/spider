@@ -25,12 +25,11 @@ pixelDual	*dual;
 color_t		grid_data[GRID_TOTAL * 2];
 
 
-spidergame	*game = NULL;
 
 USB Usb;
 
 BTD Btd(&Usb);
-WII *Wii[PLAYERS];
+WII *wii[PLAYERS];
 
 
 
@@ -97,7 +96,7 @@ void setup_arm() {
 	//CREATE WII REMOTE BLUETOOTH SERVICES
 	Serial.println("Players");
 	for (int i=0; i<PLAYERS; i++) {
-		Wii[i] = new WII(&Btd);
+		wii[i] = new WII(&Btd);
 	}
 
 
@@ -108,7 +107,7 @@ void setup_arm() {
 
 		//CREATE MAIN GAME OBJECT
 		Serial.println("LOADED");
-		game = new bootloader();
+		new bootloader();
 		render_time  = 0;
 
 		return;
@@ -150,41 +149,38 @@ void loop_arm() {
 
 
 	//HANDLE GAME LOOP
-	if (game) game->loop(strip, Wii);
+	animation::loop_all(strip, wii);
 
 
 	//FRAME AND LED RENDERING LOOP
 	if (render_time >= 20) {
 		render_time -= 20;
 
-		if (game) game->frame(strip, Wii);
-
 		pixelArray::increment();
-		animation::loop_all(strip);
+		animation::frame_all(strip, wii);
 
 		strip[0]->show();
 		strip[1]->show();
 
 		//CLEAR BUTTON STATES
 		for (int i=0; i<PLAYERS; i++) {
-			Wii[i]->clear();
+			wii[i]->clear();
 		}
 	}
 
 
 	//CHANGE GAME OBJECT BACK TO MAIN MENU
 	for (int i=0; i<PLAYERS; i++) {
-		if (!Wii[i]->wiimoteConnected) continue;
-		if (!Wii[i]->getButtonClick(HOME)) continue;
+		if (!wii[i]->wiimoteConnected) continue;
+		if (!wii[i]->getButtonClick(HOME)) continue;
 
 		Serial.print("\r\nHOME");
 		animation::delete_all();
-		delete game;
 		strip[0]->clear();
 		strip[1]->clear();
 		strip[0]->show();
 		strip[1]->show();
-		game = new menu();
+		new menu();
 	}
 }
 

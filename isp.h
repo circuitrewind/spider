@@ -36,7 +36,7 @@ struct parameter {
 
 
 
-class isp : public spidergame {
+class isp : public animation {
 public:
 	isp() {
 		side		= false;

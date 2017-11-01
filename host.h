@@ -7,7 +7,7 @@
 
 
 
-class host : public spidergame {
+class host : public animation {
 public:
 	host() { reset(); }
 
