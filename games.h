@@ -2,18 +2,10 @@
 #define __spider_games_h__
 
 
-#ifdef TEENSYDUINO
-#include <Wii.h>
-#define PLAYERS 4
-#else //ARDUINO_AVR_NANO
-#include "wiipad.h"
-#define PLAYERS 1
-#endif //TEENSYDUINO/ARDUINO_AVR_NANO
 
 
-
-
-
+//TODO: Have spidergame inherit from animation library
+//		OR - just entirely replace this WITH the animation library!?
 class spidergame {
 public:
 	spidergame() {}

@@ -11,21 +11,6 @@
 extern const color_t pix_colorx[10];
 
 
-#ifdef TEENSYDUINO
-#define GRID_WIDTH	12
-#define GRID_HEIGHT	23
-#else
-#define GRID_WIDTH	16
-#define GRID_HEIGHT	16
-#endif
-
-
-#define GRID_TOTAL	((GRID_WIDTH)*(GRID_HEIGHT))
-#define GRID_MAX	((GRID_WIDTH)>(GRID_HEIGHT)?(GRID_WIDTH):(GRID_HEIGHT))
-#define GRID_MIN	((GRID_WIDTH)<(GRID_HEIGHT)?(GRID_WIDTH):(GRID_HEIGHT))
-
-
-
 
 class pixelArray : public ws2812b {
 public:
@@ -127,12 +112,15 @@ public:
 
 
 
+	static INLINE void increment() { color_offset++; }
+
 
 protected:
 	const uint16_t	grid_width;
 	const uint16_t	grid_height;
 	const uint16_t	*layout;
 	color_t			*grid;
+	static uint8_t	color_offset;
 };
 
 

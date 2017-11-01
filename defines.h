@@ -30,6 +30,7 @@
 #include "inline.h"
 #include "binary.h"
 #include "color.h"
+#include "config.h"
 #include "pixel_array.h"
 #include "animation.h"
 
@@ -38,10 +39,6 @@
 #include "com_master.h"
 #include "games.h"
 #endif //TEENSYDUINO || ARDUINO_AVR_NANO
-
-
-
-#define SCROLL_DELAY 70
 
 
 

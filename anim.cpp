@@ -43,7 +43,7 @@ void anim::frame(pixelArray **strip, WII **wii) {
 			}
 
 			strip[0]->clear();
-			strip[0]->string("KAEATRI", cycle, strip[0]->height()-5, PR_LEFT);
+			strip[0]->string("KAEATRI", cycle, strip[0]->height()-5, PR_LEFT_ANIM);
 		break;
 
 

@@ -26,6 +26,11 @@ const color_t pix_colorx[10] = {
 
 
 
+uint8_t pixelArray::color_offset = 0;
+
+
+
+
 #ifdef TEENSYDUINO
 void pixelArray::show() {
 	this->begin();
@@ -85,10 +90,12 @@ color_t pixelArray::swap(int8_t x, int8_t y, color_t color) {
 
 
 void pixelArray::string(const char *text, int16_t x_offset, int16_t y_offset, PIXEL_RAINBOW rainbow) {
-	uint16_t	total	= 0;
-	uint8_t		dir		= 0;
+	int16_t	total	= 0;
+	int16_t	dir		= 0;
+	int16_t	anim	= 0;
 
-
+//TODO:	move pallet code into its own function/class/whatever
+//		this way it'll work with ANY renderer, not just text string rendering
 	switch (rainbow) {
 		case PR_BOTTOM:
 		case PR_BOTTOM_ANIM:
@@ -121,10 +128,26 @@ void pixelArray::string(const char *text, int16_t x_offset, int16_t y_offset, PI
 	}
 
 
-	color_t colors[total];
-	for (int i=0; i<total; i++) {
-		colors[i] = color_t::hue((256*3) / total * i);
+	switch (rainbow) {
+		case PR_BOTTOM_ANIM:
+		case PR_TOP_ANIM:
+		case PR_RIGHT_ANIM:
+		case PR_LEFT_ANIM:
+		case PR_TOP_RIGHT_ANIM:
+		case PR_BOTTOM_RIGHT_ANIM:
+		case PR_BOTTOM_LEFT_ANIM:
+		case PR_TOP_LEFT_ANIM:
+			anim = 1;
 	}
+
+
+	color_t colors[total];
+
+	for (int i=0; i<total; i++) {
+		uint16_t hue = (256*3) / total * (i + (anim*color_offset));
+		colors[dir ? (total-i-1) : i] = color_t::hue(hue % 768);
+	}
+
 
 	color_t color;
 

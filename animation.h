@@ -15,6 +15,7 @@ public:
 		}
 
 		//THINGS BREAK IF WE HAVE TOO MANY ANIMATIONS... SO DON'T
+		Serial.println(F("ANIMATION RESOURCE EXHALATION"));
 		while (1);
 	}
 

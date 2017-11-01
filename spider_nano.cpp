@@ -105,6 +105,7 @@ void loop_nano() {
 
 		if (game) game->frame(strip, Wii);
 
+		pixelArray::increment();
 		animation::loop_all(strip);
 
 		strip[0]->show();

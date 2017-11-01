@@ -159,6 +159,7 @@ void loop_arm() {
 
 		if (game) game->frame(strip, Wii);
 
+		pixelArray::increment();
 		animation::loop_all(strip);
 
 		strip[0]->show();
@@ -177,6 +178,7 @@ void loop_arm() {
 		if (!Wii[i]->getButtonClick(HOME)) continue;
 
 		Serial.print("\r\nHOME");
+		animation::delete_all();
 		delete game;
 		strip[0]->clear();
 		strip[1]->clear();
