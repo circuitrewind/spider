@@ -26,7 +26,9 @@ const color_t pix_colorx[10] = {
 
 
 
-uint8_t pixelArray::color_offset = 0;
+uint8_t			pixelArray::color_offset	= 0;
+PIXEL_RAINBOW	pixelArray::color_anim		= PR_LEFT;
+color_t			pixelArray::color_palette[GRID_MAX];
 
 
 
@@ -77,6 +79,43 @@ void pixelArray::show() {
 
 
 
+void pixelArray::draw(int8_t x, int8_t y) {
+	int16_t pos = index(x, y);
+	if (pos == -1) return;
+
+	switch (color_anim) {
+		case PR_LEFT:
+		case PR_RIGHT:
+		case PR_LEFT_ANIM:
+		case PR_RIGHT_ANIM:
+			setPixelColor(pos, color_palette[x]);
+			break;
+
+		case PR_TOP:
+		case PR_TOP_ANIM:
+		case PR_BOTTOM:
+		case PR_BOTTOM_ANIM:
+			setPixelColor(pos, color_palette[y]);
+			break;
+
+		case PR_TOP_LEFT:
+		case PR_TOP_LEFT_ANIM:
+		case PR_BOTTOM_RIGHT:
+		case PR_BOTTOM_RIGHT_ANIM:
+			setPixelColor(pos, color_palette[x+y]);
+			break;
+
+		case PR_TOP_RIGHT:
+		case PR_TOP_RIGHT_ANIM:
+		case PR_BOTTOM_LEFT:
+		case PR_BOTTOM_LEFT_ANIM:
+			setPixelColor(pos, color_palette[(GRID_WIDTH-x)+y]);
+			break;
+	}
+}
+
+
+
 
 color_t pixelArray::swap(int8_t x, int8_t y, color_t color) {
 	int16_t pos = index(x, y);
@@ -89,70 +128,7 @@ color_t pixelArray::swap(int8_t x, int8_t y, color_t color) {
 
 
 
-void pixelArray::string(const char *text, int16_t x_offset, int16_t y_offset, PIXEL_RAINBOW rainbow) {
-	int16_t	total	= 0;
-	int16_t	dir		= 0;
-	int16_t	anim	= 0;
-
-//TODO:	move pallet code into its own function/class/whatever
-//		this way it'll work with ANY renderer, not just text string rendering
-	switch (rainbow) {
-		case PR_BOTTOM:
-		case PR_BOTTOM_ANIM:
-			dir = 1;
-			//no break
-		case PR_TOP:
-		case PR_TOP_ANIM:
-			total = GRID_HEIGHT;
-		break;
-
-		case PR_RIGHT:
-		case PR_RIGHT_ANIM:
-			dir = 1;
-			//no break
-		case PR_LEFT:
-		case PR_LEFT_ANIM:
-			total = GRID_WIDTH;
-		break;
-
-		case PR_TOP_RIGHT:
-		case PR_BOTTOM_RIGHT:
-		case PR_BOTTOM_LEFT:
-		case PR_TOP_LEFT:
-		case PR_TOP_RIGHT_ANIM:
-		case PR_BOTTOM_RIGHT_ANIM:
-		case PR_BOTTOM_LEFT_ANIM:
-		case PR_TOP_LEFT_ANIM:
-			total = GRID_WIDTH + GRID_HEIGHT - 1;
-		break;
-	}
-
-
-	switch (rainbow) {
-		case PR_BOTTOM_ANIM:
-		case PR_TOP_ANIM:
-		case PR_RIGHT_ANIM:
-		case PR_LEFT_ANIM:
-		case PR_TOP_RIGHT_ANIM:
-		case PR_BOTTOM_RIGHT_ANIM:
-		case PR_BOTTOM_LEFT_ANIM:
-		case PR_TOP_LEFT_ANIM:
-			anim = 1;
-	}
-
-
-	color_t colors[total];
-
-	for (int i=0; i<total; i++) {
-		uint16_t hue = (256*3) / total * (i + (anim*color_offset));
-		colors[dir ? (total-i-1) : i] = color_t::hue(hue % 768);
-	}
-
-
-	color_t color;
-
-
-
+void pixelArray::string(const char *text, int16_t x_offset, int16_t y_offset) {
 	while (*text) {
 
 		if (*text < 0x21) {
@@ -170,33 +146,11 @@ void pixelArray::string(const char *text, int16_t x_offset, int16_t y_offset, PI
 		#endif
 
 		for (int x=0; x<item.width; x++) {
-			uint8_t x_pixel = x + x_offset;
-			if (x_pixel < 0  ||  x_pixel > GRID_WIDTH) continue;
-
 			uint8_t column = item.data[x];
 
-			switch (rainbow) {
-				case PR_RIGHT:
-				case PR_RIGHT_ANIM:
-				case PR_LEFT:
-				case PR_LEFT_ANIM:
-					color = colors[x_pixel];
-			}
-
 			for (int y=0; y<6; y++) {
-				uint8_t y_pixel = y + y_offset;
-				if (y_pixel < 0  ||  y_pixel > GRID_WIDTH) continue;
-
 				if (column & (1<<y)) {
-					switch (rainbow) {
-						case PR_BOTTOM:
-						case PR_BOTTOM_ANIM:
-						case PR_TOP:
-						case PR_TOP_ANIM:
-							color = colors[y_pixel];
-					}
-
-					draw(x_pixel, y_pixel, color);
+					draw(x+x_offset, y+y_offset);
 				}
 			}
 		}
@@ -270,6 +224,89 @@ int16_t pixelArray::stringWidth(const char *text) {
 }
 
 
+
+
+void pixelArray::increment() {
+	int16_t	total	= 0;
+	int16_t	cycle	= 0;
+	bool	dir		= false;
+
+
+	//FIGURE OUT WHICH BASE ANIMATION WE'RE USING
+	switch (color_anim) {
+		case PR_NONE:
+			return;
+
+		case PR_BOTTOM:
+		case PR_BOTTOM_ANIM:
+			dir = true;
+			//no break
+		case PR_TOP:
+		case PR_TOP_ANIM:
+			total = GRID_HEIGHT;
+			break;
+
+		case PR_RIGHT:
+		case PR_RIGHT_ANIM:
+			dir = true;
+			//no break
+		case PR_LEFT:
+		case PR_LEFT_ANIM:
+			total = GRID_WIDTH;
+			break;
+
+		case PR_BOTTOM_LEFT:
+		case PR_BOTTOM_LEFT_ANIM:
+			dir = true;
+			//no break;
+		case PR_TOP_RIGHT:
+		case PR_TOP_RIGHT_ANIM:
+			total = GRID_WIDTH + GRID_HEIGHT - 1;
+			break;
+
+		case PR_TOP_LEFT:
+		case PR_TOP_LEFT_ANIM:
+			dir = true;
+			//no break
+		case PR_BOTTOM_RIGHT:
+		case PR_BOTTOM_RIGHT_ANIM:
+			total = GRID_WIDTH + GRID_HEIGHT - 1;
+			break;
+	}
+
+
+	//IF INVALID ANIMATION SELECTED, DON'T WASTE CPU CYCLES!
+	if (!total) return;
+
+
+	//CHECK IF WE'RE DOING PALLETE ANIMATION OR NOT
+	switch (color_anim) {
+		case PR_BOTTOM_ANIM:
+		case PR_TOP_ANIM:
+		case PR_RIGHT_ANIM:
+		case PR_LEFT_ANIM:
+		case PR_TOP_RIGHT_ANIM:
+		case PR_BOTTOM_RIGHT_ANIM:
+		case PR_BOTTOM_LEFT_ANIM:
+		case PR_TOP_LEFT_ANIM:
+			cycle = ++color_offset;
+	}
+
+
+	//GENERATE AND STORE THE PALLETE TO RAM
+	if (dir) {
+		for (int i=0; i<total; i++) {
+			uint16_t hue = (256*3) / total * (i + cycle);
+			color_palette[total-i-1] = color_t::hue(hue % 768);
+		}
+	} else {
+		for (int i=0; i<total; i++) {
+			uint16_t hue = (256*3) / total * (i + cycle);
+			color_palette[i] = color_t::hue(hue % 768);
+		}
+
+	}
+}
 
 
 #endif //TEENSYDUINO || ARDUINO_AVR_NANO

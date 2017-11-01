@@ -69,6 +69,11 @@ public:
 
 
 
+	void draw(int8_t x, int8_t y);
+
+
+
+
 	INLINE color_t read(int8_t x, int8_t y) const {
 		int16_t pos = index(x, y);
 		return (pos != -1)
@@ -92,7 +97,7 @@ public:
 
 
 
-	void string(const char *text, int16_t x_offset, int16_t y_offset, PIXEL_RAINBOW rainbow);
+	void string(const char *text, int16_t x_offset, int16_t y_offset);
 	void string(const char *text, int16_t x_offset, int16_t y_offset, color_t color);
 	static int16_t stringWidth(const char *text);
 
@@ -112,7 +117,8 @@ public:
 
 
 
-	static INLINE void increment() { color_offset++; }
+	static void increment();
+	static void animation(PIXEL_RAINBOW rainbow) { color_anim = rainbow; }
 
 
 protected:
@@ -120,7 +126,10 @@ protected:
 	const uint16_t	grid_height;
 	const uint16_t	*layout;
 	color_t			*grid;
-	static uint8_t	color_offset;
+
+	static uint8_t			color_offset;
+	static PIXEL_RAINBOW	color_anim;
+	static color_t			color_palette[GRID_MAX];
 };
 
 

@@ -8,6 +8,8 @@
 
 
 enum PIXEL_RAINBOW {
+	PR_NONE,
+
 	PR_TOP,
 	PR_RIGHT,
 	PR_BOTTOM,
