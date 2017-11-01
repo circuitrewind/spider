@@ -5,6 +5,7 @@
 
 #include "defines.h"
 #include "tetris.h"
+#include "tetris_clear.h"
 
 
 
@@ -103,16 +104,21 @@ void tetris::lock(int x_offset, int y_offset, uint8_t index, uint8_t rotation) {
 //CHECK FOR LINES THAT CAN BE CLEARED
 ////////////////////////////////////////////////////////////////////////////////
 void tetris::lines() {
-	for (int y=TETRIS_HEIGHT-1; y>=0; y--) {
+	uint32_t cleared = 0;
+
+	for (uint32_t y=TETRIS_HEIGHT-1; y>=0; y--) {
 		for (int x=0; x<TETRIS_WIDTH; x++) {
 			if (!TETRIS_INDEX(x,y)) {
 				x = TETRIS_WIDTH; continue;
 			}
 			if (x == TETRIS_WIDTH - 1) {
-				clear(y);
-				y++;
+				cleared |= 1L << y;
 			}
 		}
+	}
+
+	if (cleared) {
+		clearing = new tetris_clear(this, cleared);
 	}
 }
 

@@ -16,7 +16,8 @@
 class tetris : public animation {
 public:
 	tetris() {
-		elapsed = 0;
+		clearing	= NULL;
+		elapsed		= 0;
 		memset(grid, 0, sizeof(grid));
 		newPiece();
 	}
@@ -48,11 +49,15 @@ private:
 
 	uint8_t grid[TETRIS_WIDTH * TETRIS_HEIGHT];
 
+	animation *clearing;
+
 	int		piece_x;
 	int		piece_y;
 	uint8_t	piece_r;
 	uint8_t	piece_i;
 };
+
+
 
 
 #endif //__TETRIS_H__
