@@ -62,12 +62,6 @@ void anim::frame(pixelArray **strip, WII **wii) {
 			while (elapsed >= current.delay) {
 				elapsed -= current.delay;
 
-				if (current.x == 255  &&  current.y == 255) {
-					strip[0]->clear();
-				} else {
-					strip[0]->draw(current.x, current.y);
-				}
-
 				cycle++;
 				if (cycle >= (sizeof(command_list)/sizeof(pixel_command))) {
 					cycle = 0;
@@ -75,6 +69,16 @@ void anim::frame(pixelArray **strip, WII **wii) {
 
 				current = command_list[cycle];
 			}
+
+			for (int x=0; x<=cycle; x++) {
+				pixel_command painting = command_list[x];
+				if (painting.x == 255  &&  painting.y == 255) {
+					strip[0]->clear();
+				} else {
+					strip[0]->draw(painting.x, painting.y);
+				}
+			}
+
 		} break;
 
 
