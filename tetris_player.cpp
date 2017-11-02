@@ -6,6 +6,7 @@
 #include "defines.h"
 #include "tetris.h"
 #include "tetris_clear.h"
+#include "gameover.h"
 
 
 
@@ -79,6 +80,25 @@ bool tetris_player::collision(int x_offset, int y_offset, uint8_t index, uint8_t
 
 
 ////////////////////////////////////////////////////////////////////////////////
+//GENERATE A NEW RANDOM PIECE AND CHECK FOR GAME OVER
+////////////////////////////////////////////////////////////////////////////////
+void tetris_player::new_piece() {
+	piece_x = 3;
+	piece_y = 0;
+	piece_r = 0;
+	piece_i = random(1, sizeof(pieces)/sizeof(piece));
+
+	if (collision(piece_x, piece_y, piece_i, piece_r)) {
+		//pause(true);
+		parent->player[0]->pause(true);
+		parent->player[1]->pause(true);
+		new gameover(player);
+	}
+}
+
+
+
+////////////////////////////////////////////////////////////////////////////////
 //LOCK A PIECE ONTO THE TETRIS GRID
 ////////////////////////////////////////////////////////////////////////////////
 void tetris_player::lock(int x_offset, int y_offset, uint8_t index, uint8_t rotation) {
@@ -94,7 +114,19 @@ void tetris_player::lock(int x_offset, int y_offset, uint8_t index, uint8_t rota
 		}
 	}
 
-	newPiece();
+	if (stack) {
+		for (int y=0; y<TETRIS_HEIGHT; y++) {
+			for (int x=0; x<TETRIS_WIDTH; x++) {
+				if (y<TETRIS_HEIGHT-stack) {
+					TETRIS_INDEX(x,y) = TETRIS_INDEX(x,y+stack);
+				} else {
+					TETRIS_INDEX(x,y) = 1;
+				}
+			}
+		}
+	}
+
+	new_piece();
 }
 
 
@@ -104,7 +136,8 @@ void tetris_player::lock(int x_offset, int y_offset, uint8_t index, uint8_t rota
 //CHECK FOR LINES THAT CAN BE CLEARED
 ////////////////////////////////////////////////////////////////////////////////
 bool tetris_player::lines() {
-	uint32_t cleared = 0;
+	uint32_t	cleared	= 0;
+	uint8_t		total	= 0;
 
 	for (int y=TETRIS_HEIGHT-1; y>=0; y--) {
 		for (int x=0; x<TETRIS_WIDTH; x++) {
@@ -113,12 +146,20 @@ bool tetris_player::lines() {
 			}
 			if (x == TETRIS_WIDTH - 1) {
 				cleared |= 1L << y;
+				total++;
 			}
 		}
 	}
 
-	if (cleared) new tetris_clear(this, cleared);
-	return cleared;
+	if (total > 0) {
+		new tetris_clear(this, cleared);
+	}
+
+	if (total > 1) {
+		parent->player[player==1?0:1]->stack += total -1;
+	}
+
+	return total;
 }
 
 

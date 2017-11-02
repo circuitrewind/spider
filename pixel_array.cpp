@@ -111,6 +111,9 @@ void pixelArray::draw(int8_t x, int8_t y) {
 		case PR_BOTTOM_LEFT_ANIM:
 			setPixelColor(pos, color_palette[(GRID_WIDTH-x)+y]);
 			break;
+
+		default: //DO NOTHING
+			break;
 	}
 }
 
@@ -290,6 +293,10 @@ void pixelArray::increment() {
 		case PR_BOTTOM_LEFT_ANIM:
 		case PR_TOP_LEFT_ANIM:
 			cycle = ++color_offset;
+			break;
+
+		default: //DO NOTHING!
+			break;
 	}
 
 

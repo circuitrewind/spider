@@ -12,15 +12,19 @@
 #define TETRIS_INDEX(x,y)	grid[((y)*TETRIS_WIDTH)+(x)]
 
 
+class tetris;
+
 
 class tetris_player : public animation {
 public:
-	tetris_player(uint8_t id) {
+	tetris_player(uint8_t id, tetris *par) {
 		pixelArray::animation(PR_BOTTOM_ANIM);
+		parent		= par;
 		elapsed		= 0;
+		stack		= 0;
 		player		= id;
 		memset(grid, 0, sizeof(grid));
-		newPiece();
+		new_piece();
 	}
 
 
@@ -29,12 +33,7 @@ public:
 	INLINE uint8_t id()  const { return player; }
 
 
-	void newPiece() {
-		piece_x = 3;
-		piece_y = 0;
-		piece_r = 0;
-		piece_i = random(0,7);
-	}
+	void new_piece();
 
 
 	bool lines();
@@ -57,10 +56,13 @@ private:
 
 	uint8_t grid[TETRIS_WIDTH * TETRIS_HEIGHT];
 
-	int		piece_x;
-	int		piece_y;
-	uint8_t	piece_r;
-	uint8_t	piece_i;
+	tetris		*parent;
+
+	int			piece_x;
+	int			piece_y;
+	uint8_t		piece_r;
+	uint8_t		piece_i;
+	uint16_t	stack;
 };
 
 

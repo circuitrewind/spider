@@ -6,6 +6,9 @@ struct PACKED piece {
 
 const piece pieces[] = {
 
+	//FILLED LINES
+	{ {0,0,0,0}, color_t::gray10() },
+
 	{{	//LINE
 		(0b0000) |
 		(0b0000 <<  4) |

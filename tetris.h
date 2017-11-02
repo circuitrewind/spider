@@ -15,10 +15,12 @@
 
 
 class tetris : public animation {
+	friend class tetris_player;
+
 public:
 	tetris() {
-		player[0] = new tetris_player(0);
-		player[1] = new tetris_player(1);
+		player[0] = new tetris_player(0, this);
+		player[1] = new tetris_player(1, this);
 	}
 
 private:
