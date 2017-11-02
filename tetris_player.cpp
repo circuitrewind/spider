@@ -13,7 +13,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 //DRAW A TETRIS PIECE TO THE PIXEL ARRAY
 ////////////////////////////////////////////////////////////////////////////////
-void tetris::draw_piece(pixelArray *strip, uint8_t index, uint8_t rotation) {
+void tetris_player::draw_piece(pixelArray *strip, uint8_t index, uint8_t rotation) {
 	uint16_t	data	= pieces[index].shape[rotation];
 	uint32_t	bit		= 1;
 
@@ -22,8 +22,8 @@ void tetris::draw_piece(pixelArray *strip, uint8_t index, uint8_t rotation) {
 
 			if (data & bit) {
 				strip->draw(
-					x + piece_x,
-					y + piece_y,
+					x + piece_x + align_x(),
+					y + piece_y + align_y(),
 					pieces[index].color
 				);
 			}
@@ -39,7 +39,7 @@ void tetris::draw_piece(pixelArray *strip, uint8_t index, uint8_t rotation) {
 ////////////////////////////////////////////////////////////////////////////////
 //CHECK IF COLLISION WOULD HAPPEN FOR A GIVEN PEICE/ROTATION/LOCATION
 ////////////////////////////////////////////////////////////////////////////////
-bool tetris::collision(int x_offset, int y_offset, uint8_t index, uint8_t rotation) {
+bool tetris_player::collision(int x_offset, int y_offset, uint8_t index, uint8_t rotation) {
 	uint16_t	data	= pieces[index].shape[rotation];
 	uint32_t	bit		= 1;
 
@@ -81,7 +81,7 @@ bool tetris::collision(int x_offset, int y_offset, uint8_t index, uint8_t rotati
 ////////////////////////////////////////////////////////////////////////////////
 //LOCK A PIECE ONTO THE TETRIS GRID
 ////////////////////////////////////////////////////////////////////////////////
-void tetris::lock(int x_offset, int y_offset, uint8_t index, uint8_t rotation) {
+void tetris_player::lock(int x_offset, int y_offset, uint8_t index, uint8_t rotation) {
 	uint16_t	data	= pieces[index].shape[rotation];
 	uint32_t	bit		= 1;
 
@@ -103,10 +103,10 @@ void tetris::lock(int x_offset, int y_offset, uint8_t index, uint8_t rotation) {
 ////////////////////////////////////////////////////////////////////////////////
 //CHECK FOR LINES THAT CAN BE CLEARED
 ////////////////////////////////////////////////////////////////////////////////
-void tetris::lines() {
+bool tetris_player::lines() {
 	uint32_t cleared = 0;
 
-	for (uint32_t y=TETRIS_HEIGHT-1; y>=0; y--) {
+	for (int y=TETRIS_HEIGHT-1; y>=0; y--) {
 		for (int x=0; x<TETRIS_WIDTH; x++) {
 			if (!TETRIS_INDEX(x,y)) {
 				x = TETRIS_WIDTH; continue;
@@ -117,9 +117,8 @@ void tetris::lines() {
 		}
 	}
 
-	if (cleared) {
-		clearing = new tetris_clear(this, cleared);
-	}
+	if (cleared) new tetris_clear(this, cleared);
+	return cleared;
 }
 
 
@@ -128,7 +127,7 @@ void tetris::lines() {
 ////////////////////////////////////////////////////////////////////////////////
 //CLEAR A LINE FROM THE GRID
 ////////////////////////////////////////////////////////////////////////////////
-void tetris::clear(int line) {
+void tetris_player::clear(int line) {
 	for (int y=line; y>0; y--) {
 		for (int x=0; x<TETRIS_WIDTH; x++) {
 			TETRIS_INDEX(x,y) = TETRIS_INDEX(x,y-1);
@@ -144,28 +143,44 @@ void tetris::clear(int line) {
 
 
 ////////////////////////////////////////////////////////////////////////////////
-//THE MAIN TETRIS RENDER LOOP
+//REDRAW THE GRID
 ////////////////////////////////////////////////////////////////////////////////
-void tetris::frame(pixelArray **strip, WII **wii) {
-	strip[0]->clear();
+void tetris_player::draw_grid(pixelArray *strip) {
+	strip->clear();
 
 
 	//DRAW THE LOCKED TETRIS PIECES
 	for (int y=0; y<TETRIS_HEIGHT; y++) {
 		for (int x=0; x<TETRIS_WIDTH; x++) {
 			uint8_t pixel = TETRIS_INDEX(x, y);
-			if (pixel) strip[0]->draw(x, y, pieces[pixel-1].color);
+			if (pixel) {
+				strip->draw(
+					x + align_x(),
+					y + align_y(),
+					pieces[pixel-1].color
+				);
+			}
 		}
 	}
+}
+
+
+
+
+////////////////////////////////////////////////////////////////////////////////
+//THE MAIN TETRIS RENDER LOOP
+////////////////////////////////////////////////////////////////////////////////
+void tetris_player::frame(pixelArray **strip, WII **wii) {
+	draw_grid(strip[player]);
 
 
 	//MOVE LEFT / RIGHT
-	if (wii[0]->getButtonClick(UP)) {
+	if (wii[player]->getButtonClick(UP)) {
 		if (!collision(piece_x-1, piece_y, piece_i, piece_r)) {
 			piece_x--;
 		}
 
-	} else if (wii[0]->getButtonClick(DOWN)) {
+	} else if (wii[player]->getButtonClick(DOWN)) {
 		if (!collision(piece_x+1, piece_y, piece_i, piece_r)) {
 			piece_x++;
 		}
@@ -173,19 +188,19 @@ void tetris::frame(pixelArray **strip, WII **wii) {
 
 
 	//MOVE DOWN FASTER / INSTA-DROP
-	if (wii[0]->getButtonClick(LEFT)) {
+	if (wii[player]->getButtonClick(LEFT)) {
 		elapsed = 500;
 	}
 
 
 	//ROTATION RIGHT / LEFT
-	if (wii[0]->getButtonClick(TWO)) {
+	if (wii[player]->getButtonClick(TWO)) {
 		uint8_t rotate = (piece_r + 1) & 0x03;
 		if (!collision(piece_x, piece_y, piece_i, rotate)) {
 			piece_r = rotate;
 		}
 
-	} else if (wii[0]->getButtonClick(ONE)) {
+	} else if (wii[player]->getButtonClick(ONE)) {
 		uint8_t rotate = (piece_r - 1) & 0x03;
 		if (!collision(piece_x, piece_y, piece_i, rotate)) {
 			piece_r = rotate;
@@ -194,12 +209,13 @@ void tetris::frame(pixelArray **strip, WII **wii) {
 
 
 	//TIMER FOR PIECE DROPPING
+	bool clear_lines = false;
 	if (elapsed >= 500) {
 		elapsed -= 500;
 
 		if (collision(piece_x, piece_y+1, piece_i, piece_r)) {
 			lock(piece_x, piece_y, piece_i, piece_r);
-			lines();
+			clear_lines = lines();
 		} else {
 			piece_y++;
 		}
@@ -207,7 +223,11 @@ void tetris::frame(pixelArray **strip, WII **wii) {
 
 
 	//DRAW CURRENT PIECE
-	draw_piece(strip[0], piece_i, piece_r);
+	if (clear_lines) {
+		draw_grid(strip[player]);
+	} else {
+		draw_piece(strip[player], piece_i, piece_r);
+	}
 }
 
 

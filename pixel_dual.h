@@ -47,6 +47,17 @@ public:
 
 
 
+	INLINE void draw(int8_t x, int8_t y) {
+		if (x >= half()) {
+			grid_right->draw(x-half(), y);
+		} else {
+			grid_left->draw(x, y);
+		}
+	}
+
+
+
+
 	INLINE void draw(int8_t x, int8_t y, color_t color) {
 		if (x >= half()) {
 			grid_right->draw(x-half(), y, color);
@@ -57,9 +68,23 @@ public:
 
 
 
+	INLINE void draw_clone(int8_t x, int8_t y) {
+		grid_left->draw(x, y);
+		grid_right->draw(x, y);
+	}
+
+
+
 	INLINE void draw_clone(int8_t x, int8_t y, color_t color) {
 		grid_left->draw(x, y, color);
 		grid_right->draw(x, y, color);
+	}
+
+
+
+	INLINE void draw_mirror(int8_t x, int8_t y) {
+		grid_left->draw(x, y);
+		grid_right->draw(half()-x, y);
 	}
 
 
@@ -103,7 +128,8 @@ public:
 
 
 
-	void string(const char *text, int8_t x_offset, int8_t y_offset, color_t color);
+	void string(const char *text, int16_t x_offset, int16_t y_offset);
+	void string(const char *text, int16_t x_offset, int16_t y_offset, color_t color);
 
 
 

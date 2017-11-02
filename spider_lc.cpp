@@ -7,6 +7,7 @@
 #include "menu.h"
 #include "grid.h"
 #include "pixel_dual.h"
+#include "tetris.h"
 
 
 
@@ -108,6 +109,7 @@ void setup_arm() {
 		//CREATE MAIN GAME OBJECT
 		Serial.println("LOADED");
 		new bootloader();
+//		new tetris();
 		render_time  = 0;
 
 		return;

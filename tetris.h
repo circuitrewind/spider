@@ -4,7 +4,8 @@
 
 
 #include "defines.h"
-#include "pieces.h"
+#include "tetris_player.h"
+
 
 
 #define TETRIS_WIDTH		10
@@ -16,45 +17,12 @@
 class tetris : public animation {
 public:
 	tetris() {
-		clearing	= NULL;
-		elapsed		= 0;
-		memset(grid, 0, sizeof(grid));
-		newPiece();
+		player[0] = new tetris_player(0);
+		player[1] = new tetris_player(1);
 	}
-
-
-	void newPiece() {
-		piece_x = 5;
-		piece_y = 0;
-		piece_r = 0;
-		piece_i = random(0,7);
-	}
-
-
-	void lines();
-
-	void clear(int line);
-
-
-	void draw_piece(pixelArray *strip, uint8_t index, uint8_t rotation);
-
-	bool collision(int x_offset, int y_offset, uint8_t index, uint8_t rotation);
-
-	void lock(int x_offset, int y_offset, uint8_t index, uint8_t rotation);
-
-	virtual void frame(pixelArray **strip, WII **wii);
-
 
 private:
-
-	uint8_t grid[TETRIS_WIDTH * TETRIS_HEIGHT];
-
-	animation *clearing;
-
-	int		piece_x;
-	int		piece_y;
-	uint8_t	piece_r;
-	uint8_t	piece_i;
+	tetris_player *player[2];
 };
 
 

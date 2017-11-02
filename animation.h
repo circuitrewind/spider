@@ -66,7 +66,7 @@ public:
 
 
 
-protected:
+public:
 	elapsedMillis elapsed;
 	bool paused;
 

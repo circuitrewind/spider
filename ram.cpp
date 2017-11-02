@@ -1,4 +1,4 @@
-#ifdef ARDUINO_AVR_NANO || defined TEENSYDUINO
+#if defined ARDUINO_AVR_NANO || defined TEENSYDUINO
 
 
 
