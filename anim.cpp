@@ -28,6 +28,12 @@ void anim::frame(pixelArray **strip, WII **wii) {
 			dual->clear();
 			reset(2);
 		}
+
+
+		if (wii[i]->getButtonClick(MINUS)) {
+			dual->clear();
+			reset(3);
+		}
 	}
 
 
@@ -63,7 +69,7 @@ void anim::frame(pixelArray **strip, WII **wii) {
 				elapsed -= current.delay;
 
 				cycle++;
-				if (cycle >= (sizeof(command_list)/sizeof(pixel_command))) {
+				if (cycle >= (int)(sizeof(command_list)/sizeof(pixel_command))) {
 					cycle = 0;
 				}
 
@@ -73,9 +79,9 @@ void anim::frame(pixelArray **strip, WII **wii) {
 			for (int x=0; x<=cycle; x++) {
 				pixel_command painting = command_list[x];
 				if (painting.x == 255  &&  painting.y == 255) {
-					strip[0]->clear();
+					dual->clear();
 				} else {
-					strip[0]->draw(painting.x, painting.y);
+					dual->draw_mirror(painting.x, painting.y);
 				}
 			}
 
@@ -88,15 +94,58 @@ void anim::frame(pixelArray **strip, WII **wii) {
 		// LUV DVA
 		////////////////////////////////////////////////////////////////////////
 		case 2:
-			pixelArray::animation(PR_TOP_ANIM);
+			pixelArray::animation(PR_BOTTOM_ANIM);
 
-			strip[0]->string("L",  0,  0);
-			strip[0]->string("U",  4,  5);
-			strip[0]->string("V",  0, 10);
+			strip[0]->string("L",  4,  3);
+			strip[0]->string("U",  4,  9);
+			strip[0]->string("V",  4, 15);
 
-			strip[0]->string("D",  9,  0);
-			strip[0]->string("V", 13,  5);
-			strip[0]->string("A",  9, 10);
+			strip[1]->string("D",  4,  3);
+			strip[1]->string("V",  4,  9);
+			strip[1]->string("A",  4, 15);
+		break;
+
+
+
+
+		////////////////////////////////////////////////////////////////////////
+		// BUNNY EARS!!
+		////////////////////////////////////////////////////////////////////////
+		case 3:
+			for (int y=0; y<GRID_HEIGHT; y++) {
+				for (int x=0; x<GRID_WIDTH; x++) {
+//					dual->draw_clone(x, y, color_t(200,10,50));
+					dual->draw_clone(x, y, color_t(150,10,30));
+				}
+			}
+
+			for (int y=3; y<GRID_HEIGHT; y++) {
+				for (int x=5; x<=6; x++) {
+//					dual->draw_clone(x, y, color_t(220,0,10));
+					dual->draw_clone(x, y, color_t(160,0,10));
+				}
+			}
+
+			for (int y=6; y<GRID_HEIGHT; y++) {
+				for (int x=4; x<=7; x++) {
+//					dual->draw_clone(x, y, color_t(220,0,10));
+					dual->draw_clone(x, y, color_t(160,0,10));
+				}
+			}
+
+			for (int y=10; y<GRID_HEIGHT; y++) {
+				for (int x=3; x<=8; x++) {
+//					dual->draw_clone(x, y, color_t(220,0,10));
+					dual->draw_clone(x, y, color_t(160,0,10));
+				}
+			}
+
+			for (int y=16; y<GRID_HEIGHT; y++) {
+				for (int x=2; x<=9; x++) {
+//					dual->draw_clone(x, y, color_t(220,0,10));
+					dual->draw_clone(x, y, color_t(160,0,10));
+				}
+			}
 		break;
 	}
 

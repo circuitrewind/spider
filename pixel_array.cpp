@@ -131,7 +131,9 @@ color_t pixelArray::swap(int8_t x, int8_t y, color_t color) {
 
 
 
-void pixelArray::string(const char *text, int16_t x_offset, int16_t y_offset) {
+void pixelArray::string(const char *_text, int16_t x_offset, int16_t y_offset) {
+	const uint8_t *text = (const uint8_t *) _text;
+
 	while (*text) {
 
 		if (*text < 0x21) {
@@ -140,7 +142,7 @@ void pixelArray::string(const char *text, int16_t x_offset, int16_t y_offset) {
 			continue;
 		}
 
-		char index = ((*text > 0x7E) ? 0x7F : *text) - 0x21;
+		uint8_t index = ((*text > 0x7E) ? 0x7F : *text) - 0x21;
 
 		#ifdef ARDUINO_AVR_NANO
 			character item = PROGMEM_getAnything(&pixelfont[index]);
@@ -166,7 +168,9 @@ void pixelArray::string(const char *text, int16_t x_offset, int16_t y_offset) {
 
 
 
-void pixelArray::string(const char *text, int16_t x_offset, int16_t y_offset, color_t color) {
+void pixelArray::string(const char *_text, int16_t x_offset, int16_t y_offset, color_t color) {
+	const uint8_t *text = (const uint8_t *) _text;
+
 	while (*text) {
 
 		if (*text < 0x21) {
@@ -175,7 +179,7 @@ void pixelArray::string(const char *text, int16_t x_offset, int16_t y_offset, co
 			continue;
 		}
 
-		char index = ((*text > 0x7E) ? 0x7F : *text) - 0x21;
+		uint8_t index = ((*text > 0x7E) ? 0x7F : *text) - 0x21;
 
 		#ifdef ARDUINO_AVR_NANO
 			character item = PROGMEM_getAnything(&pixelfont[index]);
@@ -201,7 +205,9 @@ void pixelArray::string(const char *text, int16_t x_offset, int16_t y_offset, co
 
 
 
-int16_t pixelArray::stringWidth(const char *text) {
+int16_t pixelArray::stringWidth(const char *_text) {
+	const uint8_t *text = (const uint8_t *) _text;
+
 	int16_t x_offset = 0;
 	while (*text) {
 
@@ -211,7 +217,7 @@ int16_t pixelArray::stringWidth(const char *text) {
 			continue;
 		}
 
-		char index = ((*text > 0x7E) ? 0x7F : *text) - 0x21;
+		uint8_t index = ((*text > 0x7E) ? 0x7F : *text) - 0x21;
 
 		#ifdef ARDUINO_AVR_NANO
 			character item = PROGMEM_getAnything(&pixelfont[index]);

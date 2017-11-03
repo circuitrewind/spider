@@ -13,11 +13,12 @@
 #include "defines.h"
 
 
+
 #define COMS_FIFO_SIZE 5
 
 
 
-class PACKED coms {
+class coms {
 	public:
 
 
@@ -30,6 +31,15 @@ class PACKED coms {
 			this->_miso	= miso;
 			this->_clk	= clk;
 			this->_ss	= ss;
+			reset();
+		}
+
+
+
+
+		void reset() {
+			timeout = 0;
+			memset(buffer, 0, sizeof(buffer));
 			disable();
 		}
 
@@ -45,7 +55,8 @@ class PACKED coms {
 			pinMode(this->_clk,		OUTPUT);
 			pinMode(this->_ss,		OUTPUT);
 			digitalWrite(this->_ss,	LOW);
-			_enabled = true;
+			_enabled	= true;
+			timeout		= 0;
 		}
 
 
@@ -77,19 +88,23 @@ class PACKED coms {
 				return;
 			}
 
-			if (!miso()) return;
+			if (!miso()) {
+				if (timeout >= 1000) reset();
+				return;
+			}
 
 
 			//READ FIFO BUFFER AND CALCULATE CHECKSUM
 			uint32_b data = fifoRead();
-			data.byte[3] = data.byte[0] ^ data.byte[1] ^ data.byte[2] ^ 0b10101010;
+//			data.byte[3] = data.byte[0] ^ data.byte[1] ^ data.byte[2] ^ 0b10101010;
+
 
 			//BITBANG THAT DATA
 			for (int i=31; i>=0; i--) {
 				mosi(data.shift(i));
-				delayMicroseconds(1);
+				delayMicroseconds(100);
 				clk(true);
-				delayMicroseconds(1);
+				delayMicroseconds(100);
 				clk(false);
 			}
 
@@ -188,12 +203,12 @@ class PACKED coms {
 		uint8_t		_clk;
 		uint8_t		_ss;
 		uint32_b	buffer[COMS_FIFO_SIZE];
+		elapsedMillis timeout;
 };
 
 
 
-extern coms LED_LEFT;
-extern coms LED_RIGHT;
+extern coms *ledstrip[2];
 
 
 #endif //__com_master_h__

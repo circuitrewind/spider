@@ -19,7 +19,7 @@
 //TODO:	convert this over to a template instead of using variables.
 //		this will allow for more compiler optimizations with inlining
 
-class PACKED coms {
+class coms {
 	public:
 
 
@@ -104,11 +104,11 @@ class PACKED coms {
 
 
 
-	private:
-		uint8_t _mosi	:4;
-		uint8_t _miso	:4;
-		uint8_t _clk	:4;
-		uint8_t _ss		:4;
+	public:
+		uint8_t _mosi;
+		uint8_t _miso;
+		uint8_t _clk;
+		uint8_t _ss;
 
 };
 

@@ -10,12 +10,12 @@
 class menu : public animation {
 public:
 	menu() : selected(0) {
-		LED_LEFT.fifoWrite( 0x010001L);
-		LED_RIGHT.fifoWrite(0x010001L);
-		LED_LEFT.fifoWrite( 0x020040L);
-		LED_RIGHT.fifoWrite(0x020040L);
-		LED_LEFT.fifoWrite( 0x030000L);
-		LED_RIGHT.fifoWrite(0x030000L);
+		ledstrip[0]->fifoWrite(0x010016L);
+		ledstrip[1]->fifoWrite(0x010016L);
+		ledstrip[0]->fifoWrite(0x020040L);
+		ledstrip[1]->fifoWrite(0x020040L);
+		ledstrip[0]->fifoWrite(0x030001L);
+		ledstrip[1]->fifoWrite(0x030001L);
 	}
 	virtual void frame(pixelArray **strip, WII **wii);
 

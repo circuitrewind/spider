@@ -86,13 +86,16 @@ void tetris_player::new_piece() {
 	piece_x = 3;
 	piece_y = 0;
 	piece_r = 0;
-	piece_i = random(1, sizeof(pieces)/sizeof(piece));
+	piece_i = random(1, 7);
 
 	if (collision(piece_x, piece_y, piece_i, piece_r)) {
-		//pause(true);
 		parent->player[0]->pause(true);
 		parent->player[1]->pause(true);
 		new gameover(player);
+	} else {
+		ledstrip[player]->fifoWrite(
+			0x060000L | ((uint16_t)pieces[piece_i].color)
+		);
 	}
 }
 

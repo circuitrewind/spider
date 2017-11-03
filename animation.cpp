@@ -20,7 +20,9 @@ animation::animation() {
 		}
 	}
 
+	#ifndef __AVR__
 	//THINGS BREAK IF WE HAVE TOO MANY ANIMATIONS... SO DON'T
 	Serial.println(F("ANIMATION RESOURCE EXHALATION"));
+	#endif
 	while (1);
 }

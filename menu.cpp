@@ -19,9 +19,9 @@
 
 
 #ifdef TEENSYDUINO
-#define TOTAL_GAMES 8
+#define TOTAL_GAMES 9
 #else
-#define TOTAL_GAMES 7
+#define TOTAL_GAMES 8
 #endif
 
 

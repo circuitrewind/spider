@@ -84,14 +84,14 @@ public:
 
 	INLINE void draw_mirror(int8_t x, int8_t y) {
 		grid_left->draw(x, y);
-		grid_right->draw(half()-x, y);
+		grid_right->draw(half()-x-1, y);
 	}
 
 
 
 	INLINE void draw_mirror(int8_t x, int8_t y, color_t color) {
 		grid_left->draw(x, y, color);
-		grid_right->draw(half()-x, y, color);
+		grid_right->draw(half()-x-1, y, color);
 	}
 
 

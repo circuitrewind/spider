@@ -10,31 +10,47 @@
 class tiny : public animation {
 public:
 	virtual void frame(pixelArray **strip, WII **wii) {
-		for (int i=0; i<PLAYERS; i++) {
+		for (int i=0; i<min(PLAYERS,2); i++) {
 			if (!wii[i]->wiimoteConnected) continue;
 
 			if (wii[i]->getButtonClick(ONE)) {
-				LED_LEFT.fifoWrite(0x010001);
+				ledstrip[0]->fifoWrite(0x01000000);
+				ledstrip[1]->fifoWrite(0x01000000);
 			}
 
 			if (wii[i]->getButtonClick(TWO)) {
-				LED_LEFT.fifoWrite(0x010002);
+				ledstrip[0]->fifoWrite(0x00010000);
+				ledstrip[1]->fifoWrite(0x00010000);
+			}
+
+			if (wii[i]->getButtonClick(PLUS)) {
+				ledstrip[0]->fifoWrite(0x00000100);
+				ledstrip[1]->fifoWrite(0x00000100);
+			}
+
+			if (wii[i]->getButtonClick(MINUS)) {
+				ledstrip[0]->fifoWrite(0x00000001);
+				ledstrip[1]->fifoWrite(0x00000001);
 			}
 
 			if (wii[i]->getButtonClick(UP)) {
-				LED_LEFT.fifoWrite(0x010003);
+				ledstrip[0]->fifoWrite(0x80000000);
+				ledstrip[1]->fifoWrite(0x80000000);
 			}
 
 			if (wii[i]->getButtonClick(DOWN)) {
-				LED_LEFT.fifoWrite(0x010013);
+				ledstrip[0]->fifoWrite(0x00800000);
+				ledstrip[1]->fifoWrite(0x00800000);
 			}
 
 			if (wii[i]->getButtonClick(LEFT)) {
-				LED_LEFT.fifoWrite(0x010014);
+				ledstrip[0]->fifoWrite(0x00008000);
+				ledstrip[1]->fifoWrite(0x00008000);
 			}
 
 			if (wii[i]->getButtonClick(RIGHT)) {
-				LED_LEFT.fifoWrite(0x010015);
+				ledstrip[0]->fifoWrite(0x00000080);
+				ledstrip[1]->fifoWrite(0x00000080);
 			}
 
 		}

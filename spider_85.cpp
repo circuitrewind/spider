@@ -42,11 +42,11 @@ const color_t color_table[] = {
 ////////////////////////////////////////////////////////////////////////////////
 // MAIN CONFIGURATION AND DEFAULTS
 ////////////////////////////////////////////////////////////////////////////////
-#define				TOTAL		  10
+#define				TOTAL		  100
 #define				BRIGHT		  0xff
 uint16_t			offset		= 0;
 volatile uint16_t	pause		= 15;
-volatile uint8_t	mode		= 3;
+volatile uint8_t	mode		= 0;
 volatile uint8_t	direction	= 0;
 volatile color_t	color		= color_table[6];
 elapsedMillis		timeout		= 0;
@@ -73,10 +73,15 @@ coms	spi(0, 1, 2, 3);
 // INTERRUPT HANDLER
 ////////////////////////////////////////////////////////////////////////////////
 ISR(PCINT0_vect) {
+	pinMode(spi._ss, INPUT);
+	if (spi.ss()) return;
+
 	uint32_b data = spi.process();
 
-	uint8_t xor_0 = data.byte_0 ^ data.byte_1 ^ data.byte_2 ^ 0b10101010;
-	if (xor_0 != data.byte_3) return;
+//	mode = data.byte_2;
+//}
+//	uint8_t xor_0 = data.byte_0 ^ data.byte_1 ^ data.byte_2 ^ 0b10101010;
+//	if (xor_0 != data.byte_3) return;
 
 	switch (data.byte_2) {
 		case 0x01:	mode		=	data.word_0;	break;
@@ -260,6 +265,8 @@ void loop_avr() {
 		case 0x14:	wave(1, 0, 1);	break;
 		case 0x15:	wave(1, 1, 0);	break;
 		case 0x16:	wave(1, 1, 1);	break;
+
+		case 0xFF:	wave(1, 1, 1);	break;
 	}
 
 	strip.end();

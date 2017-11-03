@@ -14,7 +14,7 @@ uint32_b coms::process() {
 	pinMode(this->_ss,		INPUT);
 
 	uint32_b	data;
-	uint8_t		bits = 32;
+	int8_t		bits = 32;
 
 	this->miso(1);
 

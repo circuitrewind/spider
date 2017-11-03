@@ -20,7 +20,9 @@ color_t pixelDual::swap(int8_t x, int8_t y, color_t color) {
 
 
 
-void pixelDual::string(const char *text, int16_t x_offset, int16_t y_offset) {
+void pixelDual::string(const char *_text, int16_t x_offset, int16_t y_offset) {
+	const uint8_t *text = (const uint8_t *) _text;
+
 	while (*text) {
 
 		if (*text < 0x21) {
@@ -30,8 +32,9 @@ void pixelDual::string(const char *text, int16_t x_offset, int16_t y_offset) {
 		}
 
 
-		char index = (*text > 0x7E) ? 0x7F : *text;
+		uint8_t index = (*text > 0x7E) ? 0x7F : *text;
 		character item = pixelfont[index - 0x21];
+
 		for (int x=0; x<item.width; x++) {
 			uint8_t column = item.data[x];
 
@@ -50,7 +53,9 @@ void pixelDual::string(const char *text, int16_t x_offset, int16_t y_offset) {
 
 
 
-void pixelDual::string(const char *text, int16_t x_offset, int16_t y_offset, color_t color) {
+void pixelDual::string(const char *_text, int16_t x_offset, int16_t y_offset, color_t color) {
+	const uint8_t *text = (const uint8_t *) _text;
+
 	while (*text) {
 
 		if (*text < 0x21) {
@@ -60,8 +65,9 @@ void pixelDual::string(const char *text, int16_t x_offset, int16_t y_offset, col
 		}
 
 
-		char index = (*text > 0x7E) ? 0x7F : *text;
+		uint8_t index = (*text > 0x7E) ? 0x7F : *text;
 		character item = pixelfont[index - 0x21];
+
 		for (int x=0; x<item.width; x++) {
 			uint8_t column = item.data[x];
 

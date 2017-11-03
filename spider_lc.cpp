@@ -29,14 +29,9 @@ color_t		grid_data[GRID_TOTAL * 2];
 
 USB Usb;
 
-BTD Btd(&Usb);
-WII *wii[PLAYERS];
-
-
-
-coms LED_LEFT( 11, 12, 14, 4);
-coms LED_RIGHT(11, 12, 14, 3);
-
+BTD		Btd(&Usb);
+WII		*wii[PLAYERS]	= {NULL, NULL};
+coms	*ledstrip[2]	= {NULL, NULL};
 
 elapsedMillis render_time;
 
@@ -45,6 +40,12 @@ elapsedMillis render_time;
 void setup_arm() {
 	//ENABLE SERIAL COMMUNICATION FOR DEBUGGING
 	Serial.begin(115200);
+
+
+	//INITIALIZE COMS
+	Serial.println("ATTINY85 Strips");
+	ledstrip[0] = new coms(11, 12, 14, 4);
+	ledstrip[1] = new coms(11, 12, 14, 3);
 
 
 	//INITIALIZE THE MAIN LED GRID
@@ -146,8 +147,8 @@ void loop_arm() {
 
 
 	//HANDLE ATTINY85 SPI TRANSFERS
-	if (!LED_RIGHT.enabled()) LED_LEFT.loop();
-	if (!LED_LEFT.enabled()) LED_RIGHT.loop();
+	if (!ledstrip[1]->enabled()) ledstrip[0]->loop();
+	if (!ledstrip[0]->enabled()) ledstrip[1]->loop();
 
 
 	//HANDLE GAME LOOP

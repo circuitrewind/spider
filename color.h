@@ -111,9 +111,9 @@ struct PACKED color_t {
 	// COLOR FROM A 15-BIT INTEGER IN TRADITIONAL 0B0RRRRRGGGGGBBBBB ORDER
 	////////////////////////////////////////////////////////////////////////////
 	INLINE color_t(const int16_t color) {
-		this->g = (color >>  2) & 0x1f;
-		this->r = (color >>  7) & 0x1f;
-		this->b = (color <<  3) & 0x1f;
+		this->g = (color >>  2) & 0xf8;
+		this->r = (color >>  7) & 0xf8;
+		this->b = (color <<  3) & 0xf8;
 	}
 
 
@@ -123,9 +123,9 @@ struct PACKED color_t {
 	// COLOR FROM A 15-BIT INTEGER IN TRADITIONAL 0B0RRRRRGGGGGBBBBB ORDER
 	////////////////////////////////////////////////////////////////////////////
 	INLINE color_t(const uint16_t color) {
-		this->g = (color >>  2) & 0x1f;
-		this->r = (color >>  7) & 0x1f;
-		this->b = (color <<  3) & 0x1f;
+		this->g = (color >>  2) & 0xf8;
+		this->r = (color >>  7) & 0xf8;
+		this->b = (color <<  3) & 0xf8;
 	}
 
 

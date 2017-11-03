@@ -14,8 +14,8 @@ public:
 		loaded(load) {
 
 		//INITIALIZE THE ATTINY85 LED STRIPS
-		LED_LEFT.fifoWrite(0x0100);
-		LED_RIGHT.fifoWrite(0x0100);
+		ledstrip[0]->fifoWrite(0x010000L);
+		ledstrip[1]->fifoWrite(0x010000L);
 	}
 
 	virtual void frame(pixelArray **strip, WII **wii);

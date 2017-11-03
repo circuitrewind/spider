@@ -19,11 +19,15 @@ class tetris_player : public animation {
 public:
 	tetris_player(uint8_t id, tetris *par) {
 		pixelArray::animation(PR_BOTTOM_ANIM);
+
 		parent		= par;
 		elapsed		= 0;
 		stack		= 0;
 		player		= id;
 		memset(grid, 0, sizeof(grid));
+
+		ledstrip[player]->fifoWrite(0x010003L);
+
 		new_piece();
 	}
 
