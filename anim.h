@@ -64,13 +64,19 @@ static const pixel_command command_list[] = {
 class anim : public animation {
 public:
 	anim() {
+		display[0]	= NULL;
+		display[1]	= NULL;
 		reset();
 	}
 
 
 	void reset(int new_mode=0, int new_cycle=0) {
-		mode	= new_mode;
-		cycle	= new_cycle;
+		delete display[0];
+		delete display[1];
+		mode		= new_mode;
+		cycle		= new_cycle;
+		display[0]	= NULL;
+		display[1]	= NULL;
 		animation::reset();
 	}
 
@@ -81,6 +87,7 @@ private:
 	int	mode;
 	int	cycle;
 	int	submode;
+	animation *display[2];
 };
 
 

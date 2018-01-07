@@ -9,7 +9,9 @@
 
 class pong : public animation {
 public:
-	pong() {
+	pong(uint8_t _player=0) {
+		player = _player;
+
 		fade = 4;
 
 		ball_x = (float)(GRID_WIDTH  / 2);
@@ -39,7 +41,7 @@ public:
 	virtual void frame(pixelArray **strip, WII **wii) {
 		uint8_t *data;
 
-		data = (uint8_t*) strip[0]->getPixels();
+		data = (uint8_t*) strip[player]->getPixels();
 		for (uint16_t i=0; i<GRID_TOTAL*3; i++) {
 			if (data[i] > 64) {
 				data[i] >>= 1;
@@ -78,11 +80,12 @@ public:
 
 
 
-		strip[0]->draw((int)ball_x, (int)ball_y, color);
+		strip[player]->draw((int)ball_x, (int)ball_y, color);
 	}
 
 
 private:
+	uint8_t player;
 	uint8_t fade;
 
 	float ball_x;

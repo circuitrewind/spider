@@ -27,7 +27,7 @@ protected:
 	virtual void frame(pixelArray **strip, WII **wii) {
 		uint8_t *data;
 
-		if (player == 0  ||  player == 2) {
+		if (player == 0  ||  player == FADE_BOTH) {
 			data = (uint8_t*) strip[0]->getPixels();
 			for (uint16_t i=0; i<GRID_TOTAL*3; i++) {
 				if (data[i] > rate) data[i] -= rate;
@@ -35,7 +35,7 @@ protected:
 			}
 		}
 
-		if (player == 1  ||  player == 2) {
+		if (player == 1  ||  player == FADE_BOTH) {
 			data = (uint8_t*) strip[1]->getPixels();
 			for (uint16_t i=0; i<GRID_TOTAL*3; i++) {
 				if (data[i] > rate) data[i] -= rate;

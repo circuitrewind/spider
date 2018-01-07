@@ -5,6 +5,8 @@
 #include "defines.h"
 #include "anim.h"
 #include "pixel_dual.h"
+#include "decay.h"
+#include "pong.h"
 
 
 
@@ -34,12 +36,41 @@ void anim::frame(pixelArray **strip, WII **wii) {
 			dual->clear();
 			reset(3);
 		}
+
+
+		if (wii[i]->getButtonClick(LEFT)) {
+			dual->clear();
+			reset(4);
+			display[0] = new decay();
+		}
+
+		if (wii[i]->getButtonClick(RIGHT)) {
+			dual->clear();
+			reset(5);
+			display[0] = new decayPew();
+		}
+
+		if (wii[i]->getButtonClick(UP)) {
+			dual->clear();
+			reset(6);
+			display[0] = new pong(0);
+			display[1] = new pong(1);
+		}
+
+		if (wii[i]->getButtonClick(DOWN)) {
+			dual->clear();
+			reset(7, dual->width());
+		}
 	}
 
 
 
 
 	switch (mode) {
+
+		////////////////////////////////////////////////////////////////////////
+		// KAEATRI
+		////////////////////////////////////////////////////////////////////////
 		case 0:
 			pixelArray::animation(PR_LEFT);
 
@@ -52,7 +83,7 @@ void anim::frame(pixelArray **strip, WII **wii) {
 			}
 
 			dual->clear();
-			dual->string("KAEATRI", cycle, strip[0]->height()-5);
+			dual->string("KAEATRI", cycle, strip[0]->height()-7);
 		break;
 
 
@@ -100,9 +131,9 @@ void anim::frame(pixelArray **strip, WII **wii) {
 			strip[0]->string("U",  4,  9);
 			strip[0]->string("V",  4, 15);
 
-			strip[1]->string("D",  4,  3);
-			strip[1]->string("V",  4,  9);
-			strip[1]->string("A",  4, 15);
+			strip[1]->string("D",  5,  3);
+			strip[1]->string("V",  5,  9);
+			strip[1]->string("A",  5, 15);
 		break;
 
 
@@ -147,6 +178,28 @@ void anim::frame(pixelArray **strip, WII **wii) {
 				}
 			}
 		break;
+
+
+
+
+		////////////////////////////////////////////////////////////////////////
+		// COSPLAY LIGHTING
+		////////////////////////////////////////////////////////////////////////
+		case 7:
+			pixelArray::animation(PR_BOTTOM_ANIM);
+
+			if (elapsed >= SCROLL_DELAY) {
+				elapsed -= SCROLL_DELAY;
+				cycle--;
+				if (cycle < 0-pixelArray::stringWidth("COSPLAY.LIGHTING")) {
+					cycle = (dual->width()) + 5;
+				}
+			}
+
+			dual->clear();
+			dual->string("COSPLAY.LIGHTING", cycle, strip[0]->height()-7);
+		break;
+
 	}
 
 }
